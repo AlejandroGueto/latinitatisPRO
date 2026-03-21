@@ -324,7 +324,7 @@
 
         async function callOráculo(prompt, systemMsg = "") {
             // Modelo clásico universal (inmune a restricciones europeas y bloqueos 404)
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
             
             // Combinamos las instrucciones para que este modelo más antiguo lo entienda perfecto
             const finalPrompt = systemMsg ? `${systemMsg}\n\n${prompt}` : prompt;
