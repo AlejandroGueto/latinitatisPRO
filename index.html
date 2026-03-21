@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <meta name="referrer" content="no-referrer">
+    
     <title>Latinitatis Pro | El Santuario de los Clásicos</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,13 +32,11 @@
         .ancient { font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
         .greek-display { font-family: 'Playfair Display', serif; }
 
-        /* Meandro Griego Decorativo */
         .meander {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Cpath d='M0 0h10v10H5v5h15V0h10v15h-5v5H0V0zm30 0h10v20H25v-5h10V0z' fill='%238B322C' fill-opacity='0.08'/%3E%3C/svg%3E");
             height: 24px; width: 100%; 
         }
 
-        /* Palabras interactivas */
         .word-token { 
             display: inline-block; 
             padding: 2px 5px; 
@@ -167,17 +168,17 @@
         <div id="index-content" class="space-y-8"></div>
     </div>
 
-   <script>
-        // --- CONFIGURACIÓN AUTOMÁTICA DEL ENTORNO ---
-        // Partimos la clave para que GitHub no la borre automáticamente
+    <script>
+        // --- CONFIGURACIÓN DE LA CLAVE API ---
         const parte1 = "AIzaSy";
         const parte2 = "CUpruQEDPqzmkB7Bp-XSxcFD97sYF6Bb0"; 
         const apiKey = parte1 + parte2; 
         
         let currentPassage = null; 
         let activeMorphData = null;
+        let currentAudio = null;
 
-        // --- CORPUS LOCAL EXPANDIDO CON TRADUCCIONES INTEGRADAS ---
+        // --- CORPUS LOCAL ---
         const classicalIndex = [
             {
                 author: "Homero",
@@ -445,7 +446,8 @@
         }
 
         async function callOráculo(prompt, systemMsg = "", useSearch = false) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+            // URL con el modelo estándar que no da 404
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
@@ -503,8 +505,9 @@
             document.getElementById('trans-grid').classList.add('hidden');
             hideError();
             
-            if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
                 document.getElementById('play-icon').setAttribute('data-lucide', 'volume-2');
                 lucide.createIcons();
             }
@@ -523,8 +526,9 @@
             document.getElementById('trans-grid').classList.add('hidden');
             hideError();
             
-            if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
-                window.speechSynthesis.cancel();
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
                 document.getElementById('play-icon').setAttribute('data-lucide', 'volume-2');
                 lucide.createIcons();
             }
@@ -598,51 +602,53 @@
             }, 600);
         }
 
-        // --- RECITACIÓN: MOTOR NATIVO DEL NAVEGADOR ---
+        // --- RECITACIÓN: MOTOR API GOOGLE TRANSLATE (ANTIBLOQUEOS) ---
         function playVoice() {
             hideError();
             const icon = document.getElementById('play-icon');
             
-            if ('speechSynthesis' in window) {
-                if (window.speechSynthesis.speaking) {
-                    window.speechSynthesis.cancel();
-                    icon.setAttribute('data-lucide', 'volume-2');
-                    lucide.createIcons();
-                    return;
-                }
-
-                icon.setAttribute('data-lucide', 'loader-2');
-                icon.classList.add('animate-spin');
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                icon.setAttribute('data-lucide', 'volume-2');
                 lucide.createIcons();
-
-                const utterance = new SpeechSynthesisUtterance(currentPassage.content);
-                utterance.lang = 'el-GR'; 
-                utterance.rate = 0.85; 
-                utterance.pitch = 0.9; 
-
-                utterance.onstart = () => {
-                    icon.classList.remove('animate-spin');
-                    icon.setAttribute('data-lucide', 'square');
-                    lucide.createIcons();
-                };
-
-                utterance.onend = () => {
-                    icon.classList.remove('animate-spin');
-                    icon.setAttribute('data-lucide', 'volume-2');
-                    lucide.createIcons();
-                };
-
-                utterance.onerror = () => {
-                    icon.classList.remove('animate-spin');
-                    icon.setAttribute('data-lucide', 'volume-2');
-                    lucide.createIcons();
-                    showError("Error en el motor de voz de tu dispositivo.");
-                };
-
-                window.speechSynthesis.speak(utterance);
-            } else {
-                showError("Tu navegador no soporta la recitación de voz.");
+                return;
             }
+
+            icon.setAttribute('data-lucide', 'loader-2');
+            icon.classList.add('animate-spin');
+            lucide.createIcons();
+
+            // Usamos Google Translate TTS con client=gtx, que es mucho más estable
+            const textToRead = currentPassage.content.substring(0, 180);
+            const url = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=el&q=${encodeURIComponent(textToRead)}`;
+            
+            currentAudio = new Audio(url);
+            
+            currentAudio.onplay = () => {
+                icon.classList.remove('animate-spin');
+                icon.setAttribute('data-lucide', 'square');
+                lucide.createIcons();
+            };
+
+            currentAudio.onended = () => {
+                currentAudio = null;
+                icon.classList.remove('animate-spin');
+                icon.setAttribute('data-lucide', 'volume-2');
+                lucide.createIcons();
+            };
+
+            currentAudio.onerror = () => {
+                currentAudio = null;
+                icon.classList.remove('animate-spin');
+                icon.setAttribute('data-lucide', 'volume-2');
+                lucide.createIcons();
+                showError("La red ha bloqueado la recitación. Intenta usar otro navegador.");
+            };
+
+            currentAudio.play().catch(e => {
+                currentAudio.onerror();
+            });
         }
 
         // --- PERSISTENCIA LOCAL EN MEMORIA ---
