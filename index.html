@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <meta name="referrer" content="no-referrer">
     
     <title>Latinitatis Pro | El Santuario de los Clásicos</title>
@@ -13,65 +12,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
     
     <style>
-        :root { 
-            --marble: #FDFCF8; 
-            --terracotta: #8B322C; 
-            --gold: #C5A059; 
-            --ink: #1A1A1A; 
-        }
-
-        body { 
-            font-family: 'Noto Serif Display', serif; 
-            background-color: var(--marble); 
-            color: var(--ink); 
-            background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png');
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-        }
-
+        :root { --marble: #FDFCF8; --terracotta: #8B322C; --gold: #C5A059; --ink: #1A1A1A; }
+        body { font-family: 'Noto Serif Display', serif; background-color: var(--marble); color: var(--ink); background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
         .ancient { font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
         .greek-display { font-family: 'Playfair Display', serif; }
-
-        .meander {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Cpath d='M0 0h10v10H5v5h15V0h10v15h-5v5H0V0zm30 0h10v20H25v-5h10V0z' fill='%238B322C' fill-opacity='0.08'/%3E%3C/svg%3E");
-            height: 24px; width: 100%; 
-        }
-
-        .word-token { 
-            display: inline-block; 
-            padding: 2px 5px; 
-            cursor: pointer; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            border-radius: 8px;
-        }
-        .word-token:hover { 
-            color: var(--terracotta); 
-            background: rgba(139, 50, 44, 0.05); 
-            transform: translateY(-2px); 
-        }
-        .active-word { 
-            color: var(--terracotta) !important; 
-            font-weight: 700; 
-            background: rgba(139, 50, 44, 0.08);
-            box-shadow: 0 4px 0 var(--gold);
-        }
-
+        .meander { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Cpath d='M0 0h10v10H5v5h15V0h10v15h-5v5H0V0zm30 0h10v20H25v-5h10V0z' fill='%238B322C' fill-opacity='0.08'/%3E%3C/svg%3E"); height: 24px; width: 100%; }
+        .word-token { display: inline-block; padding: 2px 5px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 8px; }
+        .word-token:hover { color: var(--terracotta); background: rgba(139, 50, 44, 0.05); transform: translateY(-2px); }
+        .active-word { color: var(--terracotta) !important; font-weight: 700; background: rgba(139, 50, 44, 0.08); box-shadow: 0 4px 0 var(--gold); }
         .drawer { transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); }
-        
-        .trans-card { 
-            background: white;
-            padding: 1.5rem;
-            border-radius: 2rem;
-            border-top: 4px solid var(--terracotta);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
+        .trans-card { background: white; padding: 1.5rem; border-radius: 2rem; border-top: 4px solid var(--terracotta); box-shadow: 0 10px 25px rgba(0,0,0,0.05); height: 100%; display: flex; flex-direction: column; }
         .spin-classic { animation: spin 1.5s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
         .custom-scroll::-webkit-scrollbar { width: 5px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: var(--terracotta); border-radius: 10px; }
     </style>
@@ -88,23 +40,15 @@
             </div>
         </div>
         <div class="flex gap-4">
-            <button onclick="toggleIndex()" class="p-2.5 bg-stone-50 rounded-full text-stone-500 hover:text-red-800 transition-all shadow-sm">
-                <i data-lucide="book-open" size="20"></i>
-            </button>
-            <button onclick="toggleView('library')" class="p-2.5 bg-stone-50 rounded-full text-stone-500 hover:text-red-800 transition-all shadow-sm">
-                <i data-lucide="library" size="20"></i>
-            </button>
-            <button onclick="clearData()" class="p-2.5 bg-stone-50 rounded-full text-stone-300 hover:text-stone-600 transition-all shadow-sm">
-                <i data-lucide="refresh-cw" size="20"></i>
-            </button>
+            <button onclick="toggleIndex()" class="p-2.5 bg-stone-50 rounded-full text-stone-500 hover:text-red-800 transition-all shadow-sm"><i data-lucide="book-open" size="20"></i></button>
+            <button onclick="toggleView('library')" class="p-2.5 bg-stone-50 rounded-full text-stone-500 hover:text-red-800 transition-all shadow-sm"><i data-lucide="library" size="20"></i></button>
+            <button onclick="clearData()" class="p-2.5 bg-stone-50 rounded-full text-stone-300 hover:text-stone-600 transition-all shadow-sm"><i data-lucide="refresh-cw" size="20"></i></button>
         </div>
     </nav>
 
     <div class="p-4 bg-white/50 border-b border-stone-100">
         <div class="max-w-xl mx-auto relative group">
-            <input type="text" id="local-search" placeholder="Buscar autor u obra en el índice (ej: Marco Aurelio)..." 
-                class="w-full pl-12 pr-4 py-3 bg-white border border-stone-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-red-800/5 shadow-sm transition-all"
-                oninput="filterIndex(this.value)">
+            <input type="text" id="local-search" placeholder="Buscar autor u obra en el índice..." class="w-full pl-12 pr-4 py-3 bg-white border border-stone-200 rounded-2xl text-sm outline-none focus:ring-4 focus:ring-red-800/5 shadow-sm transition-all" oninput="filterIndex(this.value)">
             <i data-lucide="search" class="absolute left-4 top-3.5 text-stone-300 w-4 h-4 group-focus-within:text-red-800 transition-colors"></i>
         </div>
     </div>
@@ -116,9 +60,7 @@
         </header>
 
         <section class="bg-white/80 backdrop-blur-sm p-8 md:p-16 rounded-[48px] shadow-2xl border border-stone-100 relative overflow-hidden">
-            <div id="greek-container" class="greek-display text-3xl md:text-5xl leading-[1.8] text-center min-h-[150px]">
-            </div>
-
+            <div id="greek-container" class="greek-display text-3xl md:text-5xl leading-[1.8] text-center min-h-[150px]"></div>
             <div class="mt-20 pt-10 border-t border-stone-100 flex flex-col items-center gap-10">
                 <div class="flex flex-wrap justify-center gap-4">
                     <button id="audio-btn" onclick="playVoice()" class="flex items-center gap-3 px-8 py-4 bg-stone-900 text-white rounded-full ancient text-xs font-bold uppercase shadow-xl active:scale-95 disabled:opacity-50 transition-all group">
@@ -129,9 +71,7 @@
                     </button>
                     <button onclick="saveCurrentPassage()" class="p-4 bg-white border border-stone-200 rounded-full text-stone-300 hover:text-amber-500 shadow-sm transition-all"><i data-lucide="star"></i></button>
                 </div>
-                
-                <div id="trans-grid" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6 w-full animate-in slide-in-from-bottom-6">
-                </div>
+                <div id="trans-grid" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6 w-full animate-in slide-in-from-bottom-6"></div>
                 <div id="error-message" class="hidden w-full text-center p-4 bg-red-50 text-red-800 rounded-xl text-sm border border-red-200"></div>
             </div>
         </section>
@@ -140,9 +80,7 @@
     <main id="library-view" class="hidden flex-1 p-8 md:p-12 max-w-6xl mx-auto w-full animate-in slide-in-from-right">
         <div class="flex justify-between items-center mb-10 border-b-2 border-red-800 pb-2">
             <h2 class="ancient text-3xl font-black text-red-800 uppercase">Mi Biblioteca</h2>
-            <button onclick="toggleView('reader')" class="text-stone-400 hover:text-red-800 font-bold uppercase text-[10px] tracking-widest flex items-center gap-2">
-                <i data-lucide="arrow-left" size="14"></i> Volver al Lector
-            </button>
+            <button onclick="toggleView('reader')" class="text-stone-400 hover:text-red-800 font-bold uppercase text-[10px] tracking-widest flex items-center gap-2"><i data-lucide="arrow-left" size="14"></i> Volver al Lector</button>
         </div>
         <div class="grid gap-10 md:grid-cols-2">
             <div><h3 class="ancient text-[10px] font-black text-stone-300 uppercase tracking-widest mb-6 italic">Pasajes Guardados</h3><div id="fav-list" class="space-y-4"></div></div>
@@ -169,14 +107,13 @@
     </div>
 
     <script>
-        // --- CONFIGURACIÓN DE LA CLAVE API ---
+        // --- CLAVE API PROTEGIDA ---
         const parte1 = "AIzaSy";
-        const parte2 = "CUpruQEDPqzmkB7Bp-XSxcFD97sYF6Bb0"; 
+        const parte2 = "CWa7WikmGSNDIGT260SSvxqYdZTjyjIPk"; 
         const apiKey = parte1 + parte2; 
         
         let currentPassage = null; 
         let activeMorphData = null;
-        let currentAudio = null;
 
         // --- CORPUS LOCAL ---
         const classicalIndex = [
@@ -187,16 +124,16 @@
                         title: "Ilíada", meta: "Canto I, 1-7", 
                         content: "μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί᾽ Ἀχαιοῖς ἄλγε᾽ ἔθηκε, πολλὰς δ᾽ ἰφθίμους ψυχὰς Ἄϊδι προΐαψεν ἡρώων, αὐτοὺς δὲ ἑλώρια τεῦχε κύνεσσιν οἰωνοῖσί τε πᾶσι, Διὸς δ᾽ ἐτελείετο βουλή, ἐξ οὗ δὴ τὰ πρῶτα διαστήτην ἐρίσαντε Ἀτρεΐδης τε ἄναξ ἀνδρῶν καὶ δῖος Ἀχιλλεύς.",
                         translations: [
-                            { lang: "ES", text: "Canta, oh diosa, la cólera del Pelida Aquiles; cólera funesta que causó infinitos males a los aqueos y precipitó al Hades muchas almas valerosas de héroes...", author: "Gredos (E. Crespo)" },
-                            { lang: "EN", text: "Sing, goddess, the anger of Peleus’ son Achilleus and its devastation, which put pains thousandfold upon the Achaians, hurled in their multitudes to the house of Hades...", author: "Lattimore" },
-                            { lang: "FR", text: "Chante, Déesse, la colère d’Achille, le fils de Pélée ; détestable colère, qui aux Achéens valut des souffrances sans nombre et jeta en proie à Hadès tant de fortes âmes...", author: "Belles Lettres (Mazon)" }
+                            { lang: "ES", text: "Canta, oh diosa, la cólera del Pelida Aquiles; cólera funesta que causó infinitos males a los aqueos...", author: "Gredos (E. Crespo)" },
+                            { lang: "EN", text: "Sing, goddess, the anger of Peleus’ son Achilleus and its devastation, which put pains thousandfold upon the Achaians...", author: "Lattimore" },
+                            { lang: "FR", text: "Chante, Déesse, la colère d’Achille, le fils de Pélée ; détestable colère, qui aux Achéens valut des souffrances sans nombre...", author: "Belles Lettres (Mazon)" }
                         ]
                     },
                     { 
                         title: "Odisea", meta: "Canto I, 1-5", 
                         content: "Ἄνδρα μοι ἔννεπε, μοῦσα, πολύτροπον, ὃς μάλα πολλὰ πλάγχθη, ἐπεὶ Τροίης ἱερὸν πτολίεθρον ἔπερσε· πολλῶν δ᾽ ἀνθρώπων ἴδεν ἄστεα καὶ νόον ἔγνω, πολλὰ δ᾽ ὅ γ᾽ ἐν πόντῳ πάθεν ἄλγεα ὃν κατὰ θυμόν, ἀρνύμενος ἥν τε ψυχὴν καὶ νόστον ἑταίρων.",
                         translations: [
-                            { lang: "ES", text: "Háblame, Musa, de aquel varón de multiforme ingenio que, después de destruir la sacra ciudad de Troya, anduvo peregrinando larguísimo tiempo...", author: "Gredos (J.M. Pabón)" },
+                            { lang: "ES", text: "Háblame, Musa, de aquel varón de multiforme ingenio que, después de destruir la sacra ciudad de Troya, anduvo peregrinando...", author: "Gredos (J.M. Pabón)" },
                             { lang: "EN", text: "Tell me, O muse, of that ingenious hero who travelled far and wide after he had sacked the famous town of Troy...", author: "Loeb (A.T. Murray)" },
                             { lang: "FR", text: "Ô Muse, conte-moi l'aventure de l'Inventif : celui qui pilla Troie, qui pendant des années erra...", author: "Belles Lettres (Bérard)" }
                         ]
@@ -210,9 +147,9 @@
                         title: "Teogonía", meta: "Proemio, 1-4", 
                         content: "Μουσάων Ἑλικωνιάδων ἀρχώμεθ᾽ ἀείδειν, αἵ θ᾽ Ἑλικῶνος ἔχουσιν ὄρος μέγα τε ζάθεόν τε καί τε περὶ κρήνην ἰοειδέα πόσσ᾽ ἁπαλοῖσιν ὀρχεῦνται καὶ βωμὸν ἐρισθενέος Κρονίωνος·",
                         translations: [
-                            { lang: "ES", text: "Comencemos a cantar a las Musas heliconíadas, que habitan el monte grande y divino del Helicón, y con sus pies delicados danzan en torno a la fuente...", author: "Gredos (A. Pérez Jiménez)" },
-                            { lang: "EN", text: "From the Heliconian Muses let us begin to sing, who hold the great and holy mount of Helicon, and dance on soft feet about the deep-blue spring...", author: "Loeb (Evelyn-White)" },
-                            { lang: "FR", text: "Commençons notre chant par les Muses Héliconiennes, qui possèdent la grande et divine montagne d'Hélicon, et qui de leurs pieds délicats dansent...", author: "Belles Lettres (Mazon)" }
+                            { lang: "ES", text: "Comencemos a cantar a las Musas heliconíadas, que habitan el monte grande y divino del Helicón...", author: "Gredos" },
+                            { lang: "EN", text: "From the Heliconian Muses let us begin to sing, who hold the great and holy mount of Helicon...", author: "Loeb" },
+                            { lang: "FR", text: "Commençons notre chant par les Muses Héliconiennes, qui possèdent la grande et divine montagne d'Hélicon...", author: "Belles Lettres" }
                         ]
                     }
                 ]
@@ -224,9 +161,9 @@
                         title: "Prometeo Encadenado", meta: "1-5", 
                         content: "Χθονὸς μὲν ἐς τηλουρὸν ἥκομεν πέδον, Σκύθην ἐς οἶμον, ἄβατον εἰς ἐρημίαν. Ἥφαιστε, σοὶ δὲ χρὴ μέλειν ἐπιστολὰς ἅς σοι πατὴρ ἐφεῖτο, τόνδε πρὸς πέτραις ὑψηλοκρήμνοις τὸν λεωργὸν ὀχμάσαι...",
                         translations: [
-                            { lang: "ES", text: "Hemos llegado al confín de la tierra, al paraje escita, a un desierto inaccesible. Hefesto, a ti te incumbe ocuparte de las órdenes que el Padre te ha encomendado...", author: "Gredos (B. Ortega)" },
-                            { lang: "EN", text: "We have come to the furthest edge of the earth, to the Scythian track, to an untrodden wilderness. Hephaestus, you must attend to the commands which the Father laid upon you...", author: "Loeb (A.H. Sommerstein)" },
-                            { lang: "FR", text: "Nous voici parvenus aux confins de la terre, dans la contrée des Scythes, dans un désert inaccessible. Héphaïstos, c'est à toi de veiller aux ordres que t'a donnés le Père...", author: "Belles Lettres (Mazon)" }
+                            { lang: "ES", text: "Hemos llegado al confín de la tierra, al paraje escita, a un desierto inaccesible. Hefesto, a ti te incumbe ocuparte de las órdenes...", author: "Gredos" },
+                            { lang: "EN", text: "We have come to the furthest edge of the earth, to the Scythian track, to an untrodden wilderness...", author: "Loeb" },
+                            { lang: "FR", text: "Nous voici parvenus aux confins de la terre, dans la contrée des Scythes, dans un désert inaccessible...", author: "Belles Lettres" }
                         ]
                     }
                 ]
@@ -238,9 +175,9 @@
                         title: "Edipo Rey", meta: "1-4", 
                         content: "Ὦ τέκνα, Κάδμου τοῦ πάλαι νέα τροφή, τίνας ποθ᾽ ἕδρας τάσδε μοι θοάζετε ἱκτηρίοις κλάδοισιν ἐξεστεμμένοι; πόλις δ᾽ ὁμοῦ μὲν θυμιαμάτων γέμει,",
                         translations: [
-                            { lang: "ES", text: "¡Oh hijos, descendencia nueva del antiguo Cadmo! ¿Por qué estáis así sentados ante mí, coronados con ramos de suplicantes? La ciudad está llena a la vez de incienso...", author: "Gredos (A. Alamillo)" },
-                            { lang: "EN", text: "My children, latest generation born from Cadmus, why are you sitting here with suppliant crowns? The city is filled with the smoke of incense...", author: "Oxford (R. Jebb)" },
-                            { lang: "FR", text: "Enfants, jeune race de l'antique Cadmos, pourquoi vous tenez-vous ainsi devant moi, couronnés de rameaux suppliants? La ville est remplie à la fois de fumée d'encens...", author: "Belles Lettres (Mazon)" }
+                            { lang: "ES", text: "¡Oh hijos, descendencia nueva del antiguo Cadmo! ¿Por qué estáis así sentados ante mí, coronados con ramos de suplicantes?...", author: "Gredos" },
+                            { lang: "EN", text: "My children, latest generation born from Cadmus, why are you sitting here with suppliant crowns?...", author: "Oxford" },
+                            { lang: "FR", text: "Enfants, jeune race de l'antique Cadmos, pourquoi vous tenez-vous ainsi devant moi, couronnés de rameaux suppliants?...", author: "Belles Lettres" }
                         ]
                     }
                 ]
@@ -252,9 +189,9 @@
                         title: "Medea", meta: "1-4", 
                         content: "Εἴθ᾽ ὤφελ᾽ Ἀργοῦς μὴ διαπτάσθαι σκάφος Κόλχων ἐς αἶαν κυανέας Συμπληγάδας, μηδ᾽ ἐν νάπαισι Πηλίου πεσεῖν ποτε τμηθεῖσα πεύκη,",
                         translations: [
-                            { lang: "ES", text: "¡Ojalá la nave Argo no hubiera volado a la tierra de los colcos a través de las Simplégades azul oscuras, ni en los valles del Pelión hubiera caído abatido el pino...", author: "Gredos (A. Medina)" },
-                            { lang: "EN", text: "Would that the ship Argo had never flown to the land of the Colchians through the dark-blue Symplegades, and that the pine tree had never been cut down...", author: "Loeb (D. Kovacs)" },
-                            { lang: "FR", text: "Ah ! plût aux dieux que le navire Argo n'eût jamais volé vers la terre des Colques à travers les Symplégades, et que jamais le pin n'eût été abattu...", author: "Belles Lettres (L. Méridier)" }
+                            { lang: "ES", text: "¡Ojalá la nave Argo no hubiera volado a la tierra de los colcos a través de las Simplégades azul oscuras...", author: "Gredos" },
+                            { lang: "EN", text: "Would that the ship Argo had never flown to the land of the Colchians through the dark-blue Symplegades...", author: "Loeb" },
+                            { lang: "FR", text: "Ah ! plût aux dieux que le navire Argo n'eût jamais volé vers la terre des Colques à travers les Symplégades...", author: "Belles Lettres" }
                         ]
                     }
                 ]
@@ -266,9 +203,9 @@
                         title: "Himno a Afrodita", meta: "Fragmento 1", 
                         content: "Ποικιλόθρον᾽ ἀθάνατ᾽ Ἀφρόδιτα, παῖ Δίος δολόπλοκε, λίσσομαί σε, μή μ᾽ ἄσαισι μηδ᾽ ὀνίαισι δάμνα, πότνια, θῦμον,",
                         translations: [
-                            { lang: "ES", text: "Inmortal Afrodita, la del trono pintado, la hija de Zeus, tejedora de engaños, te lo ruego: no a dolores ni a hastíos sometas, Señora, mi ánimo.", author: "Cátedra (C. García Gual)" },
-                            { lang: "EN", text: "Deathless Aphrodite of the spangled mind, child of Zeus, who twists lures, I beg you do not break with hard pains, O lady, my heart.", author: "Loeb (D.A. Campbell)" },
-                            { lang: "FR", text: "Immortelle Aphrodite au trône paré de mille couleurs, fille de Zeus, tisseuse de ruses, je t'implore, ne dompte pas mon cœur par les chagrins...", author: "Belles Lettres (T. Reinach)" }
+                            { lang: "ES", text: "Inmortal Afrodita, la del trono pintado, la hija de Zeus, tejedora de engaños, te lo ruego: no a dolores ni a hastíos sometas...", author: "Cátedra" },
+                            { lang: "EN", text: "Deathless Aphrodite of the spangled mind, child of Zeus, who twists lures, I beg you do not break with hard pains...", author: "Loeb" },
+                            { lang: "FR", text: "Immortelle Aphrodite au trône paré de mille couleurs, fille de Zeus, tisseuse de ruses, je t'implore...", author: "Belles Lettres" }
                         ]
                     }
                 ]
@@ -280,18 +217,9 @@
                         title: "Apología de Sócrates", meta: "17a", 
                         content: "Ὅτι μὲν ὑμεῖς, ὦ ἄνδρες Ἀθηναῖοι, πεπόνθατε ὑπὸ τῶν ἐμῶν κατηγόρων, οὐκ οἶδα· ἐγὼ δ' οὖν καὶ αὐτὸς ὑπ' αὐτῶν ὀλίγου ἐμαυτοῦ ἐπελαθόμην, οὕτω πιθανῶς ἔλεγον. καίτοι ἀληθές γε ὡς ἔπος εἰπεῖν οὐδὲν εἰρήκασιν.",
                         translations: [
-                            { lang: "ES", text: "No sé, atenienses, la sensación que habéis experimentado por las palabras de mis acusadores. Ciertamente, yo, a causa de ellos, casi me he olvidado de mí mismo...", author: "Gredos (J. Calonge)" },
-                            { lang: "EN", text: "How you, O Athenians, have been affected by my accusers, I cannot tell; but I know that they almost made me forget who I was...", author: "Oxford (B. Jowett)" },
-                            { lang: "FR", text: "Quel effet mes accusateurs ont produit sur vous, Athéniens, je l'ignore; pour moi, en les entendant, j'ai failli méconnaître qui je suis...", author: "Belles Lettres (M. Croiset)" }
-                        ]
-                    },
-                    { 
-                        title: "Fedro", meta: "227a", 
-                        content: "Ὦ φίλε Φαῖδρε, ποῖ δὴ καὶ πόθεν; Παρὰ Λυσίου, ὦ Σώκρατες, τοῦ Κεφάλου, πορεύομαι δὲ πρὸς περίπατον ἔξω τείχους· συχνὸν γὰρ ἐκεῖ διέτριψα χρόνον καθήμενος ἐξ ἑωθινοῦ.",
-                        translations: [
-                            { lang: "ES", text: "Querido Fedro, ¿adónde vas y de dónde vienes? —Vengo de estar con Lisias, el hijo de Céfalo, Sócrates, y me voy a dar un paseo fuera de las murallas...", author: "Gredos (E. Lledó)" },
-                            { lang: "EN", text: "My dear Phaedrus, whence come you, and whither are you going? —I come from Lysias the son of Cephalus, and I am going to take a walk outside the wall...", author: "Oxford (B. Jowett)" },
-                            { lang: "FR", text: "Cher Phèdre, où vas-tu et d'où viens-tu ? —Je viens de chez Lysias, fils de Céphale, Socrate, et je vais me promener hors les murs...", author: "Belles Lettres (Moreschini)" }
+                            { lang: "ES", text: "No sé, atenienses, la sensación que habéis experimentado por las palabras de mis acusadores...", author: "Gredos" },
+                            { lang: "EN", text: "How you, O Athenians, have been affected by my accusers, I cannot tell...", author: "Oxford" },
+                            { lang: "FR", text: "Quel effet mes accusateurs ont produit sur vous, Athéniens, je l'ignore...", author: "Belles Lettres" }
                         ]
                     }
                 ]
@@ -303,34 +231,18 @@
                         title: "Meditaciones", meta: "Libro II, 1", 
                         content: "Ἕωθεν προλέγειν ἑαυτῷ· συντεύξομαι περιέργῳ, ἀχαρίστῳ, ὑβριστῇ, δολερῷ, βασκάνῳ, ἀκοινωνήτῳ. Πάντα ταῦτα συμβέβηκεν ἐκείνοις παρὰ τὴν ἄγνοιαν τῶν ἀγαθῶν καὶ κακῶν.",
                         translations: [
-                            { lang: "ES", text: "Al despuntar la aurora, hazte estas consideraciones previas: me encontraré con un indiscreto, un ingrato, un insolente, un mentiroso, un envidioso, un insociable. Todo eso les acontece por ignorancia de los bienes y los males.", author: "Gredos (A. Díaz Tejera)" },
-                            { lang: "EN", text: "Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful, arrogant, deceitful, envious, unsocial. All these things happen to them by reason of their ignorance of what is good and evil.", author: "Oxford (G. Long)" },
-                            { lang: "FR", text: "Dès l'aurore, dis-toi par avance : je rencontrerai un indiscret, un ingrat, un insolent, un fourbe, un envieux, un égoïste. Tout cela leur arrive parce qu'ils ignorent les vrais biens et les vrais maux.", author: "Belles Lettres (A. Trannoy)" }
-                        ]
-                    }
-                ]
-            },
-            {
-                author: "Flavio Josefo",
-                works: [
-                    { 
-                        title: "La Guerra de los Judíos", meta: "Proemio, 1", 
-                        content: "Ἐπειδὴ τὸν Ἰουδαίων πρὸς Ῥωμαίους πόλεμον συστάντα μέγιστον οὐ μόνον τῶν καθ' ἡμᾶς, σχεδὸν δὲ καὶ ὧν ἀκοῇ παρειλήφαμεν, ἢ πόλεων πρὸς πόλεις ἢ ἐθνῶν πρὸς ἔθνη συμβαρρῆξαι...",
-                        translations: [
-                            { lang: "ES", text: "Puesto que la guerra de los judíos contra los romanos ha sido la mayor no sólo de las de nuestro tiempo, sino casi de todas las que hemos oído de ciudades contra ciudades o de naciones contra naciones...", author: "Gredos (J.M. Nieto)" },
-                            { lang: "EN", text: "Whereas the war which the Jews made with the Romans hath been the greatest of all those, not only that have been in our times, but, in a manner, of those that ever were heard of...", author: "Loeb (W. Whiston)" },
-                            { lang: "FR", text: "La guerre des Juifs contre les Romains étant la plus grande non seulement de celles de notre temps, mais presque de toutes celles dont nous avons entendu parler...", author: "Belles Lettres (R. Harmand)" }
+                            { lang: "ES", text: "Al despuntar la aurora, hazte estas consideraciones previas: me encontraré con un indiscreto, un ingrato...", author: "Gredos" },
+                            { lang: "EN", text: "Begin the morning by saying to thyself, I shall meet with the busybody, the ungrateful...", author: "Oxford" },
+                            { lang: "FR", text: "Dès l'aurore, dis-toi par avance : je rencontrerai un indiscret, un ingrat, un insolent...", author: "Belles Lettres" }
                         ]
                     }
                 ]
             }
         ];
 
-        // In-memory state
         let sessionFavs = [];
         let sessionVocab = [];
 
-        // --- INICIALIZACIÓN ---
         window.onload = () => {
             lucide.createIcons();
             renderIndex(classicalIndex);
@@ -338,15 +250,11 @@
             syncData();
         };
 
-        // --- FUNCIONES VISUALES Y BUSCADOR ---
         function filterIndex(query) {
             const lowerQuery = query.toLowerCase();
             const filteredIndex = classicalIndex.map(author => {
                 if (author.author.toLowerCase().includes(lowerQuery)) return author;
-                const matchingWorks = author.works.filter(work => 
-                    work.title.toLowerCase().includes(lowerQuery) || 
-                    work.meta.toLowerCase().includes(lowerQuery)
-                );
+                const matchingWorks = author.works.filter(work => work.title.toLowerCase().includes(lowerQuery) || work.meta.toLowerCase().includes(lowerQuery));
                 if (matchingWorks.length > 0) return { ...author, works: matchingWorks };
                 return null;
             }).filter(Boolean);
@@ -356,12 +264,7 @@
         function renderIndex(indexData, originalData = null) {
             const container = document.getElementById('index-content');
             if(!container) return;
-            
-            if (indexData.length === 0) {
-                container.innerHTML = `<p class="text-stone-400 italic font-serif text-center mt-10">No se encontraron códices.</p>`;
-                return;
-            }
-
+            if (indexData.length === 0) { container.innerHTML = `<p class="text-stone-400 italic font-serif text-center mt-10">No se encontraron códices.</p>`; return; }
             container.innerHTML = indexData.map((authorData) => {
                 const aIndex = (originalData || classicalIndex).findIndex(a => a.author === authorData.author);
                 return `
@@ -370,18 +273,11 @@
                     <ul class="space-y-4 pl-2">
                         ${authorData.works.map((work) => {
                             const wIndex = classicalIndex[aIndex].works.findIndex(w => w.title === work.title);
-                            return `
-                            <li>
-                                <button onclick="loadFromIndex(${aIndex}, ${wIndex})" class="text-left group w-full p-3 rounded-xl hover:bg-red-50/50 transition-colors border border-transparent hover:border-red-100">
-                                    <div class="font-serif font-bold text-stone-800 group-hover:text-red-900 transition-colors text-lg">${work.title}</div>
-                                    <div class="text-[10px] text-stone-400 uppercase tracking-widest mt-1">${work.meta}</div>
-                                </button>
-                            </li>
-                            `;
+                            return `<li><button onclick="loadFromIndex(${aIndex}, ${wIndex})" class="text-left group w-full p-3 rounded-xl hover:bg-red-50/50 transition-colors border border-transparent hover:border-red-100"><div class="font-serif font-bold text-stone-800 group-hover:text-red-900 transition-colors text-lg">${work.title}</div><div class="text-[10px] text-stone-400 uppercase tracking-widest mt-1">${work.meta}</div></button></li>`;
                         }).join('')}
                     </ul>
-                </div>
-            `}).join('');
+                </div>`
+            }).join('');
         }
 
         function renderText() {
@@ -393,315 +289,147 @@
             }).join(' ');
         }
 
-        function toggleIndex() {
-            const drawer = document.getElementById('index-drawer');
-            if(drawer) drawer.classList.toggle('-translate-x-full');
-        }
-
-        function toggleView(v) {
-            document.getElementById('reader-view').classList.toggle('hidden', v === 'library');
-            document.getElementById('library-view').classList.toggle('hidden', v !== 'library');
-            window.scrollTo(0,0);
-        }
-
-        function closeDrawer() {
-            const drawer = document.getElementById('drawer');
-            if(drawer) drawer.classList.add('translate-x-full');
-            document.querySelectorAll('.word-token').forEach(x => x.classList.remove('active-word'));
-        }
+        function toggleIndex() { document.getElementById('index-drawer')?.classList.toggle('-translate-x-full'); }
+        function toggleView(v) { document.getElementById('reader-view').classList.toggle('hidden', v === 'library'); document.getElementById('library-view').classList.toggle('hidden', v !== 'library'); window.scrollTo(0,0); }
+        function closeDrawer() { document.getElementById('drawer')?.classList.add('translate-x-full'); document.querySelectorAll('.word-token').forEach(x => x.classList.remove('active-word')); }
 
         function showError(msg) {
             const errEl = document.getElementById('error-message');
-            if(errEl) {
-                errEl.innerText = msg;
-                errEl.classList.remove('hidden');
-                setTimeout(() => hideError(), 8000);
-            }
+            if(errEl) { errEl.innerText = msg; errEl.classList.remove('hidden'); setTimeout(() => hideError(), 8000); }
         }
-
-        function hideError() {
-            const errEl = document.getElementById('error-message');
-            if(errEl) errEl.classList.add('hidden');
-        }
-
-        function clearData() {
-            sessionFavs = [];
-            sessionVocab = [];
-            syncData();
-            resetApp();
-        }
+        function hideError() { document.getElementById('error-message')?.classList.add('hidden'); }
+        function clearData() { sessionFavs = []; sessionVocab = []; syncData(); resetApp(); }
 
         // --- ORÁCULO DE LA API DE GEMINI ---
         function parseRobustJSON(text) {
-            try {
-                return JSON.parse(text);
-            } catch (e) {
-                const startObj = text.indexOf('{');
-                const endObj = text.lastIndexOf('}');
-                if (startObj !== -1 && endObj !== -1) {
-                    return JSON.parse(text.substring(startObj, endObj + 1));
-                }
+            try { return JSON.parse(text); } catch (e) {
+                const startObj = text.indexOf('{'), endObj = text.lastIndexOf('}');
+                if (startObj !== -1 && endObj !== -1) return JSON.parse(text.substring(startObj, endObj + 1));
                 throw new Error("Formato JSON ilegible");
             }
         }
 
         async function callOráculo(prompt, systemMsg = "", useSearch = false) {
-            // URL con el modelo estándar que no da 404
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-            
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { temperature: 0.1 }
-            };
-            
-            if (systemMsg) {
-                payload.systemInstruction = { parts: [{ text: systemMsg }] };
-            }
-            
-            if (!useSearch) {
-                payload.generationConfig.responseMimeType = "application/json";
-            }
+            const payload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.1, responseMimeType: "application/json" } };
+            if (systemMsg) payload.systemInstruction = { parts: [{ text: systemMsg }] };
 
-            let retries = 0;
-            const maxRetries = 5;
-            let delay = 1000;
-
-            while (retries < maxRetries) {
+            let retries = 0, delay = 1000;
+            while (retries < 3) {
                 try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    
+                    const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
-                    
                     const data = await response.json();
-                    if (!data.candidates || data.candidates.length === 0) {
-                        throw new Error('El Oráculo no devolvió datos.');
-                    }
-                    
-                    const text = data.candidates[0].content.parts[0].text;
-                    return parseRobustJSON(text);
+                    if (!data.candidates || data.candidates.length === 0) throw new Error('El Oráculo no devolvió datos.');
+                    return parseRobustJSON(data.candidates[0].content.parts[0].text);
                 } catch (e) {
-                    retries++;
-                    if (retries === maxRetries) throw e;
-                    await new Promise(r => setTimeout(r, delay));
-                    delay *= 2;
+                    retries++; if (retries === 3) throw e;
+                    await new Promise(r => setTimeout(r, delay)); delay *= 2;
                 }
             }
         }
 
         function resetApp() {
-            currentPassage = classicalIndex[0].works[0];
-            currentPassage.author = classicalIndex[0].author;
-            
+            currentPassage = classicalIndex[0].works[0]; currentPassage.author = classicalIndex[0].author;
             document.getElementById('view-title').innerText = currentPassage.title;
             document.getElementById('view-meta').innerText = `${currentPassage.author} — ${currentPassage.meta}`;
             document.getElementById('local-search').value = "";
-            renderIndex(classicalIndex);
-            renderText();
-            toggleView('reader');
-            document.getElementById('trans-grid').classList.add('hidden');
-            hideError();
-            
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-                document.getElementById('play-icon').setAttribute('data-lucide', 'volume-2');
-                lucide.createIcons();
-            }
+            renderIndex(classicalIndex); renderText(); toggleView('reader'); document.getElementById('trans-grid').classList.add('hidden'); hideError();
+            if ('speechSynthesis' in window && window.speechSynthesis.speaking) { window.speechSynthesis.cancel(); document.getElementById('play-icon').setAttribute('data-lucide', 'volume-2'); lucide.createIcons(); }
         }
         
         function loadFromIndex(authorIndex, workIndex) {
-            currentPassage = classicalIndex[authorIndex].works[workIndex];
-            currentPassage.author = classicalIndex[authorIndex].author;
-            
+            currentPassage = classicalIndex[authorIndex].works[workIndex]; currentPassage.author = classicalIndex[authorIndex].author;
             document.getElementById('view-title').innerText = currentPassage.title;
             document.getElementById('view-meta').innerText = `${currentPassage.author} — ${currentPassage.meta}`;
-            
-            renderText();
-            toggleView('reader');
-            toggleIndex();
-            document.getElementById('trans-grid').classList.add('hidden');
-            hideError();
-            
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-                document.getElementById('play-icon').setAttribute('data-lucide', 'volume-2');
-                lucide.createIcons();
-            }
+            renderText(); toggleView('reader'); toggleIndex(); document.getElementById('trans-grid').classList.add('hidden'); hideError();
+            if ('speechSynthesis' in window && window.speechSynthesis.speaking) { window.speechSynthesis.cancel(); document.getElementById('play-icon').setAttribute('data-lucide', 'volume-2'); lucide.createIcons(); }
         }
 
-        // --- ANÁLISIS MORFOSINTÁCTICO ---
         async function analyzeWord(word, el) {
-            document.querySelectorAll('.word-token').forEach(x => x.classList.remove('active-word'));
-            el.classList.add('active-word');
+            document.querySelectorAll('.word-token').forEach(x => x.classList.remove('active-word')); el.classList.add('active-word');
             document.getElementById('drawer').classList.remove('translate-x-full');
-            
             const contentEl = document.getElementById('drawer-content');
-            contentEl.innerHTML = `
-                <div class="h-64 flex flex-col items-center justify-center animate-pulse text-stone-300">
-                    <i data-lucide="loader-2" class="w-12 h-12 animate-spin text-red-800 mb-6"></i>
-                    <p class="ancient text-[10px] uppercase tracking-widest">Escudriñando Morphé...</p>
-                </div>`;
+            contentEl.innerHTML = `<div class="h-64 flex flex-col items-center justify-center animate-pulse text-stone-300"><i data-lucide="loader-2" class="w-12 h-12 animate-spin text-red-800 mb-6"></i><p class="ancient text-[10px] uppercase tracking-widest">Escudriñando Morphé...</p></div>`;
             lucide.createIcons();
 
             try {
-                const prompt = `Analiza la palabra griega "${word}" en el contexto de "${currentPassage.content}". Devuelve SOLO JSON: {"lema": "...", "morfologia": "...", "sintaxis": "...", "traduccion": "...", "nota": "..."}`;
+                const prompt = `Analiza la palabra griega "${word}" en el contexto de "${currentPassage.content}". Devuelve SOLO JSON: {"lema": "...", "morfologia": "...", "sintaxis": "...", "traduccion": "..."}`;
                 const res = await callOráculo(prompt, "Experto filólogo helenista.");
                 activeMorphData = { palabra: word, ...res };
-
-                contentEl.innerHTML = `
-                    <div class="animate-in fade-in slide-in-from-right duration-500">
-                        <span class="px-3 py-1 bg-red-50 text-red-800 rounded-full text-[10px] font-black uppercase tracking-widest italic">Escolios</span>
-                        <h3 class="greek-display text-7xl font-black text-stone-900 mt-10 mb-12 tracking-tighter">${word}</h3>
-                        <div class="space-y-12">
-                            <div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Raíz de Diccionario</p><p class="text-4xl font-bold text-stone-800 underline decoration-gold/30 underline-offset-8">${res.lema}</p></div>
-                            <div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Accidentes Gramaticales</p><p class="text-xl text-stone-600 font-sans italic leading-relaxed">${res.morfologia}</p><p class="mt-4 p-4 bg-stone-50 rounded-xl text-stone-500 text-sm font-sans border-l-2 border-stone-200">${res.sintaxis}</p></div>
-                            <div class="bg-red-50/50 p-8 rounded-[32px] border border-red-100 shadow-inner">
-                                <p class="ancient text-[10px] text-red-800 uppercase mb-3 font-bold tracking-widest">Acepción</p>
-                                <p class="text-4xl font-black italic text-stone-900">"${res.traduccion}"</p>
-                            </div>
-                        </div>
-                    </div>`;
-            } catch (e) {
-                contentEl.innerHTML = `<p class="text-red-800 font-bold p-10 text-center">Fallo en la conexión del Oráculo: ${e.message}</p>`;
-            }
+                contentEl.innerHTML = `<div class="animate-in fade-in slide-in-from-right duration-500"><span class="px-3 py-1 bg-red-50 text-red-800 rounded-full text-[10px] font-black uppercase tracking-widest italic">Escolios</span><h3 class="greek-display text-7xl font-black text-stone-900 mt-10 mb-12 tracking-tighter">${word}</h3><div class="space-y-12"><div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Raíz</p><p class="text-4xl font-bold text-stone-800 underline decoration-gold/30 underline-offset-8">${res.lema}</p></div><div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Morfología</p><p class="text-xl text-stone-600 font-sans italic leading-relaxed">${res.morfologia}</p><p class="mt-4 p-4 bg-stone-50 rounded-xl text-stone-500 text-sm font-sans border-l-2 border-stone-200">${res.sintaxis}</p></div><div class="bg-red-50/50 p-8 rounded-[32px] border border-red-100 shadow-inner"><p class="ancient text-[10px] text-red-800 uppercase mb-3 font-bold tracking-widest">Acepción</p><p class="text-4xl font-black italic text-stone-900">"${res.traduccion}"</p></div></div></div>`;
+            } catch (e) { contentEl.innerHTML = `<p class="text-red-800 font-bold p-10 text-center">Fallo en la conexión del Oráculo.</p>`; }
         }
 
-        // --- COMPARATIVA DESDE CORPUS ESTÁTICO ---
         async function getTrilingualComparison() {
             hideError();
-            const grid = document.getElementById('trans-grid');
-            const icon = document.getElementById('trans-icon');
-            const btn = document.getElementById('trans-btn');
-            
-            grid.classList.remove('hidden');
-            grid.innerHTML = "<div class='col-span-full py-16 text-center animate-pulse ancient text-stone-300 uppercase tracking-widest'>Desempolvando códices locales...</div>";
-            icon.classList.add('animate-spin');
-            btn.disabled = true;
-            
+            const grid = document.getElementById('trans-grid'), icon = document.getElementById('trans-icon'), btn = document.getElementById('trans-btn');
+            grid.classList.remove('hidden'); grid.innerHTML = "<div class='col-span-full py-16 text-center animate-pulse ancient text-stone-300 uppercase tracking-widest'>Desempolvando códices locales...</div>";
+            icon.classList.add('animate-spin'); btn.disabled = true;
             setTimeout(() => {
-                icon.classList.remove('animate-spin');
-                btn.disabled = false;
-
-                if (!currentPassage.translations) {
-                    grid.innerHTML = `<p class='col-span-full text-center text-red-800 py-8 font-bold'>Traducciones no disponibles para este fragmento en el archivo local.</p>`;
-                    return;
-                }
-
-                grid.innerHTML = currentPassage.translations.map(v => `
-                    <div class="trans-card border-t-4 ${v.lang.includes('ES') ? 'border-red-800' : v.lang.includes('EN') ? 'border-blue-800' : 'border-stone-800'}">
-                        <span class="ancient text-[9px] text-stone-400 mb-6 font-black uppercase tracking-widest">${v.lang} (Traducción Real)</span>
-                        <p class="text-xl italic text-stone-800 leading-relaxed flex-1">"${v.text}"</p>
-                        <p class="mt-8 text-[10px] font-bold text-red-800 uppercase tracking-widest">${v.author}</p>
-                    </div>`).join('');
+                icon.classList.remove('animate-spin'); btn.disabled = false;
+                if (!currentPassage.translations) { grid.innerHTML = `<p class='col-span-full text-center text-red-800 py-8 font-bold'>Traducciones no disponibles.</p>`; return; }
+                grid.innerHTML = currentPassage.translations.map(v => `<div class="trans-card border-t-4 ${v.lang.includes('ES') ? 'border-red-800' : v.lang.includes('EN') ? 'border-blue-800' : 'border-stone-800'}"><span class="ancient text-[9px] text-stone-400 mb-6 font-black uppercase tracking-widest">${v.lang} (Real)</span><p class="text-xl italic text-stone-800 leading-relaxed flex-1">"${v.text}"</p><p class="mt-8 text-[10px] font-bold text-red-800 uppercase tracking-widest">${v.author}</p></div>`).join('');
                 grid.scrollIntoView({ behavior: 'smooth' });
             }, 600);
         }
 
-        // --- RECITACIÓN: MOTOR API GOOGLE TRANSLATE (ANTIBLOQUEOS) ---
         function playVoice() {
             hideError();
             const icon = document.getElementById('play-icon');
             
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-                icon.setAttribute('data-lucide', 'volume-2');
+            if ('speechSynthesis' in window) {
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.cancel();
+                    icon.setAttribute('data-lucide', 'volume-2');
+                    lucide.createIcons();
+                    return;
+                }
+
+                icon.setAttribute('data-lucide', 'loader-2');
+                icon.classList.add('animate-spin');
                 lucide.createIcons();
-                return;
+
+                const utterance = new SpeechSynthesisUtterance(currentPassage.content);
+                utterance.lang = 'el-GR'; 
+                utterance.rate = 0.85; 
+                utterance.pitch = 0.9; 
+
+                utterance.onstart = () => {
+                    icon.classList.remove('animate-spin');
+                    icon.setAttribute('data-lucide', 'square');
+                    lucide.createIcons();
+                };
+
+                utterance.onend = () => {
+                    icon.classList.remove('animate-spin');
+                    icon.setAttribute('data-lucide', 'volume-2');
+                    lucide.createIcons();
+                };
+
+                utterance.onerror = () => {
+                    icon.classList.remove('animate-spin');
+                    icon.setAttribute('data-lucide', 'volume-2');
+                    lucide.createIcons();
+                    showError("Error en el motor de voz de tu dispositivo.");
+                };
+
+                window.speechSynthesis.speak(utterance);
+            } else {
+                showError("Tu navegador no soporta la recitación de voz.");
             }
-
-            icon.setAttribute('data-lucide', 'loader-2');
-            icon.classList.add('animate-spin');
-            lucide.createIcons();
-
-            // Usamos Google Translate TTS con client=gtx, que es mucho más estable
-            const textToRead = currentPassage.content.substring(0, 180);
-            const url = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=el&q=${encodeURIComponent(textToRead)}`;
-            
-            currentAudio = new Audio(url);
-            
-            currentAudio.onplay = () => {
-                icon.classList.remove('animate-spin');
-                icon.setAttribute('data-lucide', 'square');
-                lucide.createIcons();
-            };
-
-            currentAudio.onended = () => {
-                currentAudio = null;
-                icon.classList.remove('animate-spin');
-                icon.setAttribute('data-lucide', 'volume-2');
-                lucide.createIcons();
-            };
-
-            currentAudio.onerror = () => {
-                currentAudio = null;
-                icon.classList.remove('animate-spin');
-                icon.setAttribute('data-lucide', 'volume-2');
-                lucide.createIcons();
-                showError("La red ha bloqueado la recitación. Intenta usar otro navegador.");
-            };
-
-            currentAudio.play().catch(e => {
-                currentAudio.onerror();
-            });
         }
 
-        // --- PERSISTENCIA LOCAL EN MEMORIA ---
         function syncData() {
-            document.getElementById('fav-list').innerHTML = sessionFavs.map((f, i) => `
-                <div class="bg-white p-8 rounded-[40px] shadow-lg border border-stone-50 group hover:shadow-xl transition-all">
-                    <span class="ancient text-[8px] text-red-800 uppercase font-black">${f.author}</span>
-                    <h4 class="ancient text-2xl font-bold text-stone-900 my-3">${f.title}</h4>
-                    <button onclick="loadPassage(${i})" class="flex items-center gap-2 text-red-800 font-black uppercase text-[10px] tracking-widest hover:translate-x-2 transition-transform">
-                        <i data-lucide="play" size="12"></i> Reanudar
-                    </button>
-                </div>`).join('') || '<p class="text-center text-stone-300 italic py-12 font-sans">Biblioteca vacía.</p>';
-
-            document.getElementById('vocab-list').innerHTML = sessionVocab.map((v, i) => `
-                <div class="flex justify-between items-start border-b border-stone-50 pb-6 mb-6 group last:border-0 last:pb-0">
-                    <div class="flex-1">
-                        <p class="greek-display text-4xl font-bold text-stone-900 tracking-tight">${v.palabra}</p>
-                        <p class="ancient text-[9px] text-red-800 font-black mt-2 uppercase tracking-widest">${v.lema}</p>
-                        <p class="text-sm text-stone-500 italic mt-3">"${v.traduccion}"</p>
-                    </div>
-                    <button onclick="deleteVocItem(${i})" class="text-stone-100 hover:text-red-800 p-2 transition-all"><i data-lucide="trash-2" size="18"></i></button>
-                </div>`).join('') || '<p class="text-center text-stone-300 italic py-12 font-sans">Glosario vacío.</p>';
-            
+            document.getElementById('fav-list').innerHTML = sessionFavs.map((f, i) => `<div class="bg-white p-8 rounded-[40px] shadow-lg border border-stone-50 group hover:shadow-xl transition-all"><span class="ancient text-[8px] text-red-800 uppercase font-black">${f.author}</span><h4 class="ancient text-2xl font-bold text-stone-900 my-3">${f.title}</h4><button onclick="loadPassage(${i})" class="flex items-center gap-2 text-red-800 font-black uppercase text-[10px] tracking-widest hover:translate-x-2 transition-transform"><i data-lucide="play" size="12"></i> Reanudar</button></div>`).join('') || '<p class="text-center text-stone-300 italic py-12 font-sans">Vacía.</p>';
+            document.getElementById('vocab-list').innerHTML = sessionVocab.map((v, i) => `<div class="flex justify-between items-start border-b border-stone-50 pb-6 mb-6 group last:border-0 last:pb-0"><div class="flex-1"><p class="greek-display text-4xl font-bold text-stone-900 tracking-tight">${v.palabra}</p><p class="ancient text-[9px] text-red-800 font-black mt-2 uppercase tracking-widest">${v.lema}</p><p class="text-sm text-stone-500 italic mt-3">"${v.traduccion}"</p></div><button onclick="deleteVocItem(${i})" class="text-stone-100 hover:text-red-800 p-2 transition-all"><i data-lucide="trash-2" size="18"></i></button></div>`).join('') || '<p class="text-center text-stone-300 italic py-12 font-sans">Vacío.</p>';
             lucide.createIcons();
         }
 
-        function saveCurrentPassage() {
-            sessionFavs.unshift(currentPassage);
-            syncData();
-        }
-
-        function saveWordToVocab() {
-            if (!activeMorphData) return;
-            if (!sessionVocab.find(x => x.palabra === activeMorphData.palabra)) {
-                sessionVocab.unshift(activeMorphData);
-            }
-            closeDrawer();
-            syncData();
-        }
-
-        function deleteVocItem(i) {
-            sessionVocab.splice(i, 1);
-            syncData();
-        }
-
-        function loadPassage(i) {
-            currentPassage = sessionFavs[i];
-            document.getElementById('view-title').innerText = currentPassage.title;
-            document.getElementById('view-meta').innerText = `${currentPassage.author} — ${currentPassage.meta}`;
-            renderText();
-            toggleView('reader');
-            document.getElementById('trans-grid').classList.add('hidden');
-        }
+        function saveCurrentPassage() { sessionFavs.unshift(currentPassage); syncData(); }
+        function saveWordToVocab() { if (!activeMorphData) return; if (!sessionVocab.find(x => x.palabra === activeMorphData.palabra)) { sessionVocab.unshift(activeMorphData); } closeDrawer(); syncData(); }
+        function deleteVocItem(i) { sessionVocab.splice(i, 1); syncData(); }
+        function loadPassage(i) { currentPassage = sessionFavs[i]; document.getElementById('view-title').innerText = currentPassage.title; document.getElementById('view-meta').innerText = `${currentPassage.author} — ${currentPassage.meta}`; renderText(); toggleView('reader'); document.getElementById('trans-grid').classList.add('hidden'); }
     </script>
 </body>
 </html>
