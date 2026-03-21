@@ -76,9 +76,11 @@
     </div>
 
     <script>
-        const parte1 = "AIzaSy";
-        const parte2 = "DBxBcewb7PqOhMPC3qy21QJSWCu8Zwhnc";
-        const apiKey = parte1 + parte2;
+       let apiKey = localStorage.getItem('gemini_key');
+if (!apiKey) {
+    apiKey = prompt("🏛️ Para despertar al Oráculo, pega aquí tu Clave API de Google. Solo tendrás que hacerlo una vez y se guardará en tu navegador de forma segura:");
+    if (apiKey) localStorage.setItem('gemini_key', apiKey.trim());
+}
         let currentPassage = null, audioRate = 0.8, isSpeaking = false;
 
         const classicalIndex = [
