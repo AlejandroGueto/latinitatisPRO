@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="no-referrer">
-    <title>Latinitatis Pro | Bibliotheca et Scriptorium</title>
+    <title>Latinitatis Pro | Bibliotheca Magna</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
         .word-token { display: inline-block; padding: 2px 4px; cursor: pointer; transition: all 0.2s; border-radius: 4px; }
         .word-token:hover { background: rgba(139, 50, 44, 0.1); color: var(--terracotta); }
         .active-word { color: var(--terracotta) !important; font-weight: 700; background: rgba(139, 50, 44, 0.08); box-shadow: 0 2px 0 var(--gold); }
-        .reading-now { background: var(--gold); color: white !important; border-radius: 4px; transform: scale(1.1); }
+        .reading-now { background: var(--gold); color: white !important; border-radius: 4px; }
         .drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .trans-card { background: white; padding: 1.25rem; border-radius: 1.5rem; border-top: 3px solid var(--terracotta); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
     </style>
@@ -36,7 +36,7 @@
 
     <main id="reader-view" class="flex-1 p-4 md:p-12 max-w-5xl mx-auto w-full">
         <header class="mb-8 text-center">
-            <h2 id="view-title" class="greek-display text-4xl md:text-6xl font-black text-stone-900 italic">Iliada</h2>
+            <h2 id="view-title" class="greek-display text-4xl md:text-6xl font-black text-stone-900 italic tracking-tight">Cargando Bibliotheca...</h2>
             <p id="view-meta" class="text-stone-400 ancient text-[10px] mt-2 uppercase tracking-[0.2em]"></p>
         </header>
 
@@ -46,7 +46,7 @@
             <div class="mt-12 pt-8 border-t border-stone-50 flex flex-wrap justify-center items-center gap-6">
                 <div class="flex items-center bg-stone-100 rounded-full px-4 py-2 gap-3">
                     <button onclick="changeSpeed(-0.1)" class="text-stone-400 hover:text-stone-900 text-xs font-bold">-</button>
-                    <span id="speed-label" class="text-[10px] ancient font-bold w-12 text-center text-stone-600">1.0x</span>
+                    <span id="speed-label" class="text-[10px] ancient font-bold w-12 text-center text-stone-600">0.8x</span>
                     <button onclick="changeSpeed(0.1)" class="text-stone-400 hover:text-stone-900 text-xs font-bold">+</button>
                 </div>
                 <button onclick="playVoice()" id="play-btn" class="flex items-center gap-3 px-10 py-4 bg-stone-900 text-white rounded-full ancient text-xs font-bold uppercase shadow-xl hover:bg-black transition-all">
@@ -62,10 +62,7 @@
     </main>
 
     <div id="notes-drawer" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl z-[200] translate-x-full drawer p-8 overflow-y-auto border-l border-stone-200">
-        <div class="flex justify-between items-center mb-8">
-            <h3 class="ancient text-xl font-bold text-stone-800 uppercase tracking-tighter">Mi Códice</h3>
-            <button onclick="toggleNotes()" class="text-stone-400"><i data-lucide="x"></i></button>
-        </div>
+        <div class="flex justify-between items-center mb-8"><h3 class="ancient text-xl font-bold">Mi Códice</h3><button onclick="toggleNotes()"><i data-lucide="x"></i></button></div>
         <div id="notes-list" class="space-y-4"></div>
     </div>
 
@@ -82,9 +79,9 @@
         const parte1 = "AIzaSy";
         const parte2 = "C4Y-CvoE8y4w4B3Cdo76jED5yVl9ChvyY";
         const apiKey = parte1 + parte2;
-        let currentPassage = null, audioRate = 0.85, isSpeaking = false;
+        let currentPassage = null, audioRate = 0.8, isSpeaking = false;
 
-      const classicalIndex = [
+        const classicalIndex = [
             {
                 author: "Homero",
                 works: [
@@ -94,184 +91,33 @@
                         translations: [
                             { lang: "ES (Gredos)", text: "Canta, oh diosa, la cólera del Pelida Aquiles; cólera funesta que causó infinitos males...", author: "E. Crespo" },
                             { lang: "EN (Oxford)", text: "Sing, goddess, the anger of Peleus' son Achilles and its devastation...", author: "Lattimore" },
-                            { lang: "FR (Belles Lettres)", text: "Chante, déesse, la colère d'Achille, le fils de Pélée; détestable colère...", author: "Mazon" },
-                            { lang: "ES (Literal)", text: "La cólera canta, oh diosa, del Pelida Aquiles, destructora..." }
+                            { lang: "FR (Belles Lettres)", text: "Chante, déesse, la colère d'Achille, le fils de Pélée; détestable colère...", author: "Mazon" }
                         ]
                     },
-                    { 
-                        title: "Odisea", meta: "Canto I, 1-10", 
-                        content: "Ἄνδρα μοι ἔννεπε, μοῦσα, πολύτροπον, ὃς μάλα πολλὰ πλάγχθη, ἐπεὶ Τροίης ἱερὸν πτολίεθρον ἔπερσε· πολλῶν δ᾽ ἀνθρώπων ἴδεν ἄστεα καὶ νόον ἔγνω, πολλὰ δ᾽ ὅ γ᾽ ἐν πόντῳ πάθεν ἄλγεα ὃν κατὰ θυμόν, ἀρνύμενος ἥν τε ψυχὴν καὶ νόστον ἑταίρων.",
-                        translations: [
-                            { lang: "ES (Gredos)", text: "Háblame, Musa, de aquel varón de multiforme ingenio que, después de destruir la sacra ciudad de Troya...", author: "J.M. Pabón" },
-                            { lang: "EN (Loeb)", text: "Tell me, O Muse, of the man of many devices, who wandered full many a way...", author: "A.T. Murray" },
-                            { lang: "FR (Belles Lettres)", text: "Dis-moi, Muse, cet homme aux mille tours, qui erra si longtemps...", author: "V. Bérard" }
-                        ]
-                    }
+                    { title: "Odisea", meta: "Canto I, 1-10", content: "Ἄνδρα μοι ἔννεπε, μοῦσα, πολύτροπον, ὃς μάλα πολλὰ πλάγχθη, ἐπεὶ Τροίης ἱερὸν πτολίεθρον ἔπερσε· πολλῶν δ᾽ ἀνθρώπων ἴδεν ἄστεα καὶ νόον ἔγνω, πολλὰ δ᾽ ὅ γ᾽ ἐν πόντῳ πάθεν ἄλγεα ὃν κατὰ θυμόν, ἀρνύμενος ἥν τε ψυχὴν καὶ νόστον ἑταίρων.", translations: [{lang: "ES (Gredos)", text: "Háblame, Musa, de aquel varón de multiforme ingenio...", author: "J.M. Pabón"}] }
                 ]
             },
-            {
-                author: "Hesíodo",
-                works: [{ 
-                    title: "Teogonía", meta: "1-4", 
-                    content: "Μουσάων Ἑλικωνιάδων ἀρχώμεθ᾽ ἀείδειν, αἵ θ᾽ Ἑλικῶνος ἔχουσιν ὄρος μέγα τε ζάθεόν τε καί τε περὶ κρήνην ἰοειδέα πόσσ᾽ ἁπαλοῖσιν ὀρχεῦνται καὶ βωμὸν ἐρισθενέος Κρονίωνος·",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "Comencemos a cantar a las Musas heliconíadas, que habitan el monte grande y divino del Helicón...", author: "Pérez Jiménez" },
-                        { lang: "EN (Loeb)", text: "From the Heliconian Muses let us begin to sing, who hold the great and holy mount of Helicon...", author: "H.G. Evelyn-White" },
-                        { lang: "FR (Belles Lettres)", text: "Pour commencer, chantons les Muses Héliconiennes, qui hantent la montagne grande et divine de l'Hélicon...", author: "P. Mazon" }
-                    ]
-                }]
-            },
-            {
-                author: "Safo",
-                works: [{ 
-                    title: "Himno a Afrodita", meta: "Fr. 1", 
-                    content: "Ποικιλόθρον᾽ ἀθάνατ᾽ Ἀφρόδιτα, παῖ Δίος δολόπλοκε, λίσσομαί σε, μή μ᾽ ἄσαισι μηδ᾽ ὀνíαισι δάμνα, πότνια, θῦμον.",
-                    translations: [
-                        { lang: "ES (Gual)", text: "Inmortal Afrodita, la del trono pintado, hija de Zeus, tejedora de engaños...", author: "C. García Gual" },
-                        { lang: "EN (Loeb)", text: "Deathless Aphrodite of the spangled mind, child of Zeus, who twists lures, I beg you...", author: "D. Campbell" },
-                        { lang: "FR (Belles Lettres)", text: "Aphrodite immortelle au trône étincelant, fille de Zeus, tisseuse de ruses, je t'implore...", author: "Th. Reinach" }
-                    ]
-                }]
-            },
-            {
-                author: "Píndaro",
-                works: [{ 
-                    title: "Olímpica I", meta: "1-4", 
-                    content: "Ἄριστον μὲν ὕδωρ, ὁ δὲ χρυσὸς αἰθόμενον πῦρ ἅτε διαπρέπει νυκτὶ μεγάνορος ἔξοχα πλούτου· εἰ δ᾽ ἄεθλα γαρύεν ἔλδεαι, φίλον ἦτορ.",
-                    translations: [
-                        { lang: "ES (Alianza)", text: "Lo mejor es el agua, y el oro, como fuego encendido, resplandece en la noche...", author: "A. Bernabé" },
-                        { lang: "EN (Loeb)", text: "Best is water, while gold, like fire flaming at night, gleams far beyond all lordly wealth...", author: "W.H. Race" },
-                        { lang: "FR (Belles Lettres)", text: "L'eau est le premier des biens ; l'or, tel un feu qui brûle dans la nuit, brille d'un éclat supérieur...", author: "Aimé Puech" }
-                    ]
-                }]
-            },
-            {
-                author: "Heródoto",
-                works: [{ 
-                    title: "Historias", meta: "Proemio", 
-                    content: "Ἡροδότου Ἁλικαρνησσέος ἱστορίης ἀπόδεξις ἥδε, ὡς μήτε τὰ γενόμενα ἐξ ἀνθρώπων τῷ χρόνῳ ἐξίτηλα γένηται, μήτε ἔργα μεγάλα τε καὶ θωμαστά...",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "Esta es la exposición de las investigaciones de Heródoto de Halicarnaso...", author: "C. Schrader" },
-                        { lang: "EN (Oxford)", text: "What Herodotus of Halicarnassus has learnt by inquiry is here set forth...", author: "G. Rawlinson" },
-                        { lang: "FR (Belles Lettres)", text: "Hérodote d'Halicarnasse présente ici les résultats de son enquête...", author: "Ph.-E. Legrand" }
-                    ]
-                }]
-            },
-            {
-                author: "Tucídides",
-                works: [{ 
-                    title: "Guerra del Peloponeso", meta: "I, 1", 
-                    content: "Θουκυδίδης Ἀθηναῖος ξυνέγραψε τὸν πόλεμον τῶν Πελοποννησίων καὶ Ἀθηναίων, ὡς ἐπολέμησαν πρὸς ἀλλήλους, ἀρξάμενος εὐθὺς καθισταμένου.",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "Tucídides de Atenas escribió la historia de la guerra entre los peloponesios y los atenienses...", author: "J.J. Torres" },
-                        { lang: "EN (Loeb)", text: "Thucydides, an Athenian, wrote the history of the war between the Peloponnesians and the Athenians...", author: "C.F. Smith" },
-                        { lang: "FR (Belles Lettres)", text: "Thucydide l'Athénien a raconté la guerre des Péloponnésiens et des Athéniens...", author: "J. de Romilly" }
-                    ]
-                }]
-            },
-            {
-                author: "Sófocles",
-                works: [{ 
-                    title: "Edipo Rey", meta: "1-5", 
-                    content: "Ὦ τέκνα, Κάδμου τοῦ πάλαι νέα τροφή, τίνας ποθ᾽ ἕδρας τάσδε μοι θοάζετε ἱκτηρίοις κλάδοισιν ἐξεστεμμένοι;",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "¡Oh hijos, nueva descendencia del antiguo Cadmo! ¿Por qué estáis así ante mí...?", author: "A. Alamillo" },
-                        { lang: "EN (Oxford)", text: "My children, latest generation born from Cadmus, why are you sitting here with suppliant crowns?", author: "R. Jebb" },
-                        { lang: "FR (Belles Lettres)", text: "O mes enfants, jeune postérité de l'antique Cadmos, pourquoi vous pressez-vous ainsi autour de ces autels?", author: "P. Mazon" }
-                    ]
-                }]
-            },
-            {
-                author: "Eurípides",
-                works: [{ 
-                    title: "Medea", meta: "1-8", 
-                    content: "Εἴθ᾽ ὤφελ᾽ Ἀργοῦς μὴ διαπτάσθαι σκάφος Κόλχων ἐς αἶαν κυανέας Συμπληγάδας, μηδ᾽ ἐν νάπαισι Πηλίου πεσεῖν ποτε.",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "¡Ojalá la nave Argo no hubiera volado a la tierra de los colcos a través de las Simplégades!", author: "A. Medina" },
-                        { lang: "EN (Loeb)", text: "Would that the Argo's hull had never flown between the clashing Cyanean rocks to Colchis-land!", author: "A.S. Way" },
-                        { lang: "FR (Belles Lettres)", text: "Ah ! si le navire Argo n'avait pas volé, par-delà les Symplégades bleues, vers la terre de Colchide !", author: "L. Méridier" }
-                    ]
-                }]
-            },
-            {
-                author: "Aristófanes",
-                works: [{ 
-                    title: "Lisístrata", meta: "1-4", 
-                    content: "Ἀλλ᾽ εἴ τις ἐς Βακχεῖον αὐτὰς ἐκάλεσεν, ἢ ᾽ς Πανὸς ἢ ᾽πὶ Κωλιάδ᾽ ἢ ᾽ς Γενετυλλίδος, οὐδ᾽ ἂν διελθεῖν ἦν ἂν ὑπὸ τῶν τυμπάνων.",
-                    translations: [
-                        { lang: "ES (Cátedra)", text: "¡Si alguien las hubiera invitado a una fiesta de Baco, o al santuario de Pan, o al de Colíade...!", author: "L.M. Macía" },
-                        { lang: "EN (Loeb)", text: "Now if they had been summoned to a Bacchic feast, or to a shrine of Pan or Colias or Genetyllis...", author: "J. Henderson" },
-                        { lang: "FR (Belles Lettres)", text: "Ah ! si on les avait conviées à une fête de Bacchus, ou chez Pan, ou à Colias, ou chez Génétyllis...", author: "H. Van Daele" }
-                    ]
-                }]
-            },
-            {
-                author: "Platón",
-                works: [{ 
-                    title: "Apología de Sócrates", meta: "17a", 
-                    content: "Ὅτι μὲν ὑμεῖς, ὦ ἄνδρες Ἀθηναῖοι, πεπόνθατε ὑπὸ τῶν ἐμῶν κατηγόρων, οὐκ οἶδα· ἐγὼ δ᾽ οὖν καὶ αὐτὸς ὑπ᾽ αὐτῶν ὀλίγου ἐμαυτοῦ ἐπελαθόμην.",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "No sé, atenienses, la sensación que habéis experimentado por las palabras de mis acusadores...", author: "J. Calonge" },
-                        { lang: "EN (Hackett)", text: "How you, men of Athens, have been affected by my accusers, I do not know...", author: "Grube" },
-                        { lang: "FR (Belles Lettres)", text: "Quelle impression mes accusateurs ont faite sur vous, Athéniens, je l'ignore ; pour moi, sous leur influence...", author: "M. Croiset" }
-                    ]
-                }]
-            },
-            {
-                author: "Demóstenes",
-                works: [{
-                    title: "Sobre la Corona", meta: "XVIII, 1",
-                    content: "Πρῶτον μέν, ὦ ἄνδρες Ἀθηναῖοι, τοῖς θεοῖς εὔχομαι πᾶσι καὶ πάσαις, ὅσην εὔνοιαν διατελῶ ἔχων ἐγώ τε τῇ πόλει καὶ πᾶσιν ὑμῖν.",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "En primer lugar, varones atenienses, ruego a todos los dioses y diosas...", author: "López Eire" },
-                        { lang: "EN (Loeb)", text: "I begin, men of Athens, by praying to every god and goddess...", author: "C.A. Vince" },
-                        { lang: "FR (Belles Lettres)", text: "Je commence, Athéniens, par prier tous les dieux et toutes les déesses...", author: "G. de Budé" }
-                    ]
-                }]
-            },
-            {
-                author: "Estrabón",
-                works: [{
-                    title: "Geografía", meta: "I, 1.1",
-                    content: "Τῆς τοῦ φιλοσόφου πραγματείας εἶναι νομίζομεν, εἴπερ τινὰ ἄλλην, καὶ τὴν γεωγραφικήν, ἣν νῦν προῃρήμεθα ἐπισκοπεῖν.",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "Consideramos que la ciencia geográfica pertenece a la incumbencia del filósofo...", author: "García Ramón" },
-                        { lang: "EN (Loeb)", text: "The science of Geography, which I now propose to investigate, is, I think, a concern of the philosopher...", author: "H.L. Jones" },
-                        { lang: "FR (Belles Lettres)", text: "L'étude de la géographie, dont nous nous proposons ici l'examen, appartient, selon nous, au philosophe...", author: "G. Aujac" }
-                    ]
-                }]
-            },
-            {
-                author: "Marco Aurelio",
-                works: [{ 
-                    title: "Meditaciones", meta: "II, 1", 
-                    content: "Ἕωθεν προλέγειν ἑαυτῷ· συντεύξομαι περιέργῳ, ἀχαρίστῳ, ὑβριστῇ, δολερῷ, βασκάνῳ, ἀκοινωνήτῳ.",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "Al amanecer, dite a ti mismo: me encontraré con un indiscreto, un ingrato...", author: "Díaz Tejera" },
-                        { lang: "EN (Hays)", text: "When you wake up in the morning, tell yourself: The people I deal with today will be meddling, ungrateful...", author: "G. Hays" },
-                        { lang: "FR (Belles Lettres)", text: "Dès l'aurore, dis-toi par avance : Je vais rencontrer un indiscret, un ingrat, un insolent...", author: "A. Trannoy" }
-                    ]
-                }]
-            },
-            {
-                author: "Flavio Josefo",
-                works: [{ 
-                    title: "Antigüedades Judías", meta: "I, 1", 
-                    content: "Τοῖς τὰς ἱστορίας συγγράφειν βουλομένοις οὐ μίαν οὐδὲ τὴν αὐτὴν ὁρῶ τῆς σπουδῆς αἰτίαν, ἀλλὰ πολλὰς καὶ πλεῖστον ἀλλήλων διαφερούσας.",
-                    translations: [
-                        { lang: "ES (Gredos)", text: "Para aquellos que desean escribir historias, no veo una sola causa ni la misma...", author: "Varlet" },
-                        { lang: "EN (Loeb)", text: "Those who assign to themselves the task of writing histories, do not, I observe, all arrive at it from the same motive...", author: "H.St.J. Thackeray" },
-                        { lang: "FR", text: "Ceux qui entreprennent d'écrire l'histoire n'ont pas tous, je le vois, le même motif de zèle...", author: "J. Weill" }
-                    ]
-                }]
-            }
+            { author: "Demóstenes", works: [{ title: "Sobre la Corona", meta: "XVIII, 1", content: "Πρῶτον μέν, ὦ ἄνδρες Ἀθηναῖοι, τοῖς θεοῖς εὔχομαι πᾶσι καὶ πάσαις, ὅσην εὔνοιαν διατελῶ ἔχων ἐγώ τε τῇ πόλει καὶ πᾶσιν ὑμῖν, τοσαύτην ὑπάρξαι μοι παρ᾽ ὑμῶν εἰς τουτονὶ τὸν ἀγῶνα.", translations: [{lang: "ES (Gredos)", text: "En primer lugar, varones atenienses, ruego a todos los dioses...", author: "López Eire"}] }]},
+            { author: "Estrabón", works: [{ title: "Geografía", meta: "I, 1.1", content: "Τῆς τοῦ φιλοσόφου πραγματείας εἶναι νομίζομεν, εἴπερ τινὰ ἄλλην, καὶ τὴν γεωγραφικήν, ἣν νῦν προῃρήμεθα ἐπισκοπεῖν.", translations: [{lang: "ES (Gredos)", text: "Consideramos que la ciencia geográfica pertenece al filósofo...", author: "García Ramón"}] }]},
+            { author: "Tucídides", works: [{ title: "Guerra del Peloponeso", meta: "I, 1", content: "Θουκυδίδης Ἀθηναῖος ξυνέγραψε τὸν πόλεμον τῶν Πελοποννησίων καὶ Ἀθηναίων, ὡς ἐπολέμησαν πρὸς ἀλλήλους, ἀρξάμενος εὐθὺς καθισταμένου.", translations: [{lang: "ES (Gredos)", text: "Tucídides de Atenas escribió la historia de la guerra...", author: "J.J. Torres"}] }]},
+            { author: "Heródoto", works: [{ title: "Historias", meta: "Proemio", content: "Ἡροδότου Ἁλικαρνησσέος ἱστορίης ἀπόδεξις ἥδε, ὡς μήτε τὰ γενόμενα ἐξ ἀνθρώπων τῷ χρόνῳ ἐξίτηλα γένηται, μήτε ἔργα μεγάλα τε καὶ θωμαστά.", translations: [{lang: "ES (Gredos)", text: "Esta es la exposición de las investigaciones de Heródoto...", author: "C. Schrader"}] }]},
+            { author: "Sófocles", works: [{ title: "Edipo Rey", meta: "1-5", content: "Ὦ τέκνα, Κάδμου τοῦ πάλαι νέα τροφή, τίνας ποθ᾽ ἕδρας τάσδε μοι θοάζετε ἱκτηρίοις κλάδοισιν ἐξεστεμμένοι;", translations: [{lang: "ES (Gredos)", text: "¡Oh hijos, nueva descendencia del antiguo Cadmo!...", author: "A. Alamillo"}] }]},
+            { author: "Eurípides", works: [{ title: "Medea", meta: "1-8", content: "Εἴθ᾽ ὤφελ᾽ Ἀργοῦς μὴ διαπτάσθαι σκάφος Κόλχων ἐς αἶαν κυανέας Συμπληγάδας, μηδ᾽ ἐν νάπαισι Πηλίου πεσεῖν ποτε.", translations: [{lang: "ES (Gredos)", text: "¡Ojalá la nave Argo no hubiera volado a la tierra de los colcos!", author: "A. Medina"}] }]},
+            { author: "Aristófanes", works: [{ title: "Lisístrata", meta: "1-4", content: "Ἀλλ᾽ εἴ τις ἐς Βακχεῖον αὐτὰς ἐκάλεσεν, ἢ ᾽ς Πανὸς ἢ ᾽πὶ Κωλιάδ᾽ ἢ ᾽ς Γενετυλλίδος, οὐδ᾽ ἂν διελθεῖν ἦν ἂν ὑπὸ τῶν τυμπάνων.", translations: [{lang: "ES (Cátedra)", text: "¡Si alguien las hubiera invitado a una fiesta de Baco!", author: "Macía"}] }]},
+            { author: "Safo", works: [{ title: "Himno a Afrodita", meta: "Fr. 1", content: "Ποικιλόθρον᾽ ἀθάνατ᾽ Ἀφρόδιτα, παῖ Δίος δολόπλοκε, λίσσομαί σε, μή μ᾽ ἄσαισι μηδ᾽ ὀνίαισι δάμνα, πότνια, θῦμον.", translations: [{lang: "ES (Gual)", text: "Inmortal Afrodita, la del trono pintado...", author: "C. García Gual"}] }]},
+            { author: "Marco Aurelio", works: [{ title: "Meditaciones", meta: "II, 1", content: "Ἕωθεν προλέγειν ἑαυτῷ· συντεύξομαι περιέργῳ, ἀχαρίστῳ, ὑβριστῇ, δολερῷ, βασκάνῳ, ἀκοινωνήτῳ.", translations: [{lang: "ES (Gredos)", text: "Al amanecer, dite a ti mismo: me encontraré con un indiscreto...", author: "Díaz Tejera"}] }]},
+            { author: "Flavio Josefo", works: [{ title: "Antigüedades Judías", meta: "I, 1", content: "Τοῖς τὰς ἱστορίας συγγράφειν βουλομένοις οὐ μίαν οὐδὲ τὴν αὐτὴν ὁρῶ τῆς σπουδῆς αἰτίαν, ἀλλὰ πολλὰς καὶ πλεῖστον ἀλλήλων διαφερούσας.", translations: [{lang: "ES (Gredos)", text: "Para aquellos que desean escribir historias...", author: "Varlet"}] }]},
+            { author: "Platón", works: [{ title: "Apología de Sócrates", meta: "17a", content: "Ὅτι μὲν ὑμεῖς, ὦ ἄνδρες Ἀθηναῖοι, πεπόνθατε ὑπὸ τῶν ἐμῶν κατηγόρων, οὐκ οἶδα· ἐγὼ δ᾽ οὖν καὶ αὐτὸς ὑπ᾽ αὐτῶν ὀλίγου ἐμαυτοῦ ἐπελαθόμην.", translations: [{lang: "ES (Gredos)", text: "No sé, atenienses, la sensación que habéis experimentado...", author: "J. Calonge"}] }]},
+            { author: "Hesíodo", works: [{ title: "Teogonía", meta: "1-4", content: "Μουσάων Ἑλικωνιάδων ἀρχώμεθ᾽ ἀείδειν, αἵ θ᾽ Ἑλικῶνος ἔχουσιν ὄρος μέγα τε ζάθεόν τε καί τε περὶ κρήνην ἰοειδέα πόσσ᾽ ἁπαλοῖσιν ὀρχεῦνται.", translations: [{lang: "ES (Gredos)", text: "Comencemos a cantar a las Musas heliconíadas...", author: "Pérez Jiménez"}] }]},
+            { author: "Píndaro", works: [{ title: "Olímpica I", meta: "1-4", content: "Ἄριστον μὲν ὕδωρ, ὁ δὲ χρυσὸς αἰθόμενον πῦρ ἅτε διαπρέπει νυκτὶ μεγάνορος ἔξοχα πλούτου· εἰ δ᾽ ἄεθλα γαρύεν ἔλδεαι, φίλον ἦτορ.", translations: [{lang: "ES (Alianza)", text: "Lo mejor es el agua, y el oro, como fuego encendido...", author: "A. Bernabé"}] }]}
         ];
+
         window.onload = () => { lucide.createIcons(); renderIndex(); loadNotes(); resetApp(); };
 
         function renderIndex() {
             document.getElementById('index-content').innerHTML = classicalIndex.map((a, ai) => `
-                <div><h3 class="ancient text-red-800 border-b mb-4 font-bold uppercase text-xs tracking-widest">${a.author}</h3>
-                ${a.works.map((w, wi) => `<button onclick="loadWork(${ai},${wi})" class="block w-full text-left p-3 hover:bg-red-50 rounded-xl transition-all font-bold text-stone-700">${w.title}</button>`).join('')}</div>
+                <div class="mb-6"><h3 class="ancient text-red-800 border-b mb-3 font-bold uppercase text-[10px] tracking-widest">${a.author}</h3>
+                ${a.works.map((w, wi) => `<button onclick="loadWork(${ai},${wi})" class="block w-full text-left p-3 hover:bg-red-50 rounded-xl font-bold text-stone-700 text-sm transition-all">${w.title}</button>`).join('')}</div>
             `).join('');
         }
 
@@ -287,14 +133,14 @@
             document.getElementById('drawer').classList.remove('translate-x-full');
             document.getElementById('drawer-content').innerHTML = "<div class='py-20 text-center animate-pulse ancient text-stone-300'>Consultando Escolios...</div>";
             try {
-                const res = await callOráculo(`Analiza "${word}" en "${currentPassage.content}". Formato JSON: {"lema":"","morfologia":"","traduccion":"","etimologia":""}`);
+                const res = await callOráculo(`Analiza "${word}" en "${currentPassage.content}". Devuelve JSON: {"lema":"","morfologia":"","traduccion":"","etimologia":""}`);
                 document.getElementById('drawer-content').innerHTML = `
                     <span class="text-[10px] ancient uppercase font-bold text-red-800 tracking-widest">Morphologia</span>
-                    <h3 class="greek-display text-6xl my-6 text-stone-900">${word}</h3>
+                    <h3 class="greek-display text-5xl my-6 text-stone-900">${word}</h3>
                     <div class="space-y-8">
                         <div><p class="text-3xl font-black text-stone-800">${res.lema}</p><p class="text-sm italic text-stone-400 font-serif">${res.morfologia}</p></div>
                         <div class="bg-red-50 p-8 rounded-[32px] border border-red-100 shadow-inner"><p class="text-4xl italic text-stone-900 font-black">"${res.traduccion}"</p></div>
-                        <div class="p-6 bg-stone-50 rounded-2xl"><p class="text-[10px] ancient uppercase mb-2 text-stone-400">Huella en Español</p><p class="text-sm text-stone-600 leading-relaxed font-serif">${res.etimologia}</p></div>
+                        <div class="p-6 bg-stone-50 rounded-2xl"><p class="text-[10px] ancient uppercase mb-2 text-stone-400 text-xs">Huella en Español</p><p class="text-sm text-stone-600 font-serif">${res.etimologia}</p></div>
                     </div>`;
             } catch (e) { document.getElementById('drawer-content').innerHTML = "Fallo en la conexión del Oráculo."; }
         }
@@ -318,24 +164,17 @@
             window.speechSynthesis.speak(utterance);
         }
 
-        function changeSpeed(delta) { audioRate = Math.max(0.5, Math.min(2, audioRate + delta)); document.getElementById('speed-label').innerText = audioRate.toFixed(1) + 'x'; if(isSpeaking) playVoice(); }
+        function changeSpeed(delta) { audioRate = Math.max(0.4, Math.min(1.5, audioRate + delta)); document.getElementById('speed-label').innerText = audioRate.toFixed(1) + 'x'; if(isSpeaking) playVoice(); }
         function updatePlayBtn(active) { const icon = document.getElementById('play-icon'); icon.setAttribute('data-lucide', active ? 'square' : 'play'); lucide.createIcons(); }
         
         function toggleTranslations() {
-            const grid = document.getElementById('trans-grid');
-            grid.classList.toggle('hidden');
-            grid.innerHTML = currentPassage.translations.map(t => `
-                <div class="trans-card">
-                    <p class="text-[10px] ancient uppercase font-bold text-red-800 tracking-widest mb-3">${t.lang}</p>
-                    <p class="text-lg italic text-stone-800 font-serif">"${t.text}"</p>
-                    ${t.author ? `<p class="mt-4 text-[9px] text-stone-400 font-bold uppercase">— ${t.author}</p>` : ''}
-                </div>
-            `).join('');
+            const grid = document.getElementById('trans-grid'); grid.classList.toggle('hidden');
+            grid.innerHTML = currentPassage.translations.map(t => `<div class="trans-card"><p class="text-[10px] ancient uppercase font-bold text-red-800 tracking-widest mb-3">${t.lang}</p><p class="text-lg italic text-stone-800 font-serif">"${t.text}"</p>${t.author ? `<p class="mt-4 text-[9px] text-stone-400 font-bold uppercase">— ${t.author}</p>` : ''}</div>`).join('');
+            if(!grid.classList.contains('hidden')) grid.scrollIntoView({ behavior: 'smooth' });
         }
 
         async function generateExercise() {
-            const area = document.getElementById('exercise-area');
-            area.classList.remove('hidden'); area.innerHTML = "<p class='animate-pulse text-center'>El Oráculo prepara un reto...</p>";
+            const area = document.getElementById('exercise-area'); area.classList.remove('hidden'); area.innerHTML = "<p class='animate-pulse text-center'>El Oráculo prepara un reto...</p>";
             try {
                 const res = await callOráculo(`Crea un ejercicio corto de este texto: "${currentPassage.content}". Devuelve JSON: {"pregunta":"","opciones":["","",""],"correcta":0}`);
                 area.innerHTML = `<p class="mb-4 font-bold text-lg">${res.pregunta}</p><div class="grid gap-2">${res.opciones.map((o, i) => `<button onclick="checkAnswer(${i},${res.correcta})" class="p-3 bg-stone-800 hover:bg-stone-700 rounded-xl text-left transition-colors">${o}</button>`).join('')}</div>`;
@@ -357,22 +196,12 @@
 
         function loadNotes() {
             const saved = JSON.parse(localStorage.getItem('latin_notes') || '[]');
-            document.getElementById('notes-list').innerHTML = saved.map((n, i) => `
-                <div class="p-5 bg-stone-50 rounded-2xl border border-stone-200 group relative transition-all hover:bg-white hover:shadow-lg">
-                    <p class="text-[8px] ancient text-red-800 font-bold uppercase">${n.author}</p>
-                    <p class="font-bold text-stone-800 my-1">${n.title}</p>
-                    <p class="text-[10px] text-stone-400 italic">${n.date}</p>
-                    <button onclick="deleteNote(${i})" class="absolute top-4 right-4 text-stone-200 hover:text-red-500 transition-colors"><i data-lucide="trash-2" size="14"></i></button>
-                </div>`).join('') || '<p class="text-stone-300 italic text-center py-10">Tu códice está vacío.</p>';
+            document.getElementById('notes-list').innerHTML = saved.map((n, i) => `<div class="p-5 bg-stone-50 rounded-2xl border border-stone-200 group relative transition-all hover:bg-white hover:shadow-lg"><p class="text-[8px] ancient text-red-800 font-bold uppercase">${n.author}</p><p class="font-bold text-stone-800 my-1 font-serif">${n.title}</p><p class="text-[10px] text-stone-400 italic">${n.date}</p><button onclick="deleteNote(${i})" class="absolute top-4 right-4 text-stone-200 hover:text-red-500 transition-colors"><i data-lucide="trash-2" size="14"></i></button></div>`).join('') || '<p class="text-stone-300 italic text-center py-10">Tu códice está vacío.</p>';
             lucide.createIcons();
         }
 
-        function deleteNote(i) {
-            let saved = JSON.parse(localStorage.getItem('latin_notes') || '[]');
-            saved.splice(i, 1); localStorage.setItem('latin_notes', JSON.stringify(saved)); loadNotes();
-        }
-
-        function loadWork(ai, wi) { currentPassage = classicalIndex[ai].works[wi]; currentPassage.author = classicalIndex[ai].author; renderText(); toggleIndex(); document.getElementById('trans-grid').classList.add('hidden'); }
+        function deleteNote(i) { let saved = JSON.parse(localStorage.getItem('latin_notes') || '[]'); saved.splice(i, 1); localStorage.setItem('latin_notes', JSON.stringify(saved)); loadNotes(); }
+        function loadWork(ai, wi) { currentPassage = classicalIndex[ai].works[wi]; currentPassage.author = classicalIndex[ai].author; renderText(); toggleIndex(); document.getElementById('trans-grid').classList.add('hidden'); window.scrollTo(0,0); }
         function renderText() { 
             document.getElementById('view-title').innerText = currentPassage.title; 
             document.getElementById('view-meta').innerText = `${currentPassage.author} • ${currentPassage.meta}`;
