@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="referrer" content="no-referrer">
-    <title>Latinitatis Pro | El Santuario de los Clásicos</title>
+    <title>Latinitatis Pro | Scriptorium et Bibliotheca</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
@@ -13,53 +13,65 @@
         body { font-family: 'Noto Serif Display', serif; background-color: var(--marble); color: var(--ink); background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); overflow-x: hidden; }
         .ancient { font-family: 'Cinzel', serif; letter-spacing: 0.1em; }
         .greek-display { font-family: 'Playfair Display', serif; }
-        .word-token { display: inline-block; padding: 2px 5px; cursor: pointer; transition: all 0.3s; border-radius: 8px; }
-        .word-token:hover { color: var(--terracotta); background: rgba(139, 50, 44, 0.05); }
-        .active-word { color: var(--terracotta) !important; font-weight: 700; background: rgba(139, 50, 44, 0.08); box-shadow: 0 4px 0 var(--gold); }
-        .drawer { transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1); }
-        .trans-card { background: white; padding: 1.5rem; border-radius: 2rem; border-top: 4px solid var(--terracotta); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .word-token { display: inline-block; padding: 2px 4px; cursor: pointer; transition: all 0.2s; border-radius: 4px; }
+        .word-token:hover { background: rgba(139, 50, 44, 0.1); color: var(--terracotta); }
+        .active-word { color: var(--terracotta) !important; font-weight: 700; background: rgba(139, 50, 44, 0.08); box-shadow: 0 2px 0 var(--gold); }
+        .reading-now { background: var(--gold); color: white !important; border-radius: 4px; transform: scale(1.1); }
+        .drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-blur: 10px; border: 1px solid rgba(139, 50, 44, 0.1); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
-    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200 px-6 py-4 flex justify-between items-center shadow-sm">
+    <nav class="sticky top-0 z-50 glass border-b border-stone-200 px-6 py-4 flex justify-between items-center shadow-sm">
         <div class="flex items-center gap-4 cursor-pointer" onclick="resetApp()">
             <div class="w-10 h-10 bg-stone-900 text-white rounded-lg flex items-center justify-center font-bold shadow-xl">Λ</div>
-            <h1 class="ancient text-lg font-black text-stone-800 uppercase">Latinitatis <span class="text-red-800 font-normal">PRO</span></h1>
+            <h1 class="ancient text-lg font-black text-stone-800 uppercase hidden md:block">Latinitatis <span class="text-red-800">PRO</span></h1>
         </div>
         <div class="flex gap-2">
-            <button onclick="toggleIndex()" class="p-2.5 bg-stone-50 rounded-full"><i data-lucide="book-open"></i></button>
-            <button onclick="toggleView('library')" class="p-2.5 bg-stone-50 rounded-full"><i data-lucide="library"></i></button>
-            <button onclick="generateExercise()" class="p-2.5 bg-stone-900 text-white rounded-full hover:bg-red-800 transition-colors" title="Reto del Oráculo"><i data-lucide="brain-circuit"></i></button>
+            <button onclick="toggleIndex()" class="p-2.5 hover:bg-stone-100 rounded-full"><i data-lucide="book-open"></i></button>
+            <button onclick="toggleNotes()" class="p-2.5 hover:bg-stone-100 rounded-full text-amber-600"><i data-lucide="scroll"></i></button>
+            <button onclick="generateExercise()" class="p-2.5 bg-stone-900 text-white rounded-full hover:bg-red-800"><i data-lucide="brain-circuit"></i></button>
         </div>
     </nav>
 
-    <main id="reader-view" class="flex-1 p-6 md:p-12 max-w-6xl mx-auto w-full">
-        <header class="mb-10 text-center">
-            <h2 id="view-title" class="greek-display text-5xl md:text-7xl font-black text-stone-900 italic leading-none">Iliada</h2>
-            <p id="view-meta" class="text-stone-400 italic sans uppercase text-xs tracking-widest mt-4"></p>
+    <main id="reader-view" class="flex-1 p-4 md:p-12 max-w-5xl mx-auto w-full">
+        <header class="mb-8 text-center">
+            <h2 id="view-title" class="greek-display text-4xl md:text-6xl font-black text-stone-900 italic">Iliada</h2>
+            <p id="view-meta" class="text-stone-400 ancient text-[10px] mt-2 uppercase tracking-[0.2em]"></p>
         </header>
 
-        <section class="bg-white/80 backdrop-blur-sm p-8 md:p-16 rounded-[48px] shadow-2xl border border-stone-100 relative">
-            <div id="greek-container" class="greek-display text-3xl md:text-5xl leading-[1.8] text-center min-h-[150px]"></div>
-            <div id="exercise-area" class="hidden mt-10 p-6 bg-stone-900 text-stone-100 rounded-3xl animate-in zoom-in-95"></div>
-            <div class="mt-12 flex flex-wrap justify-center gap-4">
-                <button onclick="playVoice()" class="flex items-center gap-3 px-8 py-4 bg-stone-900 text-white rounded-full ancient text-xs font-bold uppercase shadow-xl group">
-                    <i data-lucide="volume-2" id="play-icon"></i> Recitación
+        <section class="bg-white rounded-[40px] shadow-2xl border border-stone-100 p-8 md:p-16 relative min-h-[400px]">
+            <div id="greek-container" class="greek-display text-2xl md:text-4xl leading-[2] text-justify md:text-center transition-all duration-500"></div>
+            
+            <div class="mt-12 pt-8 border-t border-stone-50 flex flex-wrap justify-center items-center gap-6">
+                <div class="flex items-center bg-stone-100 rounded-full px-4 py-2 gap-3">
+                    <button onclick="changeSpeed(-0.1)" class="text-stone-400 hover:text-stone-900 text-xs font-bold">-</button>
+                    <span id="speed-label" class="text-[10px] ancient font-bold w-12 text-center text-stone-600">1.0x</span>
+                    <button onclick="changeSpeed(0.1)" class="text-stone-400 hover:text-stone-900 text-xs font-bold">+</button>
+                </div>
+                <button onclick="playVoice()" id="play-btn" class="flex items-center gap-3 px-10 py-4 bg-stone-900 text-white rounded-full ancient text-xs font-bold uppercase shadow-xl hover:bg-black transition-all">
+                    <i data-lucide="play" id="play-icon"></i> Escuchar
                 </button>
-                <button onclick="getTrilingualComparison()" class="px-8 py-4 bg-red-800 text-white rounded-full ancient text-xs font-bold uppercase shadow-xl">
-                    <i data-lucide="languages" class="inline mr-2"></i> Comparativa
-                </button>
+                <button onclick="saveNote()" class="p-4 border border-stone-200 rounded-full hover:bg-stone-50"><i data-lucide="bookmark"></i></button>
             </div>
-            <div id="trans-grid" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6 mt-10"></div>
+            <div id="exercise-area" class="hidden mt-8 p-6 bg-stone-900 text-white rounded-3xl animate-in fade-in"></div>
         </section>
     </main>
 
-    <div id="drawer" class="fixed inset-y-0 right-0 w-full md:w-[480px] bg-white shadow-2xl z-[150] translate-x-full drawer p-10 overflow-y-auto">
+    <div id="notes-drawer" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl z-[200] translate-x-full drawer p-8 overflow-y-auto border-l border-stone-200">
+        <div class="flex justify-between items-center mb-8">
+            <h3 class="ancient text-xl font-bold text-stone-800 uppercase tracking-tighter">Mi Códice</h3>
+            <button onclick="toggleNotes()" class="text-stone-400"><i data-lucide="x"></i></button>
+        </div>
+        <div id="notes-list" class="space-y-4"></div>
+    </div>
+
+    <div id="drawer" class="fixed inset-y-0 right-0 w-full md:w-[480px] bg-white shadow-2xl z-[200] translate-x-full drawer p-10 overflow-y-auto">
         <button onclick="closeDrawer()" class="flex items-center gap-3 text-stone-300 hover:text-red-800 mb-8 font-black uppercase text-[10px]"><i data-lucide="arrow-left"></i> Regresar</button>
         <div id="drawer-content"></div>
     </div>
 
-    <div id="index-drawer" class="fixed inset-y-0 left-0 w-full md:w-[400px] bg-white shadow-2xl z-[150] -translate-x-full drawer p-10 overflow-y-auto">
+    <div id="index-drawer" class="fixed inset-y-0 left-0 w-full md:w-[400px] bg-white shadow-2xl z-[200] -translate-x-full drawer p-10 overflow-y-auto border-r border-stone-200">
         <div id="index-content" class="space-y-8"></div>
     </div>
 
@@ -67,26 +79,109 @@
         const parte1 = "AIzaSy";
         const parte2 = "C4Y-CvoE8y4w4B3Cdo76jED5yVl9ChvyY";
         const apiKey = parte1 + parte2;
-        let currentPassage = null, activeMorphData = null;
+        let currentPassage = null, audioRate = 0.85, isSpeaking = false;
 
         const classicalIndex = [
-            { author: "Homero", works: [{ title: "Ilíada", meta: "I, 1-7", content: "μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί᾽ Ἀχαιοῖς ἄλγε᾽ ἔθηκε, πολλὰς δ᾽ ἰφθίμους ψυχὰς Ἄϊδι προΐαψεν ἡρώων...", translations: [{lang: "Literal", text: "La cólera canta, diosa, del Pelida Aquiles destructora..."}] }]},
-            { author: "Tucídides", works: [{ title: "Guerra Peloponeso", meta: "I, 1", content: "Θουκυδίδης Ἀθηναῖος ξυνέγραψε τὸν πόλεμον τῶν Πελοποννησίων καὶ Ἀθηναίων...", translations: [{lang: "Literal", text: "Tucídides ateniense escribió la guerra..."}] }]},
-            { author: "Aristófanes", works: [{ title: "Lisístrata", meta: "1-4", content: "Ἀλλ᾽ εἴ τις ἐς Βακχεῖον αὐτὰς ἐκάλεσεν, ἢ ᾽ς Πανὸς ἢ ᾽πὶ Κωλιάδ᾽ ἢ ᾽ς Γενετυλλíδος...", translations: [{lang: "Literal", text: "Si alguien al Baco las hubiera llamado..."}] }]}
+            {
+                author: "Homero",
+                works: [
+                    { 
+                        title: "Ilíada", meta: "Canto I, 1-7", 
+                        content: "μῆνιν ἄειδε θεὰ Πηληϊάδεω Ἀχιλῆος οὐλομένην, ἣ μυρί᾽ Ἀχαιοῖς ἄλγε᾽ ἔθηκε, πολλὰς δ᾽ ἰφθίμους ψυχὰς Ἄϊδι προΐαψεν ἡρώων, αὐτοὺς δὲ ἑλώρια τεῦχε κύνεσσιν οἰωνοῖσί τε πᾶσι, Διὸς δ᾽ ἐτελείετο βουλή, ἐξ οὗ δὴ τὰ πρῶτα διαστήτην ἐρίσαντε Ἀτρεΐδης τε ἄναξ ἀνδρῶν καὶ δῖος Ἀχιλλεύς.",
+                        translations: [{ lang: "ES (Gredos)", text: "Canta, oh diosa, la cólera del Pelida Aquiles..." }, { lang: "Literal", text: "La cólera canta, diosa, del Pelida Aquiles destructora..." }]
+                    },
+                    { 
+                        title: "Odisea", meta: "Canto I, 1-10", 
+                        content: "Ἄνδρα μοι ἔννεπε, μοῦσα, πολύτροπον, ὃς μάλα πολλὰ πλάγχθη, ἐπεὶ Τροίης ἱερὸν πτολίεθρον ἔπερσε· πολλῶν δ᾽ ἀνθρώπων ἴδεν ἄστεα καὶ νόον ἔγνω, πολλὰ δ᾽ ὅ γ᾽ ἐν πόντῳ πάθεν ἄλγεα ὃν κατὰ θυμόν, ἀρνύμενος ἥν τε ψυχὴν καὶ νόστον ἑταίρων.",
+                        translations: [{ lang: "ES", text: "Háblame, Musa, de aquel varón de multiforme ingenio..." }, { lang: "Literal", text: "Al varón para mí narra, Musa, de muchos giros, que mucho anduvo errante..." }]
+                    }
+                ]
+            },
+            {
+                author: "Sófocles",
+                works: [{ 
+                    title: "Edipo Rey", meta: "Prólogo, 1-5", 
+                    content: "Ὦ τέκνα, Κάδμου τοῦ πάλαι νέα τροφή, τίνας ποθ᾽ ἕδρας τάσδε μοι θοάζετε ἱκτηρίοις κλάδοισιν ἐξεστεμμένοι; πόλις δ᾽ ὁμοῦ μὲν θυμιαμάτων γέμει, ὁμοῦ δὲ παιάνων τε καὶ στεναγμάτων·",
+                    translations: [{ lang: "ES", text: "¡Oh hijos, nueva descendencia del antiguo Cadmo!..." }, { lang: "Literal", text: "Oh hijos, de Cadmo el antiguo nueva crianza, ¿por qué estas sedes para mí apresuráis?..." }]
+                }]
+            },
+            {
+                author: "Eurípides",
+                works: [{ 
+                    title: "Medea", meta: "Prólogo, 1-8", 
+                    content: "Εἴθ᾽ ὤφελ᾽ Ἀργοῦς μὴ διαπτάσθαι σκάφος Κόλχων ἐς αἶαν κυανέας Συμπληγάδας, μηδ᾽ ἐν νάπαισι Πηλίου πεσεῖν ποτε τμηθεῖσα πεύκη, μηδ᾽ ἐρετμῶσαι χέρας ἀνδρῶν ἀρίστων οἳ τὸ πάγχρυσον δέρος Πελίᾳ μετῆλθον.",
+                    translations: [{ lang: "ES", text: "¡Ojalá la nave Argo no hubiera volado a la tierra de los colcos!..." }, { lang: "Literal", text: "Ojalá hubiera la de Argo no atravesado nave de Colcos hacia la tierra..." }]
+                }]
+            },
+            {
+                author: "Safo",
+                works: [{ 
+                    title: "Himno a Afrodita", meta: "Fr. 1", 
+                    content: "Ποικιλόθρον᾽ ἀθάνατ᾽ Ἀφρόδιτα, παῖ Δίος δολόπλοκε, λίσσομαί σε, μή μ᾽ ἄσαισι μηδ᾽ ὀνίαισι δάμνα, πότνια, θῦμον, ἀλλὰ τυίδ᾽ ἔλθ᾽, αἴ ποτα κἀτέρωτα τὰς ἔμας αὔδας ἀΐοισα πήλοι ἔκλυες.",
+                    translations: [{ lang: "ES", text: "Inmortal Afrodita, la del trono pintado, hija de Zeus, tejedora de engaños..." }, { lang: "Literal", text: "De trono variado inmortal Afrodita, hija de Zeus tejedora de engaños, te ruego..." }]
+                }]
+            },
+            {
+                author: "Marco Aurelio",
+                works: [{ 
+                    title: "Meditaciones", meta: "Libro II, 1", 
+                    content: "Ἕωθεν προλέγειν ἑαυτῷ· συντεύξομαι περιέργῳ, ἀχαρίστῳ, ὑβριστῇ, δολερῷ, βασκάνῳ, ἀκοινωνήτῳ. πάντα ταῦτα συμβέβηκεν ἐκείνοις παρὰ τὴν ἄγνοιαν τῶν ἀγαθῶν καὶ κακῶν.",
+                    translations: [{ lang: "ES", text: "Al amanecer, dite a ti mismo: me encontraré con un indiscreto, un ingrato..." }, { lang: "Literal", text: "Al amanecer decirse a sí mismo: me encontraré con un entrometido, un ingrato..." }]
+                }]
+            },
+            {
+                author: "Flavio Josefo",
+                works: [{ 
+                    title: "Antigüedades Judías", meta: "Libro I, 1", 
+                    content: "Τοῖς τὰς ἱστορίας συγγράφειν βουλομένοις οὐ μίαν οὐδὲ τὴν αὐτὴν ὁρῶ τῆς σπουδῆς αἰτίαν, ἀλλὰ πολλὰς καὶ πλεῖστον ἀλλήλων διαφερούσας.",
+                    translations: [{ lang: "ES", text: "Para aquellos que desean escribir historias, no veo una sola causa..." }, { lang: "Literal", text: "A los que las historias escribir desean, no una ni la misma veo de la diligencia causa..." }]
+                }]
+            },
+            {
+                author: "Tucídides",
+                works: [{ 
+                    title: "Guerra del Peloponeso", meta: "Libro I, 1", 
+                    content: "Θουκυδίδης Ἀθηναῖος ξυνέγραψε τὸν πόλεμον τῶν Πελοποννησίων καὶ Ἀθηναίων, ὡς ἐπολέμησαν πρὸς ἀλλήλους, ἀρξάμενος εὐθὺς καθισταμένου καὶ ἐλπίσας μέγαν τε ἔσεσθαι καὶ ἀξιολογώτατον τῶν προγεγενημένων.",
+                    translations: [{ lang: "Literal", text: "Tucídides ateniense escribió la guerra de los peloponesios y atenienses..." }]
+                }]
+            },
+            {
+                author: "Heródoto",
+                works: [{ 
+                    title: "Historias", meta: "Proemio", 
+                    content: "Ἡροδότου Ἁλικαρνησσέος ἱστορίης ἀπόδεξις ἥδε, ὡς μήτε τὰ γενόμενα ἐξ ἀνθρώπων τῷ χρόνῳ ἐξίτηλα γένηται, μήτε ἔργα μεγάλα τε καὶ θωμαστά...",
+                    translations: [{ lang: "Literal", text: "De Heródoto de Halicarnaso la investigación es esta..." }]
+                }]
+            },
+            {
+                author: "Aristófanes",
+                works: [{ 
+                    title: "Lisístrata", meta: "1-4", 
+                    content: "Ἀλλ᾽ εἴ τις ἐς Βακχεῖον αὐτὰς ἐκάλεσεν, ἢ ᾽ς Πανὸς ἢ ᾽πὶ Κωλιάδ᾽ ἢ ᾽ς Γενετυλλίδος, οὐδ᾽ ἂν διελθεῖν ἦν ἂν ὑπὸ τῶν τυμπάνων.",
+                    translations: [{ lang: "Literal", text: "Pero si alguien al Baco a ellas hubiera llamado..." }]
+                }]
+            },
+            {
+                author: "Platón",
+                works: [{ 
+                    title: "Apología de Sócrates", meta: "17a", 
+                    content: "Ὅτι μὲν ὑμεῖς, ὦ ἄνδρες Ἀθηναῖοι, πεπόνθατε ὑπὸ τῶν ἐμῶν κατηγόρων, οὐκ οἶδα· ἐγὼ δ᾽ οὖν καὶ αὐτὸς ὑπ᾽ αὐτῶν ὀλίγου ἐμαυτοῦ ἐπελαθόμην, οὕτω πιθανῶς ἔλεγον.",
+                    translations: [{ lang: "ES", text: "No sé, atenienses, la sensación que habéis experimentado..." }]
+                }]
+            }
         ];
-
-        window.onload = () => { lucide.createIcons(); renderIndex(); resetApp(); };
+       window.onload = () => { lucide.createIcons(); renderIndex(); loadNotes(); resetApp(); };
 
         function renderIndex() {
             document.getElementById('index-content').innerHTML = classicalIndex.map((a, ai) => `
-                <div><h3 class="ancient text-red-800 border-b mb-4">${a.author}</h3>
-                ${a.works.map((w, wi) => `<button onclick="loadWork(${ai},${wi})" class="block w-full text-left p-2 hover:bg-red-50 rounded">${w.title}</button>`).join('')}</div>
+                <div><h3 class="ancient text-red-800 border-b mb-4 font-bold uppercase text-xs tracking-widest">${a.author}</h3>
+                ${a.works.map((w, wi) => `<button onclick="loadWork(${ai},${wi})" class="block w-full text-left p-3 hover:bg-red-50 rounded-xl transition-all font-bold text-stone-700">${w.title}</button>`).join('')}</div>
             `).join('');
         }
 
-        async function callOráculo(prompt, systemMsg = "") {
+        async function callOráculo(prompt) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-            const res = await fetch(url, { method: 'POST', body: JSON.stringify({ contents: [{ parts: [{ text: systemMsg + "\n" + prompt }] }], generationConfig: { temperature: 0.1, responseMimeType: "application/json" } }) });
+            const res = await fetch(url, { method: 'POST', body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.1, responseMimeType: "application/json" } }) });
             const data = await res.json();
             return JSON.parse(data.candidates[0].content.parts[0].text);
         }
@@ -94,61 +189,97 @@
         async function analyzeWord(word, el) {
             document.querySelectorAll('.word-token').forEach(x => x.classList.remove('active-word')); el.classList.add('active-word');
             document.getElementById('drawer').classList.remove('translate-x-full');
-            document.getElementById('drawer-content').innerHTML = "Cargando escolios...";
+            document.getElementById('drawer-content').innerHTML = "<div class='py-20 text-center animate-pulse ancient text-stone-300'>Consultando Escolios...</div>";
             try {
-                const res = await callOráculo(`Analiza "${word}" en "${currentPassage.content}". Devuelve JSON: {"lema":"","morfologia":"","sintaxis":"","traduccion":"","etimologia":"herencia en español"}`);
+                const res = await callOráculo(`Analiza "${word}" en "${currentPassage.content}". Formato JSON: {"lema":"","morfologia":"","traduccion":"","etimologia":""}`);
                 document.getElementById('drawer-content').innerHTML = `
-                    <h3 class="greek-display text-5xl mb-6">${word}</h3>
-                    <div class="space-y-6">
-                        <p class="text-2xl font-bold border-b pb-2">${res.lema}</p>
-                        <p class="italic text-stone-500">${res.morfologia}</p>
-                        <div class="bg-red-50 p-4 rounded-2xl"><strong>Significado:</strong> ${res.traduccion}</div>
-                        <div class="bg-stone-50 p-4 rounded-2xl text-sm italic"><strong>Huella en español:</strong> ${res.etimologia}</div>
+                    <span class="text-[10px] ancient uppercase font-bold text-red-800 tracking-widest">Morphologia</span>
+                    <h3 class="greek-display text-6xl my-6 text-stone-900">${word}</h3>
+                    <div class="space-y-8">
+                        <div><p class="text-3xl font-black text-stone-800">${res.lema}</p><p class="text-sm italic text-stone-400 font-serif">${res.morfologia}</p></div>
+                        <div class="bg-red-50 p-8 rounded-[32px] border border-red-100 shadow-inner"><p class="text-4xl italic text-stone-900 font-black">"${res.traduccion}"</p></div>
+                        <div class="p-6 bg-stone-50 rounded-2xl"><p class="text-[10px] ancient uppercase mb-2 text-stone-400">Huella en Español</p><p class="text-sm text-stone-600 leading-relaxed font-serif">${res.etimologia}</p></div>
                     </div>`;
-            } catch (e) { document.getElementById('drawer-content').innerHTML = "Error Oráculo."; }
+            } catch (e) { document.getElementById('drawer-content').innerHTML = "Fallo en la conexión del Oráculo."; }
         }
-
-        async function generateExercise() {
-            const area = document.getElementById('exercise-area');
-            area.classList.remove('hidden');
-            area.innerHTML = "<p class='animate-pulse'>El Oráculo está preparando un reto...</p>";
-            try {
-                const res = await callOráculo(`Crea un ejercicio corto de este texto: "${currentPassage.content}". Devuelve JSON: {"pregunta":"","opciones":["","",""],"correcta":0}`);
-                area.innerHTML = `
-                    <p class="mb-4 font-bold text-lg">${res.pregunta}</p>
-                    <div class="grid gap-2">
-                        ${res.opciones.map((o, i) => `<button onclick="checkAnswer(${i},${res.correcta})" class="p-3 bg-stone-800 hover:bg-stone-700 rounded-xl text-left transition-colors">${o}</button>`).join('')}
-                    </div>`;
-            } catch (e) { area.innerHTML = "No se pudo generar el ejercicio."; }
-        }
-
-        function checkAnswer(i, correct) {
-            if(i === correct) alert("¡Sapiens! Respuesta correcta.");
-            else alert("Sigue intentándolo, alumno.");
-            document.getElementById('exercise-area').classList.add('hidden');
-        }
-
-        function loadWork(ai, wi) { currentPassage = classicalIndex[ai].works[wi]; renderText(); toggleIndex(); }
-        function renderText() { document.getElementById('view-title').innerText = currentPassage.title; document.getElementById('greek-container').innerHTML = currentPassage.content.split(' ').map(w => `<span class="word-token" onclick="analyzeWord('${w.replace(/[.,]/g,'')}', this)">${w}</span>`).join(' '); }
-        function toggleIndex() { document.getElementById('index-drawer').classList.toggle('-translate-x-full'); }
-        function resetApp() { currentPassage = classicalIndex[0].works[0]; renderText(); }
-        function closeDrawer() { document.getElementById('drawer').classList.add('translate-x-full'); }
-        function toggleView(v) { alert("Biblioteca guardada localmente."); }
 
         function playVoice() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const u = new SpeechSynthesisUtterance(currentPassage.content);
-                u.lang = 'el-GR'; u.rate = 0.8;
-                window.speechSynthesis.speak(u);
-            }
+            if (!('speechSynthesis' in window)) return;
+            if (isSpeaking) { window.speechSynthesis.cancel(); isSpeaking = false; updatePlayBtn(false); return; }
+            
+            isSpeaking = true;
+            updatePlayBtn(true);
+            const utterance = new SpeechSynthesisUtterance(currentPassage.content);
+            utterance.lang = 'el-GR';
+            utterance.rate = audioRate;
+            
+            // Visualizador de audiolibro
+            const tokens = document.querySelectorAll('.word-token');
+            utterance.onboundary = (event) => {
+                const charIndex = event.charIndex;
+                let currentPos = 0;
+                tokens.forEach(t => {
+                    t.classList.remove('reading-now');
+                    if (currentPos <= charIndex) t.classList.add('reading-now');
+                    currentPos += t.innerText.length + 1;
+                });
+            };
+
+            utterance.onend = () => { isSpeaking = false; updatePlayBtn(false); tokens.forEach(t => t.classList.remove('reading-now')); };
+            window.speechSynthesis.speak(utterance);
         }
 
-        function getTrilingualComparison() {
-            const grid = document.getElementById('trans-grid');
-            grid.classList.toggle('hidden');
-            grid.innerHTML = currentPassage.translations.map(t => `<div class="trans-card"><p class="text-sm uppercase font-bold text-red-800">${t.lang}</p><p class="italic">"${t.text}"</p></div>`).join('');
+        function changeSpeed(delta) {
+            audioRate = Math.max(0.5, Math.min(2, audioRate + delta));
+            document.getElementById('speed-label').innerText = audioRate.toFixed(1) + 'x';
+            if(isSpeaking) playVoice(); // Reinicia con nueva velocidad
         }
+
+        function updatePlayBtn(active) {
+            const icon = document.getElementById('play-icon');
+            icon.setAttribute('data-lucide', active ? 'square' : 'play');
+            lucide.createIcons();
+        }
+
+        function saveNote() {
+            const note = { author: currentPassage.author, title: currentPassage.title, date: new Date().toLocaleDateString() };
+            let saved = JSON.parse(localStorage.getItem('latin_notes') || '[]');
+            saved.unshift(note);
+            localStorage.setItem('latin_notes', JSON.stringify(saved));
+            loadNotes();
+            toggleNotes();
+        }
+
+        function loadNotes() {
+            const saved = JSON.parse(localStorage.getItem('latin_notes') || '[]');
+            document.getElementById('notes-list').innerHTML = saved.map((n, i) => `
+                <div class="p-5 bg-stone-50 rounded-2xl border border-stone-200 group relative transition-all hover:bg-white hover:shadow-lg">
+                    <p class="text-[8px] ancient text-red-800 font-bold uppercase">${n.author}</p>
+                    <p class="font-bold text-stone-800 my-1">${n.title}</p>
+                    <p class="text-[10px] text-stone-400 italic">${n.date}</p>
+                    <button onclick="deleteNote(${i})" class="absolute top-4 right-4 text-stone-200 hover:text-red-500 transition-colors"><i data-lucide="trash-2" size="14"></i></button>
+                </div>
+            `).join('') || '<p class="text-stone-300 italic text-center py-10">Tu códice está vacío.</p>';
+            lucide.createIcons();
+        }
+
+        function deleteNote(i) {
+            let saved = JSON.parse(localStorage.getItem('latin_notes') || '[]');
+            saved.splice(i, 1);
+            localStorage.setItem('latin_notes', JSON.stringify(saved));
+            loadNotes();
+        }
+
+        function loadWork(ai, wi) { currentPassage = classicalIndex[ai].works[wi]; currentPassage.author = classicalIndex[ai].author; renderText(); toggleIndex(); }
+        function renderText() { 
+            document.getElementById('view-title').innerText = currentPassage.title; 
+            document.getElementById('view-meta').innerText = `${currentPassage.author} • ${currentPassage.meta}`;
+            document.getElementById('greek-container').innerHTML = currentPassage.content.split(' ').map(w => `<span class="word-token" onclick="analyzeWord('${w.replace(/[.,·;:]/g,'')}', this)">${w}</span>`).join(' '); 
+        }
+        function toggleIndex() { document.getElementById('index-drawer').classList.toggle('-translate-x-full'); }
+        function toggleNotes() { document.getElementById('notes-drawer').classList.toggle('translate-x-full'); }
+        function resetApp() { currentPassage = classicalIndex[0].works[0]; currentPassage.author = "Homero"; renderText(); }
+        function closeDrawer() { document.getElementById('drawer').classList.add('translate-x-full'); }
     </script>
 </body>
 </html>
