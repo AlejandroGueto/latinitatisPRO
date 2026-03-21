@@ -107,9 +107,9 @@
     </div>
 
     <script>
-        // --- CLAVE API PROTEGIDA ---
+        // --- CLAVE API PARTIDA ---
         const parte1 = "AIzaSy";
-        const parte2 = "CWa7WikmGSNDIGT260SSvxqYdZTjyjIPk"; 
+        const parte2 = "C4Y-CvoE8y4w4B3Cdo76jED5yVl9ChvyY"; 
         const apiKey = parte1 + parte2; 
         
         let currentPassage = null; 
@@ -237,6 +237,20 @@
                         ]
                     }
                 ]
+            },
+            {
+                author: "Flavio Josefo",
+                works: [
+                    { 
+                        title: "La Guerra de los Judíos", meta: "Proemio, 1", 
+                        content: "Ἐπειδὴ τὸν Ἰουδαίων πρὸς Ῥωμαίους πόλεμον συστάντα μέγιστον οὐ μόνον τῶν καθ' ἡμᾶς, σχεδὸν δὲ καὶ ὧν ἀκοῇ παρειλήφαμεν, ἢ πόλεων πρὸς πόλεις ἢ ἐθνῶν πρὸς ἔθνη συμβαρρῆξαι...",
+                        translations: [
+                            { lang: "ES", text: "Puesto que la guerra de los judíos contra los romanos ha sido la mayor no sólo de las de nuestro tiempo, sino casi de todas las que hemos oído de ciudades contra ciudades o de naciones contra naciones...", author: "Gredos (J.M. Nieto)" },
+                            { lang: "EN", text: "Whereas the war which the Jews made with the Romans hath been the greatest of all those, not only that have been in our times, but, in a manner, of those that ever were heard of...", author: "Loeb (W. Whiston)" },
+                            { lang: "FR", text: "La guerre des Juifs contre les Romains étant la plus grande non seulement de celles de notre temps, mais presque de toutes celles dont nous avons entendu parler...", author: "Belles Lettres (R. Harmand)" }
+                        ]
+                    }
+                ]
             }
         ];
 
@@ -300,7 +314,6 @@
         function hideError() { document.getElementById('error-message')?.classList.add('hidden'); }
         function clearData() { sessionFavs = []; sessionVocab = []; syncData(); resetApp(); }
 
-        // --- ORÁCULO DE LA API DE GEMINI ---
         function parseRobustJSON(text) {
             try { return JSON.parse(text); } catch (e) {
                 const startObj = text.indexOf('{'), endObj = text.lastIndexOf('}');
@@ -309,7 +322,7 @@
             }
         }
 
-        async function callOráculo(prompt, systemMsg = "", useSearch = false) {
+        async function callOráculo(prompt, systemMsg = "") {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
             const payload = { contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.1, responseMimeType: "application/json" } };
             if (systemMsg) payload.systemInstruction = { parts: [{ text: systemMsg }] };
@@ -354,11 +367,14 @@
             lucide.createIcons();
 
             try {
-                const prompt = `Analiza la palabra griega "${word}" en el contexto de "${currentPassage.content}". Devuelve SOLO JSON: {"lema": "...", "morfologia": "...", "sintaxis": "...", "traduccion": "..."}`;
+                const prompt = `Analiza la palabra griega "${word}" en el contexto de "${currentPassage.content}". Devuelve SOLO JSON: {"lema": "...", "morfologia": "...", "sintaxis": "...", "traduccion": "...", "nota": "..."}`;
                 const res = await callOráculo(prompt, "Experto filólogo helenista.");
                 activeMorphData = { palabra: word, ...res };
-                contentEl.innerHTML = `<div class="animate-in fade-in slide-in-from-right duration-500"><span class="px-3 py-1 bg-red-50 text-red-800 rounded-full text-[10px] font-black uppercase tracking-widest italic">Escolios</span><h3 class="greek-display text-7xl font-black text-stone-900 mt-10 mb-12 tracking-tighter">${word}</h3><div class="space-y-12"><div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Raíz</p><p class="text-4xl font-bold text-stone-800 underline decoration-gold/30 underline-offset-8">${res.lema}</p></div><div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Morfología</p><p class="text-xl text-stone-600 font-sans italic leading-relaxed">${res.morfologia}</p><p class="mt-4 p-4 bg-stone-50 rounded-xl text-stone-500 text-sm font-sans border-l-2 border-stone-200">${res.sintaxis}</p></div><div class="bg-red-50/50 p-8 rounded-[32px] border border-red-100 shadow-inner"><p class="ancient text-[10px] text-red-800 uppercase mb-3 font-bold tracking-widest">Acepción</p><p class="text-4xl font-black italic text-stone-900">"${res.traduccion}"</p></div></div></div>`;
-            } catch (e) { contentEl.innerHTML = `<p class="text-red-800 font-bold p-10 text-center">Fallo en la conexión del Oráculo.</p>`; }
+                contentEl.innerHTML = `<div class="animate-in fade-in slide-in-from-right duration-500"><span class="px-3 py-1 bg-red-50 text-red-800 rounded-full text-[10px] font-black uppercase tracking-widest italic">Escolios</span><h3 class="greek-display text-7xl font-black text-stone-900 mt-10 mb-12 tracking-tighter">${word}</h3><div class="space-y-12"><div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Raíz de Diccionario</p><p class="text-4xl font-bold text-stone-800 underline decoration-gold/30 underline-offset-8">${res.lema}</p></div><div><p class="ancient text-[9px] text-stone-300 font-bold uppercase mb-2">Accidentes Gramaticales</p><p class="text-xl text-stone-600 font-sans italic leading-relaxed">${res.morfologia}</p><p class="mt-4 p-4 bg-stone-50 rounded-xl text-stone-500 text-sm font-sans border-l-2 border-stone-200">${res.sintaxis}</p></div><div class="bg-red-50/50 p-8 rounded-[32px] border border-red-100 shadow-inner"><p class="ancient text-[10px] text-red-800 uppercase mb-3 font-bold tracking-widest">Acepción</p><p class="text-4xl font-black italic text-stone-900">"${res.traduccion}"</p></div></div></div>`;
+            } catch (e) { 
+                console.error("Detalle del error:", e);
+                contentEl.innerHTML = `<p class="text-red-800 font-bold p-10 text-center">Fallo en la conexión del Oráculo:<br><br><span class="text-sm font-mono bg-red-100 p-2 rounded">${e.message}</span></p>`; 
+            }
         }
 
         async function getTrilingualComparison() {
