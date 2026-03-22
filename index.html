@@ -35,11 +35,8 @@
             <h1 class="ancient text-lg font-black text-stone-800 uppercase hidden md:block tracking-tighter">Latinitatis <span class="text-red-800">PRO</span></h1>
         </div>
         <div class="flex gap-2">
-            <button onclick="toggleCodex(true)" class="flex items-center gap-2 px-3 md:px-4 py-2 bg-stone-100 hover:bg-stone-200 rounded-full transition-all text-stone-700" title="Mi Códice (Favoritos)">
+            <button onclick="toggleCodex(true)" class="flex items-center gap-2 px-3 md:px-4 py-2 bg-stone-100 hover:bg-stone-200 rounded-full transition-all text-stone-700">
                 <i data-lucide="bookmark" class="w-4 h-4 text-terracotta"></i><span class="ancient text-[10px] font-bold uppercase hidden md:inline">Mi Códice</span>
-            </button>
-            <button onclick="openDictionary()" class="flex items-center gap-2 px-3 md:px-4 py-2 bg-stone-100 hover:bg-stone-200 rounded-full transition-all text-stone-700">
-                <i data-lucide="search" class="w-4 h-4"></i><span class="ancient text-[10px] font-bold uppercase hidden md:inline">Diccionario</span>
             </button>
             <button onclick="toggleSidebar(true)" class="flex items-center gap-2 px-4 py-2 bg-stone-900 text-white hover:bg-stone-800 rounded-full transition-all shadow-md">
                 <i data-lucide="library" class="w-4 h-4"></i><span class="ancient text-[10px] font-bold uppercase">Bibliotheca</span>
@@ -53,61 +50,20 @@
             <p class="text-terracotta ancient text-xs md:text-sm uppercase tracking-[0.3em] font-bold">El Entorno Personal de Aprendizaje Definitivo</p>
         </header>
 
-        <section class="mb-20">
-            <h3 class="ancient text-2xl font-black mb-6 border-b pb-2 text-stone-800">¿Por qué Latinitatis PRO es única?</h3>
-            <p class="text-lg font-serif text-stone-600 leading-relaxed mb-8">
-                Esta plataforma gratuita y de código abierto converge los mejores recursos del mundo clásico en una sola experiencia de lectura:
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="home-card">
-                    <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="database" class="text-stone-400"></i> 1. Perseus Digital</h4>
-                    <p class="text-sm font-serif mb-3">Acceso a la base de datos de filología más grande del mundo con análisis morfológico palabra por palabra.</p>
-                </div>
-                <div class="home-card">
-                    <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="languages" class="text-stone-400"></i> 2. Logeion</h4>
-                    <p class="text-sm font-serif mb-3">Integración de los mejores diccionarios académicos (Liddell-Scott-Jones) en una sola consulta.</p>
-                </div>
-                <div class="home-card">
-                    <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="quote" class="text-stone-400"></i> 3. Dicciogriego</h4>
-                    <p class="text-sm font-serif mb-3">La mejor referencia en español para morfología y etimología clásica.</p>
-                </div>
-                <div class="home-card">
-                    <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="sparkles" class="text-stone-400"></i> 4. Legentibus & Scaife</h4>
-                    <p class="text-sm font-serif mb-3">Inspirada en las interfaces de lectura modernas para un aprendizaje fluido y natural.</p>
-                </div>
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="home-card">
+                <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="brain-circuit" class="text-stone-400"></i> Oráculo Inteligente</h4>
+                <p class="text-sm font-serif mb-3">Análisis morfológico y sintáctico mediante IA de última generación.</p>
+            </div>
+            <div class="home-card">
+                <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="headphones" class="text-stone-400"></i> Lector Sincro</h4>
+                <p class="text-sm font-serif mb-3">Escucha el griego clásico mientras el texto se resalta palabra a palabra.</p>
             </div>
         </section>
 
-        <section class="mb-20">
-            <h3 class="ancient text-2xl font-black mb-8 text-center border-b pb-4">Síntesis de Funciones</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="p-6 bg-stone-900 text-white rounded-2xl shadow-lg">
-                    <i data-lucide="brain-circuit" class="w-8 h-8 text-gold mb-4"></i>
-                    <h4 class="font-bold mb-2">Oráculo Inteligente</h4>
-                    <p class="text-sm text-stone-400">Análisis sintáctico y etimología trilingüe mediante Inteligencia Artificial.</p>
-                </div>
-                <div class="p-6 bg-stone-900 text-white rounded-2xl shadow-lg">
-                    <i data-lucide="gamepad-2" class="w-8 h-8 text-gold mb-4"></i>
-                    <h4 class="font-bold mb-2">Retos Magistrales</h4>
-                    <p class="text-sm text-stone-400">Ejercicios sorpresa basados en el texto que estás leyendo en ese momento.</p>
-                </div>
-                <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow-sm">
-                    <i data-lucide="headphones" class="w-8 h-8 text-terracotta mb-4"></i>
-                    <h4 class="font-bold mb-2 text-stone-800">Lector Sincro</h4>
-                    <p class="text-sm text-stone-600">El texto se resalta palabra a palabra mientras suena la voz del Oráculo.</p>
-                </div>
-            </div>
-        </section>
-
-        <footer class="bg-red-50 border-t-4 border-terracotta p-8 rounded-3xl mt-12 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div>
-                <p class="font-bold text-stone-900">Alejandro Güeto</p>
-                <p class="text-xs text-stone-500 italic">Filología Clásica • Andalucía</p>
-            </div>
-            <a href="https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC" target="_blank" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-lg flex items-center gap-2">
-                <i data-lucide="credit-card"></i> Apoyar el proyecto
-            </a>
+        <footer class="bg-red-50 border-t-4 border-terracotta p-8 rounded-3xl flex flex-col md:flex-row justify-between items-center gap-6">
+            <div><p class="font-bold text-stone-900">Alejandro Güeto</p><p class="text-xs text-stone-500 italic">Filología Clásica • v5.0 Final Edition</p></div>
+            <button onclick="localStorage.removeItem('groq_key'); alert('Clave borrada'); location.reload();" class="text-[10px] ancient uppercase font-bold text-stone-400 hover:text-red-800">Resetear Clave API</button>
         </footer>
     </main>
 
@@ -134,10 +90,10 @@
                     <div class="progress-container mb-6"><div id="progress-fill" class="progress-bar"></div></div>
                     
                     <div class="flex gap-2 mb-4">
-                        <button onclick="toggleAudio()" class="flex-1 py-4 bg-white text-stone-900 rounded-xl ancient font-black text-xs hover:bg-gold transition-all shadow-lg flex items-center justify-center gap-2">
+                        <button onclick="toggleAudio()" class="flex-1 py-4 bg-white text-stone-900 rounded-xl ancient font-black text-xs hover:bg-gold transition-all flex items-center justify-center gap-2">
                             <i data-lucide="play" id="play-icon"></i> <span id="btn-text">Leer</span>
                         </button>
-                        <button onclick="stopAudio(true)" class="p-4 bg-white/10 text-white rounded-xl hover:bg-red-800 transition-all" title="Detener">
+                        <button onclick="stopAudio(true)" class="p-4 bg-white/10 text-white rounded-xl hover:bg-red-800 transition-all">
                             <i data-lucide="square"></i>
                         </button>
                     </div>
@@ -165,7 +121,7 @@
 
     <div id="sidebar" class="fixed inset-y-0 left-0 w-full md:w-96 bg-white shadow-2xl z-[100] -translate-x-full drawer p-8 border-r overflow-y-auto">
         <div class="flex justify-between items-center mb-8 border-b pb-4">
-            <h2 class="ancient text-xl font-black">CANON <span class="text-red-800">GRIEGO</span></h2>
+            <h2 class="ancient text-xl font-black uppercase">Bibliotheca</h2>
             <button onclick="toggleSidebar(false)" class="p-2 hover:bg-stone-100 rounded-full"><i data-lucide="x"></i></button>
         </div>
         <div id="author-list" class="space-y-6"></div>
@@ -180,7 +136,7 @@
     </div>
 
     <div id="oracle-drawer" class="fixed inset-y-0 right-0 w-full md:w-[450px] bg-white shadow-2xl z-[100] translate-x-full drawer p-10 overflow-y-auto border-l">
-        <button onclick="closeOracle()" class="mb-8 text-stone-400 hover:text-red-800 flex items-center gap-2 ancient text-[10px] uppercase font-bold tracking-widest"><i data-lucide="arrow-left"></i> Cerrar Oráculo</button>
+        <button onclick="closeOracle()" class="mb-8 text-stone-400 hover:text-red-800 flex items-center gap-2 ancient text-[10px] uppercase font-bold tracking-widest"><i data-lucide="arrow-left"></i> Regresar al texto</button>
         <div id="oracle-content"></div>
     </div>
 
@@ -188,42 +144,79 @@
     <script>
         let synth = window.speechSynthesis, utterance = null, readingRate = 0.8, isReading = false, currentWork = null, totalWords = 0, currentExercise = null, codexIndex = {ai:0, wi:0};
 
-        window.onload = () => { lucide.createIcons(); if (typeof canon !== 'undefined') renderLibrary(); loadCodex(); };
+        window.onload = () => { 
+            lucide.createIcons(); 
+            if (typeof canon !== 'undefined') renderLibrary(); 
+            loadCodex(); 
+        };
 
-        // --- MOTOR DE IA (GROQ) ---
+        // --- MOTOR IA (GROQ) ---
         async function callAI(promptText) {
             let apiKey = localStorage.getItem('groq_key');
             if (!apiKey) {
                 apiKey = prompt("🏛️ Pega tu Clave API de Groq (gsk_...):");
-                if (key) localStorage.setItem('groq_key', apiKey.trim());
-                else throw new Error("API Key requerida.");
+                if (apiKey) {
+                    localStorage.setItem('groq_key', apiKey.trim());
+                } else {
+                    throw new Error("API Key requerida.");
+                }
             }
+
             try {
                 const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                     method: 'POST',
-                    headers: { 'Authorization': `Bearer ${localStorage.getItem('groq_key')}`, 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Authorization': `Bearer ${apiKey}`, 
+                        'Content-Type': 'application/json' 
+                    },
                     body: JSON.stringify({
                         model: "llama-3.3-70b-versatile",
-                        messages: [{ role: "user", content: promptText }],
-                        temperature: 0.2,
+                        messages: [
+                            { role: "system", content: "Eres un experto filólogo. Responde exclusivamente en formato JSON estricto." },
+                            { role: "user", content: promptText }
+                        ],
+                        temperature: 0.1,
                         response_format: { type: "json_object" }
                     })
                 });
-                if (!response.ok) throw new Error("El Oráculo está saturado.");
+
+                if (!response.ok) {
+                    if (response.status === 401) localStorage.removeItem('groq_key');
+                    throw new Error("Error en la conexión con el Oráculo.");
+                }
+
                 const data = await response.json();
                 return data.choices[0].message.content;
-            } catch (e) { console.error("DEBUG AI:", e); throw e; }
+            } catch (e) {
+                console.error("DEBUG AI:", e);
+                throw e;
+            }
         }
 
-        // --- NAVEGACIÓN Y CARGA DE TEXTOS ---
-        function showHome() { stopAudio(true); document.getElementById('home-view').classList.remove('hidden'); document.getElementById('reader-view').classList.add('hidden'); window.scrollTo({top:0, behavior:'smooth'}); }
-        
+        // --- FUNCIONES DE NAVEGACIÓN ---
+        function showHome() { 
+            stopAudio(true); 
+            document.getElementById('home-view').classList.remove('hidden'); 
+            document.getElementById('reader-view').classList.add('hidden'); 
+            window.scrollTo(0,0);
+        }
+
+        function toggleSidebar(s) { document.getElementById('sidebar').classList.toggle('-translate-x-full', !s); }
+        function toggleCodex(s) { document.getElementById('codex-drawer').classList.toggle('-translate-x-full', !s); }
+        function openOracle() { document.getElementById('oracle-drawer').classList.remove('translate-x-full'); }
+        function closeOracle() { document.getElementById('oracle-drawer').classList.add('translate-x-full'); }
+
         function renderLibrary() {
             document.getElementById('author-list').innerHTML = canon.map((a, ai) => `
                 <div class="mb-4">
                     <h3 class="ancient text-red-800 text-[9px] font-black uppercase border-b pb-1 mb-1">${a.author}</h3>
                     <div class="space-y-1">
-                        ${a.works.map((w, wi) => `<button onclick="loadWork(${ai}, ${wi})" class="w-full text-left py-1.5 px-2 rounded hover:bg-stone-100 font-serif text-sm text-stone-700 flex justify-between group"><span>${w.title}</span><i data-lucide="chevron-right" class="w-3 h-3 opacity-0 group-hover:opacity-100"></i></button>`).join('')}
+                        ${a.works.map((w, wi) => `
+                            <button onclick="loadWork(${ai}, ${wi})" class="w-full text-left py-1.5 px-2 rounded hover:bg-stone-100 font-serif text-sm text-stone-700 flex justify-between group">
+                                <span>${w.title}</span>
+                                <i data-lucide="chevron-right" class="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all"></i>
+                            </button>
+                        `).join('')}
                     </div>
                 </div>
             `).join('');
@@ -231,136 +224,196 @@
         }
 
         function loadWork(ai, wi) {
-            currentWork = canon[ai].works[wi]; currentWork.author = canon[ai].author; codexIndex = {ai, wi};
+            currentWork = canon[ai].works[wi];
+            currentWork.author = canon[ai].author;
+            codexIndex = {ai, wi};
+            
             document.getElementById('view-title').innerText = currentWork.title;
             document.getElementById('view-meta').innerText = `${currentWork.author} • ${currentWork.meta}`;
             document.getElementById('home-view').classList.add('hidden');
             document.getElementById('reader-view').classList.remove('hidden');
             document.getElementById('trans-grid').classList.add('hidden');
+            document.getElementById('exercise-area').classList.add('hidden');
             
-            const words = currentWork.content.replace(/\n/g, ' <br> ').split(' ').filter(w => w.trim() !== '');
-            totalWords = words.filter(w => w !== '<br>').length;
+            const words = currentWork.content.split(' ').filter(w => w.trim() !== '');
+            totalWords = words.length;
             
             let tIdx = 0;
-            document.getElementById('greek-container').innerHTML = words.map(w => w === '<br>' ? '<br><br>' : `<span class="word-token" id="token-${tIdx++}" onclick="analyze('${w.replace(/[.,·;:]/g,'')}')">${w}</span>`).join(' ');
+            document.getElementById('greek-container').innerHTML = words.map(w => `
+                <span class="word-token" id="token-${tIdx++}" onclick="analyze('${w.replace(/[.,·;:]/g,'')}')">${w}</span>
+            `).join(' ');
             
-            checkIfSavedIcon(); toggleSidebar(false); stopAudio(true); window.scrollTo({top:0, behavior:'smooth'});
+            checkIfSavedIcon();
+            toggleSidebar(false);
+            stopAudio(true);
+            window.scrollTo(0,0);
         }
 
-        // --- SISTEMA DE TRADUCCIONES ---
-        function toggleTranslations() {
-            const grid = document.getElementById('trans-grid');
-            grid.classList.toggle('hidden');
-            if (grid.classList.contains('hidden')) return;
-            if (!currentWork.translations || currentWork.translations.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center p-8 text-stone-400 italic">No hay traducciones cargadas.</div>`;
-            } else {
-                grid.innerHTML = currentWork.translations.map(t => `<div class="trans-card"><p class="text-[10px] ancient uppercase font-bold text-gold mb-3">${t.lang}</p><p class="text-lg italic text-stone-800 font-serif">"${t.text}"</p><p class="mt-4 text-[9px] text-stone-400 font-bold text-right">— ${t.author}</p></div>`).join('');
-            }
-            grid.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // --- DICCIONARIO TRILINGÜE ---
-        async function searchDictionary(word) {
+        // --- ORÁCULO Y ANÁLISIS ---
+        async function analyze(word) {
+            openOracle();
             const content = document.getElementById('oracle-content');
-            content.innerHTML = "<p class='animate-pulse text-stone-400 text-center py-10'>Interrogando al Oráculo...</p>";
+            content.innerHTML = "<div class='py-20 text-center animate-pulse'><p class='ancient text-stone-300 text-xs uppercase'>Interrogando al Oráculo...</p></div>";
+            
             try {
-                const prompt = `Actúa como Diccionario LSJ. Define "${word}". JSON: {"lema":"${word}","trans":"","es":"","fr":"","en":"","etimologia":""}`;
+                const prompt = `Define la palabra griega "${word}". JSON: {"lema":"${word}","trans":"transliteración","es":"definición español","fr":"définition français","en":"english","etimologia":"explicación etimológica"}`;
                 const raw = await callAI(prompt);
                 const res = JSON.parse(raw);
-                content.innerHTML = `<h3 class="greek-display text-5xl mb-2">${res.lema}</h3><p class="text-stone-400 italic mb-6">[${res.trans}]</p>
-                    <div class="space-y-4">
-                        <div class="p-4 bg-stone-50 rounded-xl border"><p class="text-[9px] font-bold text-red-800 uppercase mb-2">Definiciones</p>
-                            <p class="text-[10px] font-bold text-stone-400 uppercase">Español</p><p class="mb-3 text-sm">${res.es}</p>
-                            <p class="text-[10px] font-bold text-stone-400 uppercase">Français</p><p class="mb-3 text-sm">${res.fr}</p>
-                            <p class="text-[10px] font-bold text-stone-400 uppercase">English</p><p class="text-sm">${res.en}</p>
+                
+                content.innerHTML = `
+                    <h3 class="greek-display text-5xl mb-2 text-stone-900">${res.lema}</h3>
+                    <p class="text-stone-400 italic mb-8">[${res.trans}]</p>
+                    <div class="space-y-6">
+                        <div class="p-6 bg-stone-50 rounded-2xl border">
+                            <p class="text-[9px] font-bold text-red-800 uppercase mb-4 tracking-widest">Significado Trilingüe</p>
+                            <p class="mb-3 text-sm"><b>ES:</b> ${res.es}</p>
+                            <p class="mb-3 text-sm"><b>FR:</b> ${res.fr}</p>
+                            <p class="text-sm"><b>EN:</b> ${res.en}</p>
                         </div>
-                        <div class="p-4 bg-red-50 rounded-xl border border-red-100"><p class="text-[9px] font-bold text-terracotta uppercase mb-1">Etimología en Español</p><p class="text-sm text-stone-700 font-serif leading-relaxed">${res.etimologia}</p></div>
+                        <div class="p-6 bg-red-50 rounded-2xl border border-red-100 shadow-inner">
+                            <p class="text-[9px] font-bold text-terracotta uppercase mb-2 tracking-widest">Huella Etimológica</p>
+                            <p class="text-sm text-stone-700 font-serif leading-relaxed italic">"${res.etimologia}"</p>
+                        </div>
                     </div>`;
-            } catch (e) { content.innerHTML = "Error al conectar con el Oráculo."; }
+            } catch (e) {
+                content.innerHTML = `<div class='p-6 bg-red-50 text-red-800 rounded-xl'><p class='font-bold'>Error del Oráculo:</p><p class='text-xs'>${e.message}</p></div>`;
+            }
         }
 
-        // --- RETOS DIDÁCTICOS (HÍBRIDOS) ---
+        // --- RETOS ---
         async function generateExercise() {
             const area = document.getElementById('exercise-area');
             area.classList.remove('hidden');
-            area.innerHTML = "<p class='animate-pulse text-gold text-xs uppercase'>El Catedrático prepara la prueba...</p>";
-
-            if (currentWork.exercises && currentWork.exercises.length > 0) {
-                displayExercise(currentWork.exercises[Math.floor(Math.random() * currentWork.exercises.length)]);
-                return;
-            }
-
+            area.innerHTML = "<p class='animate-pulse text-gold text-[10px] uppercase ancient text-center py-4'>El Catedrático prepara la prueba...</p>";
+            
             try {
-                const prompt = `Actúa como catedrático. Crea pregunta test sobre este texto: "${currentWork.content.substring(0,250)}". JSON: {"pregunta":"","opciones":["","","",""],"correcta":0,"explicacion":""}`;
+                const prompt = `Crea un ejercicio de opción múltiple sobre el texto: "${currentWork.content.substring(0,150)}". JSON: {"pregunta":"","opciones":["","",""],"correcta":0,"explicacion":""}`;
                 const raw = await callAI(prompt);
-                displayExercise(JSON.parse(raw));
-            } catch (e) { area.innerHTML = "Error de IA."; }
-        }
-
-        function displayExercise(data) {
-            currentExercise = data;
-            document.getElementById('exercise-area').innerHTML = `<p class="mb-4 font-serif text-sm">${data.pregunta}</p>` + 
-                data.opciones.map((o, i) => `<button onclick="checkAnswer(${i})" class="block w-full text-left p-3 mb-2 bg-stone-700 hover:bg-stone-600 rounded-lg text-sm">${o}</button>`).join('') + 
-                `<div id="fb" class="mt-4 text-xs font-serif"></div>`;
+                currentExercise = JSON.parse(raw);
+                
+                area.innerHTML = `
+                    <p class="mb-4 font-serif text-sm border-b border-stone-700 pb-2">${currentExercise.pregunta}</p>
+                    <div class="space-y-2">
+                        ${currentExercise.opciones.map((o, i) => `
+                            <button onclick="checkAnswer(${i})" class="block w-full text-left p-3 bg-stone-700 hover:bg-stone-600 rounded-xl text-xs transition-colors">${o}</button>
+                        `).join('')}
+                    </div>
+                    <div id="fb" class="mt-4 text-[10px] font-serif italic text-stone-400"></div>`;
+            } catch (e) {
+                area.innerHTML = "<p class='text-xs text-red-400'>No se pudo generar el reto.</p>";
+            }
         }
 
         function checkAnswer(i) {
             const fb = document.getElementById('fb');
-            fb.innerHTML = i === currentExercise.correcta ? `✅ ¡Correcto! ${currentExercise.explicacion}` : `❌ Fallaste. ${currentExercise.explicacion}`;
+            if (i === currentExercise.correcta) {
+                fb.innerHTML = `✅ <span class="text-green-400">¡Correcto!</span> ${currentExercise.explicacion}`;
+            } else {
+                fb.innerHTML = `❌ <span class="text-red-400">Incorrecto.</span> ${currentExercise.explicacion}`;
+            }
         }
 
-        // --- FAVORITOS (CÓDICE) ---
-        function saveToCodex() {
-            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
-            const idx = saved.findIndex(i => i.author === currentWork.author && i.title === currentWork.title);
-            if (idx >= 0) saved.splice(idx, 1);
-            else saved.push({ author: currentWork.author, title: currentWork.title, ai: codexIndex.ai, wi: codexIndex.wi });
-            localStorage.setItem('latinitatis_codex', JSON.stringify(saved));
-            checkIfSavedIcon(); loadCodex();
-        }
-
-        function checkIfSavedIcon() {
-            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
-            const icon = document.getElementById('bookmark-icon');
-            saved.some(i => i.author === currentWork.author && i.title === currentWork.title) ? icon.classList.add('fill-terracotta') : icon.classList.remove('fill-terracotta');
-        }
-
-        function loadCodex() {
-            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
-            const list = document.getElementById('codex-list');
-            if(saved.length === 0) { list.innerHTML = "<p class='text-stone-500 text-sm italic'>Vacío.</p>"; return; }
-            list.innerHTML = saved.map(i => `<div class="bg-stone-800 p-4 rounded-xl flex justify-between items-center"><div><p class="ancient text-[9px] text-gold uppercase">${i.author}</p><p class="font-serif text-sm">${i.title}</p></div><button onclick="loadWork(${i.ai}, ${i.wi}); toggleCodex(false);" class="bg-stone-700 p-2 rounded-lg hover:bg-gold transition-colors"><i data-lucide="book-open" class="w-4 h-4"></i></button></div>`).join('');
-            lucide.createIcons();
-        }
-
-        // --- AUDIO Y AYUDAS ---
+        // --- LECTOR DE VOZ ---
         function toggleAudio() {
             if (isReading) { stopAudio(); return; }
             utterance = new SpeechSynthesisUtterance(currentWork.content);
-            utterance.lang = 'el-GR'; utterance.rate = readingRate;
+            utterance.lang = 'el-GR';
+            utterance.rate = readingRate;
+            
             let wordIdx = 0;
             utterance.onboundary = (e) => {
-                if(e.name === 'word') {
+                if (e.name === 'word') {
                     document.querySelectorAll('.word-token').forEach(el => el.classList.remove('reading-now'));
                     const el = document.getElementById(`token-${wordIdx++}`);
-                    if(el) { el.classList.add('reading-now'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
-                    document.getElementById('progress-fill').style.width = `${(wordIdx/totalWords)*100}%`;
+                    if (el) {
+                        el.classList.add('reading-now');
+                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    document.getElementById('progress-fill').style.width = `${(wordIdx / totalWords) * 100}%`;
                 }
             };
             utterance.onend = () => stopAudio(true);
-            synth.speak(utterance); isReading = true;
-            document.getElementById('btn-text').innerText = "Pausar";
-            document.getElementById('play-icon').setAttribute('data-lucide', 'pause'); lucide.createIcons();
+            synth.speak(utterance);
+            isReading = true;
+            updatePlayBtn(true);
         }
 
-        function stopAudio(reset=false) { synth.cancel(); isReading = false; document.getElementById('btn-text').innerText = "Leer"; document.getElementById('play-icon').setAttribute('data-lucide', 'play'); if(reset) document.getElementById('progress-fill').style.width = '0%'; lucide.createIcons(); }
-        function changeSpeed(delta) { readingRate = Math.min(1.5, Math.max(0.4, readingRate + delta)); document.getElementById('speed-label').innerText = readingRate.toFixed(1) + 'x'; if (isReading) { stopAudio(); toggleAudio(); } }
-        function analyze(w) { openDictionary(); searchDictionary(w); }
-        function toggleSidebar(s) { document.getElementById('sidebar').classList.toggle('-translate-x-full', !s); }
-        function toggleCodex(s) { document.getElementById('codex-drawer').classList.toggle('-translate-x-full', !s); }
-        function openDictionary() { document.getElementById('oracle-drawer').classList.remove('translate-x-full'); }
-        function closeOracle() { document.getElementById('oracle-drawer').classList.add('translate-x-full'); }
+        function stopAudio(reset = false) {
+            synth.cancel();
+            isReading = false;
+            updatePlayBtn(false);
+            if (reset) {
+                document.getElementById('progress-fill').style.width = '0%';
+                document.querySelectorAll('.word-token').forEach(el => el.classList.remove('reading-now'));
+            }
+        }
+
+        function changeSpeed(delta) {
+            readingRate = Math.min(1.5, Math.max(0.4, readingRate + delta));
+            document.getElementById('speed-label').innerText = readingRate.toFixed(1) + 'x';
+            if (isReading) { stopAudio(); toggleAudio(); }
+        }
+
+        function updatePlayBtn(active) {
+            const btnText = document.getElementById('btn-text');
+            const icon = document.getElementById('play-icon');
+            btnText.innerText = active ? "Pausar" : "Leer";
+            icon.setAttribute('data-lucide', active ? 'pause' : 'play');
+            lucide.createIcons();
+        }
+
+        // --- FAVORITOS Y TRADUCCIONES ---
+        function saveToCodex() {
+            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const idx = saved.findIndex(i => i.title === currentWork.title);
+            if (idx >= 0) saved.splice(idx, 1);
+            else saved.push({ author: currentWork.author, title: currentWork.title, ai: codexIndex.ai, wi: codexIndex.wi });
+            localStorage.setItem('latinitatis_codex', JSON.stringify(saved));
+            checkIfSavedIcon();
+            loadCodex();
+        }
+
+        function loadCodex() {
+            const saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const list = document.getElementById('codex-list');
+            if (saved.length === 0) {
+                list.innerHTML = "<p class='text-stone-500 text-xs italic py-4'>Tu códice personal está vacío.</p>";
+                return;
+            }
+            list.innerHTML = saved.map(i => `
+                <div class="bg-stone-800 p-4 rounded-2xl flex justify-between items-center border border-stone-700">
+                    <div>
+                        <p class="ancient text-[8px] text-gold uppercase">${i.author}</p>
+                        <p class="font-serif text-sm">${i.title}</p>
+                    </div>
+                    <button onclick="loadWork(${i.ai}, ${i.wi}); toggleCodex(false);" class="p-3 bg-stone-700 rounded-xl hover:bg-gold hover:text-stone-900 transition-all">
+                        <i data-lucide="book-open" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function checkIfSavedIcon() {
+            const saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const isSaved = saved.some(i => i.title === currentWork.title);
+            document.getElementById('bookmark-icon').classList.toggle('fill-terracotta', isSaved);
+        }
+
+        function toggleTranslations() {
+            const grid = document.getElementById('trans-grid');
+            grid.classList.toggle('hidden');
+            if (!grid.classList.contains('hidden')) {
+                grid.innerHTML = currentWork.translations.map(t => `
+                    <div class="trans-card">
+                        <p class="text-[9px] ancient uppercase font-bold text-gold mb-3">${t.lang}</p>
+                        <p class="text-base italic text-stone-800 font-serif leading-relaxed">"${t.text}"</p>
+                        <p class="mt-4 text-[9px] text-stone-400 font-bold text-right">— ${t.author}</p>
+                    </div>
+                `).join('');
+                grid.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     </script>
 </body>
 </html>
