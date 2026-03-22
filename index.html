@@ -232,7 +232,7 @@
                     model: "llama-3.3-70b-versatile", 
                     messages: [{ 
                         role: "system", 
-                        content: "You are an Expert Philologist. You must respond in valid JSON format. Provide the dictionary lemma in lowercase as 'enunciado'. IMPORTANT: The 'syntax' field MUST explicitly state the case and its syntactic function (e.g. Accusative, Direct Object). Fields: enunciado (lowercase lemma, e.g. μῆνις, -ιος, ἡ), es(morph, syntax, def, etym, trans_lit, trans_linealis), en(morph, syntax, def, etym), fr(morph, syntax, def, etym)." 
+                        content: "You are an Expert Philologist. You must respond in valid JSON format. Provide the dictionary lemma in lowercase as 'enunciado'. IMPORTANT: For 'syntax', strictly identify the grammatical case and its syntactical function in the sentence (e.g., 'Acusativo, Complemento Directo' / 'Accusative, Direct Object'). Fields: enunciado (lowercase lemma, e.g. μῆνις, -ιος, ἡ), es(morph, syntax, def, etym, trans_lit, trans_linealis), en(morph, syntax, def, etym), fr(morph, syntax, def, etym)." 
                     }, { role: "user", content: p }], 
                     temperature: 0.1, response_format: { type: "json_object" } 
                 }) 
@@ -254,7 +254,23 @@
                     <div class="space-y-16">` + 
                     ['es','en','fr'].map(l => {
                         if(!res[l]) return '';
-                        return `<div class="border-l-[6px] border-stone-800 dark:border-gold pl-8"><span class="lang-tag bg-${l} mb-6 font-black uppercase">${l==='es'?'Español':l==='en'?'English':'Français'}</span><p class="text-md font-bold uppercase dark:text-stone-300 mb-1">${res[l].morph}</p><p class="text-sm font-bold text-terracotta dark:text-red-400 mb-4 uppercase italic">Sintaxis: ${res[l].syntax}</p><p class="text-3xl italic font-serif dark:text-white mb-6 leading-tight">"${res[l].def}"</p><div class="bg-stone-100/50 dark:bg-stone-800 p-6 rounded-2xl text-sm italic leading-relaxed text-stone-500 dark:text-stone-400"><b>Etimología:</b><br>${res[l].etym}</div></div>`;
+                        
+                        // Añadimos las traducciones en español solo en el bloque de español, sin etiquetas superfluas
+                        let extraTrans = '';
+                        if(l === 'es') {
+                            extraTrans = `
+                                <div class="mt-6 space-y-4">
+                                    <div class="bg-stone-100 dark:bg-stone-900 p-4 rounded-xl border border-stone-200 dark:border-stone-700">
+                                        <p class="text-sm italic font-serif text-stone-600 dark:text-stone-300">"${res.es.trans_lit}"</p>
+                                    </div>
+                                    <div class="bg-stone-100 dark:bg-stone-900 p-4 rounded-xl border border-stone-200 dark:border-stone-700">
+                                        <p class="text-sm font-serif text-stone-600 dark:text-stone-300">"${res.es.trans_linealis}"</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+
+                        return `<div class="border-l-[6px] border-stone-800 dark:border-gold pl-8"><span class="lang-tag bg-${l} mb-6 font-black uppercase">${l==='es'?'Español':l==='en'?'English':'Français'}</span><p class="text-md font-bold uppercase dark:text-stone-300 mb-1">${res[l].morph}</p><p class="text-sm font-bold text-terracotta dark:text-red-400 mb-4 uppercase italic">Sintaxis: ${res[l].syntax}</p><p class="text-3xl italic font-serif dark:text-white mb-6 leading-tight">"${res[l].def}"</p><div class="bg-stone-100/50 dark:bg-stone-800 p-6 rounded-2xl text-sm italic leading-relaxed text-stone-500 dark:text-stone-400"><b>Etimología:</b><br>${res[l].etym}</div>${extraTrans}</div>`;
                     }).join('') + `</div>`;
                 lucide.createIcons();
             } catch (e) { c.innerHTML = `<p class='p-16 bg-red-50 text-red-800 rounded-3xl font-black ancient uppercase'>Error IA: ${e.message}</p>`; }
