@@ -134,4 +134,436 @@
                     <h4 class="font-bold mb-2 text-stone-800">Audiolibro Sincronizado</h4>
                     <p class="text-sm text-stone-600">El texto se ilumina a medida que suena. Funciones propias de Audible o Kindle, con control de velocidad.</p>
                 </div>
-                <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow
+                <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow-sm">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-terracotta mb-4"></i>
+                    <h4 class="font-bold mb-2 text-stone-800">Memoria Local y Privacidad</h4>
+                    <p class="text-sm text-stone-600">Sin cuentas ni registros. Tu "Códice" (favoritos) se guarda en tu propio navegador mediante LocalStorage.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-red-50 border-t-4 border-terracotta p-8 md:p-12 rounded-3xl shadow-inner mt-12">
+            <h4 class="ancient text-lg font-black text-terracotta mb-4 flex items-center gap-2"><i data-lucide="info"></i> Notas de la Versión</h4>
+            <ul class="list-disc list-inside space-y-3 text-sm font-serif text-stone-700 mb-8">
+                <li>Para disfrutar del audiolibro, es necesario instalar en tu dispositivo el motor de Síntesis de Voz de Google (Google TTS) en griego moderno. (Aún no existe TTS con pronunciación erasmiana).</li>
+                <li>Dada la magnitud de los textos, las obras se irán añadiendo paulatinamente. Próximamente se lanzará una plataforma dedicada en exclusiva al latín.</li>
+            </ul>
+            <div class="bg-white p-6 rounded-2xl border border-red-100 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <p class="font-bold text-stone-900">Desarrollado por Alejandro Güeto</p>
+                    <p class="text-sm text-stone-500 mb-2">Profesor de Latín y Griego en Andalucía.</p>
+                    <a href="mailto:alejandroruizgueto@hotmail.es" class="text-xs text-terracotta hover:underline flex items-center gap-1"><i data-lucide="mail" class="w-3 h-3"></i> alejandroruizgueto@hotmail.es</a>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-xs text-stone-400 mb-2 max-w-xs">Este es un recurso gratuito y de código abierto. Si valoras el esfuerzo, puedes apoyar el proyecto:</p>
+                    <a href="[https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC](https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC)" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-lg">
+                        <i data-lucide="credit-card"></i> Donar vía PayPal
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <main id="reader-view" class="hidden flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full">
+        <header class="text-center mb-8 relative">
+            <button onclick="saveToCodex()" class="absolute right-0 top-0 p-3 bg-white text-terracotta hover:bg-red-50 rounded-full shadow-md border border-red-100 transition-all" title="Guardar en mi Códice">
+                <i data-lucide="bookmark" id="bookmark-icon"></i>
+            </button>
+            <h2 id="view-title" class="greek-display text-4xl md:text-5xl font-black text-stone-900 italic mb-2">Título</h2>
+            <p id="view-meta" class="text-red-800 ancient text-[10px] uppercase tracking-[0.3em] font-bold">Autor</p>
+        </header>
+
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 bg-white rounded-[30px] shadow-xl border border-stone-100 p-8 md:p-12 relative min-h-[400px]">
+                <div id="greek-container" class="greek-display text-2xl md:text-3xl leading-[2.2] text-justify text-stone-800 transition-all duration-500"></div>
+            </div>
+
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-stone-900 text-white p-8 rounded-[30px] shadow-2xl relative">
+                    <h3 class="ancient text-gold text-[10px] mb-4 uppercase tracking-widest font-bold flex justify-between items-center">
+                        <span>Lector Sincronizado</span>
+                        <span id="time-est" class="text-stone-400">00:00</span>
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <div class="flex justify-between text-[10px] text-stone-400 font-mono mb-1">
+                            <span id="word-progress">0%</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="progress-container"><div id="progress-fill" class="progress-bar"></div></div>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-white/10 p-3 rounded-2xl mb-4">
+                        <button onclick="changeSpeed(-0.1)" class="w-10 h-10 hover:bg-white/10 rounded-full font-bold">-</button>
+                        <span id="speed-label" class="ancient text-xs font-bold text-gold">0.8x</span>
+                        <button onclick="changeSpeed(0.1)" class="w-10 h-10 hover:bg-white/10 rounded-full font-bold">+</button>
+                    </div>
+                    
+                    <div class="flex gap-2 mb-4">
+                        <button onclick="toggleAudio()" id="play-btn" class="flex-1 py-4 bg-white text-stone-900 rounded-xl ancient font-black uppercase text-xs hover:bg-gold hover:text-white transition-all shadow-lg flex items-center justify-center gap-2">
+                            <i data-lucide="play" id="play-icon"></i> <span id="btn-text">Leer</span>
+                        </button>
+                        <button onclick="stopAudio(true)" class="p-4 bg-white/10 text-white rounded-xl hover:bg-red-800 transition-all" title="Detener y rebobinar">
+                            <i data-lucide="square"></i>
+                        </button>
+                    </div>
+
+                    <button onclick="toggleTranslations()" class="w-full py-3 mb-2 border border-stone-600 text-stone-300 rounded-xl ancient font-bold uppercase text-[10px] hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="languages" class="w-4 h-4"></i> Comparativa
+                    </button>
+
+                    <button onclick="generateExercise()" class="w-full py-3 bg-red-900 text-white rounded-xl ancient font-bold uppercase text-[10px] hover:bg-red-800 transition-all flex items-center justify-center gap-2 shadow-lg">
+                        <i data-lucide="brain-circuit" class="w-4 h-4"></i> Reto Magistral
+                    </button>
+                </div>
+
+                <div id="exercise-area" class="hidden bg-stone-800 text-white p-6 rounded-[30px] shadow-xl border border-stone-700 animate-in zoom-in-95"></div>
+            </div>
+        </section>
+
+        <div id="trans-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 animate-in slide-in-from-bottom-8"></div>
+    </main>
+
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-full md:w-96 bg-white shadow-2xl z-[100] -translate-x-full drawer p-8 border-r overflow-y-auto">
+        <div class="flex justify-between items-center mb-8 border-b pb-4">
+            <h2 class="ancient text-xl font-black">CANON <span class="text-red-800">GRIEGO</span></h2>
+            <button onclick="toggleSidebar(false)" class="p-2 hover:bg-stone-100 rounded-full"><i data-lucide="x"></i></button>
+        </div>
+        <div id="author-list" class="space-y-6"></div>
+    </div>
+
+    <div id="codex-drawer" class="fixed inset-y-0 left-0 w-full md:w-96 bg-stone-900 text-white shadow-2xl z-[100] -translate-x-full drawer p-8 overflow-y-auto">
+        <div class="flex justify-between items-center mb-8 border-b border-stone-700 pb-4">
+            <h2 class="ancient text-xl font-black text-gold flex items-center gap-2"><i data-lucide="bookmark"></i> Mi Códice</h2>
+            <button onclick="toggleCodex(false)" class="p-2 hover:bg-stone-800 rounded-full"><i data-lucide="x"></i></button>
+        </div>
+        <div id="codex-list" class="space-y-4"></div>
+    </div>
+
+    <div id="oracle-drawer" class="fixed inset-y-0 right-0 w-full md:w-[450px] bg-white shadow-2xl z-[100] translate-x-full drawer p-10 overflow-y-auto border-l">
+        <button onclick="closeOracle()" class="mb-8 text-stone-400 hover:text-red-800 flex items-center gap-2 ancient text-[10px] uppercase font-bold tracking-widest"><i data-lucide="arrow-left"></i> Cerrar</button>
+        <div id="oracle-content"></div>
+    </div>
+
+    <script src="textos.js"></script>
+    
+    <script>
+        let synth = window.speechSynthesis;
+        let utterance = null;
+        let readingRate = 0.8;
+        let isReading = false;
+        let isPaused = false;
+        let currentWork = null;
+        let totalWords = 0;
+        let currentExercise = null;
+        let codexIndex = null;
+
+        window.onload = () => { 
+            lucide.createIcons(); 
+            if (typeof canon === 'undefined') {
+                document.getElementById('view-title').innerText = "Error: Falta textos.js";
+                alert("¡Atención Magister! No se encuentra el archivo textos.js. Asegúrate de haberlo subido a GitHub en la misma carpeta.");
+                return;
+            }
+            renderLibrary(); 
+            loadCodex();
+        };
+
+        // --- NAVEGACIÓN ---
+        function showHome() {
+            stopAudio(true);
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('reader-view').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderLibrary() {
+            document.getElementById('author-list').innerHTML = canon.map((a, ai) => `
+                <div class="mb-4">
+                    <h3 class="ancient text-red-800 text-[9px] font-black uppercase tracking-widest border-b pb-1 mb-1">${a.author}</h3>
+                    <div class="space-y-1">
+                        ${a.works.map((w, wi) => `
+                            <button onclick="loadWork(${ai}, ${wi})" class="w-full text-left py-1.5 px-2 rounded hover:bg-stone-100 font-serif text-sm text-stone-700 transition-all flex justify-between group">
+                                <span>${w.title}</span><i data-lucide="chevron-right" class="w-3 h-3 opacity-0 group-hover:opacity-100"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function loadWork(ai, wi) {
+            currentWork = canon[ai].works[wi]; 
+            currentWork.author = canon[ai].author;
+            codexIndex = { ai, wi };
+            
+            document.getElementById('view-title').innerText = currentWork.title;
+            document.getElementById('view-meta').innerText = `${currentWork.author} • ${currentWork.meta}`;
+            document.getElementById('trans-grid').classList.add('hidden');
+            document.getElementById('exercise-area').classList.add('hidden');
+            
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('reader-view').classList.remove('hidden');
+            
+            let rawText = currentWork.content.replace(/\n/g, ' <br> ');
+            const words = rawText.split(' ').filter(w => w.trim() !== ''); 
+            totalWords = words.filter(w => w !== '<br>').length;
+            
+            const minutes = Math.ceil(totalWords / (120 * readingRate));
+            document.getElementById('time-est').innerText = `~${minutes} min`;
+            
+            let tokenIndex = 0;
+            document.getElementById('greek-container').innerHTML = words.map((word) => {
+                if(word === '<br>') return '<br><br>'; 
+                let currentIdx = tokenIndex++;
+                return `<span class="word-token" id="token-${currentIdx}" onclick="analyze('${word.replace(/[.,·;:]/g,'')}')">${word}</span>`;
+            }).join(' ');
+            
+            checkIfSaved();
+            toggleSidebar(false); 
+            stopAudio(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- SISTEMA DE FAVORITOS (CÓDICE) ---
+        function toggleCodex(show) { document.getElementById('codex-drawer').classList.toggle('-translate-x-full', show === false); }
+        
+        function saveToCodex() {
+            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const exists = saved.findIndex(item => item.author === currentWork.author && item.title === currentWork.title);
+            
+            if (exists >= 0) { saved.splice(exists, 1); } 
+            else { saved.push({ author: currentWork.author, title: currentWork.title, ai: codexIndex.ai, wi: codexIndex.wi }); }
+            
+            localStorage.setItem('latinitatis_codex', JSON.stringify(saved));
+            checkIfSaved(); loadCodex();
+        }
+
+        function checkIfSaved() {
+            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const exists = saved.some(item => item.author === currentWork.author && item.title === currentWork.title);
+            const icon = document.getElementById('bookmark-icon');
+            if(exists) { icon.classList.add('fill-terracotta'); } else { icon.classList.remove('fill-terracotta'); }
+        }
+
+        function loadCodex() {
+            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const list = document.getElementById('codex-list');
+            if(saved.length === 0) { list.innerHTML = "<p class='text-stone-500 text-sm italic'>Tu códice está vacío. Usa el marcapáginas al leer.</p>"; return; }
+            
+            list.innerHTML = saved.map(item => `
+                <div class="bg-stone-800 p-4 rounded-xl border border-stone-700">
+                    <p class="ancient text-[9px] text-gold uppercase tracking-widest">${item.author}</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <p class="font-serif text-sm">${item.title}</p>
+                        <button onclick="loadWork(${item.ai}, ${item.wi}); toggleCodex(false);" class="text-xs bg-stone-700 hover:bg-terracotta px-3 py-1 rounded-full transition-colors">Leer</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- CONTROLES AUDIBLE ---
+        function toggleAudio() {
+            if (isReading && !isPaused) { synth.pause(); isPaused = true; updateUI(false, true); }
+            else if (isReading && isPaused) { synth.resume(); isPaused = false; updateUI(true, false); }
+            else { startAudio(); }
+        }
+
+        function startAudio() {
+            synth.cancel(); isReading = true; isPaused = false; updateUI(true, false);
+            let cleanText = currentWork.content.replace(/\n/g, ' ');
+            utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'el-GR'; utterance.rate = readingRate;
+
+            let wordCounter = 0;
+            utterance.onboundary = (event) => {
+                if (event.name === 'word') {
+                    document.querySelectorAll('.word-token').forEach(el => el.classList.remove('reading-now'));
+                    const currentToken = document.getElementById(`token-${wordCounter}`);
+                    if (currentToken) {
+                        currentToken.classList.add('reading-now');
+                        currentToken.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    let pct = Math.min(100, Math.round((wordCounter / totalWords) * 100));
+                    document.getElementById('progress-fill').style.width = `${pct}%`;
+                    document.getElementById('word-progress').innerText = `${pct}%`;
+                    wordCounter++;
+                }
+            };
+            utterance.onend = () => stopAudio(true);
+            synth.speak(utterance);
+        }
+
+        function stopAudio(reset = false) {
+            synth.cancel(); isReading = false; isPaused = false; updateUI(false, false);
+            document.querySelectorAll('.word-token').forEach(el => el.classList.remove('reading-now'));
+            if(reset) { document.getElementById('progress-fill').style.width = '0%'; document.getElementById('word-progress').innerText = '0%'; }
+        }
+
+        function updateUI(playing, paused) {
+            const icon = document.getElementById('play-icon'); const text = document.getElementById('btn-text');
+            if (playing) { icon.setAttribute('data-lucide', 'pause'); text.innerText = 'Pausar'; }
+            else if (paused) { icon.setAttribute('data-lucide', 'play'); text.innerText = 'Reanudar'; }
+            else { icon.setAttribute('data-lucide', 'play'); text.innerText = 'Leer'; }
+            lucide.createIcons();
+        }
+
+        function changeSpeed(delta) { 
+            readingRate = Math.min(1.5, Math.max(0.4, readingRate + delta)); 
+            document.getElementById('speed-label').innerText = readingRate.toFixed(1) + 'x';
+            if (isReading) { stopAudio(); startAudio(); }
+        }
+
+        // --- SISTEMA DE TRADUCCIONES ---
+        function toggleTranslations() {
+            const grid = document.getElementById('trans-grid'); grid.classList.toggle('hidden');
+            if (!currentWork.translations || currentWork.translations.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center p-8 text-stone-400 italic">No hay traducciones académicas para este pasaje.</div>`; return;
+            }
+            grid.innerHTML = currentWork.translations.map(t => `
+                <div class="trans-card"><p class="text-[10px] ancient uppercase font-bold text-gold tracking-widest mb-3">${t.lang}</p><p class="text-lg italic text-stone-800 font-serif text-justify">"${t.text}"</p><p class="mt-4 text-[9px] text-stone-400 font-bold uppercase text-right">— ${t.author}</p></div>
+            `).join('');
+            if(!grid.classList.contains('hidden')) grid.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- RETOS DIDÁCTICOS PREMIUM ---
+        async function generateExercise() {
+            const area = document.getElementById('exercise-area'); area.classList.remove('hidden');
+            area.innerHTML = `<div class="text-center py-6 animate-pulse"><i data-lucide="brain-circuit" class="w-8 h-8 text-gold mx-auto mb-3"></i><p class="ancient text-xs text-gold uppercase tracking-widest">El Catedrático prepara la prueba...</p></div>`;
+            lucide.createIcons(); area.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            let apiKey = localStorage.getItem('gemini_key');
+            if (!apiKey) { apiKey = prompt("🏛️ Pega tu Clave API de Google AI Studio:"); if (apiKey) localStorage.setItem('gemini_key', apiKey.trim()); else { area.classList.add('hidden'); return; } }
+
+            try {
+                let textSample = currentWork.content.substring(0, 300) + "...";
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const prompt = `Actúa como catedrático de Filología Clásica. Crea reto universitario opción múltiple de este texto de ${currentWork.author}: "${textSample}". JSON estricto: {"tipo":"Morfología/Sintaxis","pregunta":"","opciones":["","","",""],"correcta":0,"explicacion":""}`;
+                
+                const response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }) });
+                
+                if (!response.ok) throw new Error("Error HTTP " + response.status);
+                
+                const data = await response.json(); 
+                
+                // PARCHE: Limpiamos los bloques de código Markdown que a veces rompen el JSON
+                let rawText = data.candidates[0].content.parts[0].text;
+                rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+                
+                currentExercise = JSON.parse(rawText);
+
+                area.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-stone-600 pb-3 mb-4"><span class="text-[10px] text-gold ancient font-bold uppercase tracking-widest">${currentExercise.tipo}</span><button onclick="document.getElementById('exercise-area').classList.add('hidden')" class="text-stone-400 hover:text-white"><i data-lucide="x"></i></button></div>
+                    <p class="text-lg font-serif mb-6 leading-relaxed text-stone-100">${currentExercise.pregunta}</p>
+                    <div class="grid gap-3">${currentExercise.opciones.map((opt, i) => `<button onclick="checkAnswer(${i})" id="btn-opt-${i}" class="text-left p-4 bg-stone-700 hover:bg-stone-600 rounded-xl font-serif text-sm transition-all border border-transparent">${['A', 'B', 'C', 'D'][i]}. ${opt}</button>`).join('')}</div>
+                    <div id="feedback-area" class="hidden mt-6 p-5 rounded-xl border-l-4"></div>
+                `; 
+                lucide.createIcons();
+            } catch (e) { 
+                console.error("Error detallado del Oráculo:", e);
+                area.innerHTML = `<p class="text-red-400 text-sm p-4 border border-red-500/30 rounded-xl">Error al invocar al Catedrático. Puede que la Clave API sea inválida o que el modelo esté saturado. Por favor, abre la consola (F12) para ver el error exacto.</p>`; 
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const correctIndex = currentExercise.correcta, isCorrect = selectedIndex === correctIndex, feedbackArea = document.getElementById('feedback-area');
+            document.querySelectorAll('[id^="btn-opt-"]').forEach(btn => { btn.disabled = true; btn.classList.add('opacity-50'); });
+            const selectedBtn = document.getElementById(`btn-opt-${selectedIndex}`), correctBtn = document.getElementById(`btn-opt-${correctIndex}`);
+            selectedBtn.classList.remove('bg-stone-700', 'opacity-50'); correctBtn.classList.remove('bg-stone-700', 'opacity-50');
+            
+            if (isCorrect) { selectedBtn.classList.add('bg-green-900', 'border-green-500'); } 
+            else { selectedBtn.classList.add('bg-red-900', 'border-red-500'); correctBtn.classList.add('bg-green-900', 'border-green-500'); }
+            
+            feedbackArea.classList.remove('hidden'); 
+            feedbackArea.classList.add(isCorrect ? 'bg-green-900/30' : 'bg-red-900/30', isCorrect ? 'border-green-500' : 'border-red-500');
+            feedbackArea.innerHTML = `
+                <div class="flex items-center gap-2 mb-2">${isCorrect ? '<i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i> <span class="text-green-400 font-bold ancient text-xs uppercase tracking-widest">¡Optime!</span>' : '<i data-lucide="x-circle" class="w-5 h-5 text-red-400"></i> <span class="text-red-400 font-bold ancient text-xs uppercase tracking-widest">Erraste, Magister</span>'}</div>
+                <p class="text-sm text-stone-300 font-serif leading-relaxed mt-3"><span class="text-gold font-bold">Lección del Oráculo:</span><br>${currentExercise.explicacion}</p>
+                <button onclick="generateExercise()" class="mt-4 text-xs text-gold hover:text-white underline">Solicitar otro reto</button>
+            `; 
+            lucide.createIcons();
+        }
+
+        // --- DICCIONARIO Y ORÁCULO DE ETIMOLOGÍA ---
+        function openDictionary() {
+            const drawer = document.getElementById('oracle-drawer'), content = document.getElementById('oracle-content'); 
+            drawer.classList.remove('translate-x-full');
+            content.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="ancient text-xl font-black mb-2 flex items-center gap-2"><i data-lucide="book-open"></i> Lexicon Liddell-Scott</h3>
+                    <div class="flex gap-2">
+                        <input type="text" id="dic-input" placeholder="Ej: λόγος" class="flex-1 p-3 border rounded-lg greek-display text-xl focus:outline-none focus:border-gold">
+                        <button onclick="searchDictionary()" class="p-3 bg-stone-900 text-white rounded-lg hover:bg-gold"><i data-lucide="search"></i></button>
+                    </div>
+                </div>
+                <div id="dic-results" class="space-y-4"></div>
+            `;
+            lucide.createIcons(); document.getElementById('dic-input').focus();
+        }
+
+        async function searchDictionary(word = null) {
+            const searchTerm = word || document.getElementById('dic-input').value; 
+            if(!searchTerm) return;
+            
+            const resultsDiv = document.getElementById('dic-results'); 
+            resultsDiv.innerHTML = `<div class="py-10 text-center animate-pulse ancient text-stone-400">Consultando...</div>`;
+            
+            let apiKey = localStorage.getItem('gemini_key'); 
+            if (!apiKey) { apiKey = prompt("Pega tu Clave API:"); if (apiKey) localStorage.setItem('gemini_key', apiKey.trim()); else return; }
+            
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                // INSTRUCCIÓN BLINDADA PARA LA ETIMOLOGÍA EN ESPAÑOL
+                const prompt = `Actúa como el Diccionario LSJ de Griego Antiguo. Define "${searchTerm}". Devuelve estrictamente este JSON: {"lema":"palabra","transliteracion":"alfabeto latino","significados":["1. x"],"etimologia_espanol":"Palabras en español derivadas de esta raíz (Ej: de chronos -> cronómetro, crónico)","ejemplo_uso":"Una frase corta"}`;
+                
+                const response = await fetch(url, { 
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }) 
+                });
+                
+                if (!response.ok) throw new Error("Error HTTP " + response.status);
+                
+                const data = await response.json(); 
+                
+                // PARCHE: Limpiamos los bloques de código Markdown que a veces rompen el JSON
+                let rawText = data.candidates[0].content.parts[0].text;
+                rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+                
+                const res = JSON.parse(rawText);
+                
+                resultsDiv.innerHTML = `
+                    <div class="border-t pt-6">
+                        <h3 class="greek-display text-4xl mb-1">${res.lema}</h3>
+                        <p class="text-stone-400 italic mb-6">[${res.transliteracion}]</p>
+                        <div class="space-y-4">
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-200">
+                                <p class="ancient text-[9px] text-red-800 uppercase font-bold mb-3">Definiciones</p>
+                                <ul class="list-disc list-inside space-y-2 font-serif text-stone-800">${res.significados.map(s => `<li>${s}</li>`).join('')}</ul>
+                            </div>
+                            <div>
+                                <p class="ancient text-[9px] text-terracotta uppercase font-bold mb-1"><i data-lucide="git-branch" class="w-3 h-3 inline"></i> Huella en Español</p>
+                                <p class="text-sm font-serif text-stone-700 bg-red-50 p-4 rounded-lg border border-red-100 leading-relaxed">${res.etimologia_espanol}</p>
+                            </div>
+                            ${res.ejemplo_uso ? `
+                            <div class="mt-4 p-4 border-l-2 border-gold bg-white">
+                                <p class="ancient text-[9px] text-stone-400 uppercase font-bold mb-1">Contexto de uso</p>
+                                <p class="text-sm italic font-serif text-stone-600">"${res.ejemplo_uso}"</p>
+                            </div>` : ''}
+                        </div>
+                    </div>
+                `; 
+                lucide.createIcons();
+            } catch (e) { 
+                console.error("Error detallado del Oráculo:", e);
+                resultsDiv.innerHTML = `<p class="text-red-500 text-sm p-4 bg-red-50 rounded-xl">Error de conexión o análisis del Oráculo. Abre la consola (F12) para revisar el código del error.</p>`; 
+            }
+        }
+
+        function analyze(word) { openDictionary(); setTimeout(() => { document.getElementById('dic-input').value = word; searchDictionary(word); }, 100); }
+        function toggleSidebar(show) { document.getElementById('sidebar').classList.toggle('-translate-x-full', !show); }
+        function closeOracle() { document.getElementById('oracle-drawer').classList.add('translate-x-full'); }
+    </script>
+</body>
+</html>
