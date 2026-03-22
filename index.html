@@ -107,7 +107,9 @@
                 </div>
             </div>
             <div class="flex flex-col items-center gap-2">
-                <a href="https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC" target="_blank" class="px-6 py-3 bg-red-800 text-white rounded-2xl ancient text-[10px] font-bold hover:bg-gold transition-all uppercase tracking-widest shadow-lg">Support / Donar</a>
+                <a href="https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC" target="_blank" class="px-6 py-3 bg-red-800 text-white rounded-2xl ancient text-[10px] font-bold hover:bg-gold transition-all uppercase tracking-widest shadow-lg flex items-center gap-2">Support / Donar</a>
+                <a href="mailto:alejandroruizgueto@hotmail.es" class="px-6 py-2 bg-stone-800 text-white rounded-2xl ancient text-[9px] font-bold hover:bg-terracotta transition-all uppercase tracking-widest shadow-sm flex items-center gap-2"><i data-lucide="mail" class="w-3 h-3"></i> Contacto / Contact</a>
+                <button onclick="localStorage.removeItem('groq_key'); location.reload();" class="text-[9px] ancient text-stone-400 uppercase mt-2">Reset API</button>
             </div>
         </footer>
     </main>
@@ -196,15 +198,16 @@
         <div class="space-y-8 font-serif text-sm dark:text-stone-400 leading-relaxed text-justify">
             <div class="legal-sect border-red-800 pl-6 border-l-4">
                 <span class="lang-tag bg-es mb-4">ES</span>
-                <p><b>Términos de Uso:</b> Latinitatis PRO es un Entorno Personal de Aprendizaje (PLE) de código abierto y sin fines de lucro, desarrollado por Alejandro Güeto para el estudio filológico clásico. Todo el código fuente y el diseño estructural son propiedad del autor. Los textos clásicos incluidos pertenecen al dominio público. El análisis morfosintáctico generado por Inteligencia Artificial es experimental y se ofrece estrictamente con fines educativos, sin garantía de infalibilidad académica.</p>
+                <p><b>Autoría y Propósito:</b> Latinitatis PRO es un Entorno Personal de Aprendizaje (PLE) gratuito y de código abierto. Esta plataforma ha sido creada y programada en exclusiva por Alejandro Güeto (profesor de latín y griego en Andalucía). Ha requerido una inversión y un esfuerzo considerable, por lo que se agradecen donaciones vía PayPal.</p>
+                <p>Textos originales en dominio público. Dudas a: alejandroruizgueto@hotmail.es</p>
             </div>
             <div class="legal-sect border-stone-400 pl-6 border-l-4 opacity-80">
                 <span class="lang-tag bg-en mb-4">EN</span>
-                <p><b>Terms of Use:</b> Latinitatis PRO is an open-source, non-profit Personal Learning Environment (PLE) developed by Alejandro Güeto. All classical texts provided belong to the public domain. The AI-generated morphological analysis and translations are experimental and provided strictly for educational purposes.</p>
+                <p><b>Legal Notice:</b> Latinitatis PRO is a free, open-source Personal Learning Environment (PLE) created exclusively by Alejandro Güeto (teacher in Andalusia). Original texts are public domain. Donations via PayPal are appreciated. Contact: alejandroruizgueto@hotmail.es</p>
             </div>
             <div class="legal-sect border-stone-400 pl-6 border-l-4 opacity-80">
                 <span class="lang-tag bg-fr mb-4">FR</span>
-                <p><b>Conditions d'utilisation:</b> Latinitatis PRO est un Environnement Personnel d'Apprentissage (PLE) open-source développé par Alejandro Güeto. Les textes classiques appartiennent au domaine public. L'analyse générée par l'Intelligence Artificielle est expérimentale et proposée à des fins strictement éducatives.</p>
+                <p><b>Mentions Légales:</b> Cet environnement d'apprentissage (PLE) a été conçu par Alejandro Güeto. Les textes originaux appartiennent au domaine public. Merci pour votre soutien via PayPal. Contact: alejandroruizgueto@hotmail.es</p>
             </div>
         </div>
         <button onclick="toggleLegal(false)" class="mt-12 ancient text-[10px] underline dark:text-stone-500 uppercase font-black">Cerrar / Close / Fermer</button>
@@ -215,15 +218,15 @@
         <div class="space-y-8 font-serif text-sm dark:text-stone-400 leading-relaxed text-justify">
             <div class="legal-sect border-red-800 pl-6 border-l-4">
                 <span class="lang-tag bg-es mb-4">ES</span>
-                <p><b>Protección de Datos:</b> En cumplimiento de las normativas vigentes, Latinitatis PRO garantiza el anonimato absoluto. Esta plataforma NO utiliza cookies de seguimiento, NO recopila datos personales, NO requiere registro de cuentas y NO envía información a servidores externos. Tu Clave API, tu historial de lectura, tu vocabulario y tus notas personales se almacenan de forma local y exclusiva en el <i>LocalStorage</i> de tu navegador.</p>
+                <p><b>Memoria Permanente y Privacidad Total:</b> Gracias al sistema de LocalStorage, aunque recargues la página, tus lecturas, notas y vocabulario guardado no se borrarán (están en tu navegador). No hay cuentas ni registros y tu información personal o API Key no se guarda en ningún servidor o nube; todo reside en tu propio dispositivo.</p>
             </div>
             <div class="legal-sect border-stone-400 pl-6 border-l-4 opacity-80">
                 <span class="lang-tag bg-en mb-4">EN</span>
-                <p><b>Data Protection:</b> Latinitatis PRO guarantees absolute user anonymity. We DO NOT use tracking cookies, harvest personal data, or require user registration. Your API Key, reading history, vocabulary, and notes are stored locally in your browser's LocalStorage.</p>
+                <p><b>Data Privacy:</b> No cookies or tracking. Your API keys, notes, and reading history stay in your browser's LocalStorage. No user data is harvested or sent to external clouds.</p>
             </div>
             <div class="legal-sect border-stone-400 pl-6 border-l-4 opacity-80">
                 <span class="lang-tag bg-fr mb-4">FR</span>
-                <p><b>Protection des Données:</b> Latinitatis PRO garantit l'anonymat absolu. Cette plateforme n'utilise AUCUN cookie de suivi et ne collecte aucune donnée personnelle. Vos clés API, notes et historiques sont stockés exclusivement dans le LocalStorage de votre navigateur.</p>
+                <p><b>Confidentialité:</b> Aucun cookie. Vos clés API, notes et historique sont stockés localement dans votre navigateur. Aucune donnée n'est envoyée vers des serveurs externes.</p>
             </div>
         </div>
         <button onclick="togglePrivacy(false)" class="mt-12 ancient text-[10px] underline dark:text-stone-500 uppercase font-black">Cerrar / Close / Fermer</button>
@@ -247,7 +250,7 @@
             
             let sysPrompt = isExercise 
                 ? "You are an Expert Philologist. Create a multiple-choice question in Spanish about the provided Greek text. Respond ONLY in valid JSON: {\"pregunta\":\"...\",\"opciones\":[\"...\",\"...\",\"...\"],\"correcta\":0,\"explicacion\":\"...\"}."
-                : "You are an Expert Philologist. You must respond in valid JSON format. Provide the FULL dictionary lemma in lowercase including genitive and article for nouns (e.g. μῆνις, -ιος, ἡ) as 'enunciado'. IMPORTANT: For 'syntax', strictly identify the grammatical case and its syntactical function in the sentence (e.g., 'Acusativo, Complemento Directo' / 'Accusative, Direct Object'). Fields: enunciado, es(morph, syntax, def, etym, trans_lit [literary translation in Spanish], trans_linealis [literal translation in Spanish]), en(morph, syntax, def, etym), fr(morph, syntax, def, etym). DO NOT provide transliterations or phonetic spellings.";
+                : "You are an Expert Philologist. You must respond in valid JSON format. Provide the FULL dictionary lemma in lowercase including genitive and article for nouns (e.g. μῆνις, -ιος, ἡ) as 'enunciado'. IMPORTANT: For 'syntax', strictly identify the grammatical case and its syntactical function in the sentence (e.g., 'Acusativo, Complemento Directo' / 'Accusative, Direct Object'). For 'etym', you MUST include the Proto-Indo-European (PIE) roots. Fields: enunciado, es(morph, syntax, def, etym, trans_lit, trans_linealis), en(morph, syntax, def, etym), fr(morph, syntax, def, etym).";
 
             const r = await fetch('https://api.groq.com/openai/v1/chat/completions', { 
                 method: 'POST', headers: { 'Authorization': `Bearer ${k}`, 'Content-Type': 'application/json' }, 
@@ -289,7 +292,9 @@
                             `;
                         }
 
-                        return `<div class="border-l-[6px] border-stone-800 dark:border-gold pl-8"><span class="lang-tag bg-${l} mb-6 font-black uppercase">${l==='es'?'Español':l==='en'?'English':'Français'}</span><p class="text-md font-bold uppercase dark:text-stone-300 mb-1">${res[l].morph}</p><p class="text-sm font-bold text-terracotta dark:text-red-400 mb-4 uppercase italic">Sintaxis: ${res[l].syntax}</p><p class="text-3xl italic font-serif dark:text-white mb-6 leading-tight">"${res[l].def}"</p><div class="bg-stone-100/50 dark:bg-stone-800 p-6 rounded-2xl text-sm italic leading-relaxed text-stone-500 dark:text-stone-400"><b>Etimología:</b><br>${res[l].etym}</div>${extraTrans}</div>`;
+                        let etymLabel = l === 'es' ? 'Etimología (Raíces Indoeuropeas)' : l === 'en' ? 'Etymology (PIE Roots)' : 'Étymologie (Racines PIE)';
+
+                        return `<div class="border-l-[6px] border-stone-800 dark:border-gold pl-8"><span class="lang-tag bg-${l} mb-6 font-black uppercase">${l==='es'?'Español':l==='en'?'English':'Français'}</span><p class="text-md font-bold uppercase dark:text-stone-300 mb-1">${res[l].morph}</p><p class="text-sm font-bold text-terracotta dark:text-red-400 mb-4 uppercase italic">Sintaxis: ${res[l].syntax}</p><p class="text-3xl italic font-serif dark:text-white mb-6 leading-tight">"${res[l].def}"</p><div class="bg-stone-100/50 dark:bg-stone-800 p-6 rounded-2xl text-sm italic leading-relaxed text-stone-500 dark:text-stone-400"><b>${etymLabel}:</b><br>${res[l].etym}</div>${extraTrans}</div>`;
                     }).join('') + `</div>`;
                 lucide.createIcons();
             } catch (e) { c.innerHTML = `<p class='p-16 bg-red-50 text-red-800 rounded-3xl font-black ancient uppercase'>Error IA: ${e.message}</p>`; }
