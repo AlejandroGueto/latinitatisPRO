@@ -91,7 +91,7 @@
         <section class="mb-16 p-10 bg-red-50/30 dark:bg-stone-900 rounded-[3rem] border-2 border-dashed border-red-200 dark:border-stone-700">
             <div class="text-center mb-8">
                 <h3 class="ancient text-2xl font-bold text-red-800 dark:text-red-500 uppercase tracking-widest">Interpretatio Externa</h3>
-                <p class="text-sm text-stone-500 italic mt-2">Pegue cualquier texto griego externo para análisis instantáneo.</p>
+                <p class="text-sm text-stone-500 italic mt-2">Cargue fragmentos externos de repositorios digitales para su análisis.</p>
             </div>
             <div class="flex flex-col gap-4">
                 <textarea id="external-input" class="w-full h-32 p-6 rounded-2xl border bg-white dark:bg-stone-950 dark:border-stone-800 font-serif text-lg" placeholder="Pega el texto griego aquí..."></textarea>
@@ -232,7 +232,7 @@
                     model: "llama-3.3-70b-versatile", 
                     messages: [{ 
                         role: "system", 
-                        content: "Expert Philologist. JSON Format Mandatory. Fields: enunciado (dictionary form, e.g. μῆνις, -ιος, ἡ), es(morph, syntax, def, etym, trans_lit, trans_linealis), en(morph, syntax, def, etym), fr(morph, syntax, def, etym). Syntax must analyze precise role (e.g. Accusative Direct Object)." 
+                        content: "You are an Expert Philologist. You must respond in valid JSON format. Provide the dictionary lemma in lowercase as 'enunciado'. IMPORTANT: The 'syntax' field MUST explicitly state the case and its syntactic function (e.g. Accusative, Direct Object). Fields: enunciado (lowercase lemma, e.g. μῆνις, -ιος, ἡ), es(morph, syntax, def, etym, trans_lit, trans_linealis), en(morph, syntax, def, etym), fr(morph, syntax, def, etym)." 
                     }, { role: "user", content: p }], 
                     temperature: 0.1, response_format: { type: "json_object" } 
                 }) 
@@ -243,24 +243,14 @@
         async function analyze(word) {
             openOracle(); const c = document.getElementById('oracle-content'); c.innerHTML = "<p class='py-48 text-center animate-pulse ancient text-stone-300 uppercase tracking-widest'>Consultatio Oraculi...</p>";
             try {
-                const res = JSON.parse(await callAI(`Analyze Greek word: "${word}" in context of ${currentWork.author}. Identify exact syntax (e.g. Accusative Direct Object) and dictionary form.`));
+                const res = JSON.parse(await callAI(`Analyze Greek word: "${word}" in context of ${currentWork.author}. Be extremely precise with the syntax: identify the case and its syntactic role (e.g. if the word is Μῆνιν, it is Accusative and Direct Object). Provide the dictionary lemma in lowercase.`));
                 c.innerHTML = `
                     <div class="flex justify-between items-center mb-10 border-b pb-6">
                         <h3 class="greek-display text-7xl font-black dark:text-white tracking-tighter">${word}</h3>
                         <button onclick="saveWord('${res.enunciado.replace(/'/g, "\\'")}', '${res.es.def.replace(/'/g, "\\'")}')" class="flex items-center gap-2 p-3 bg-red-50 text-red-800 rounded-xl hover:bg-gold hover:text-white transition-all text-[10px] ancient uppercase font-bold"><i data-lucide="bookmark-plus"></i> Guardar Palabra</button>
                     </div>
-                    <p class="text-xl font-bold text-stone-400 text-center uppercase tracking-widest mb-12 font-serif">${res.enunciado}</p>
+                    <p class="text-xl font-bold text-stone-400 text-center uppercase tracking-widest mb-12 font-serif lowercase">${res.enunciado}</p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-                        <div class="bg-stone-50 dark:bg-stone-800 p-6 rounded-3xl border border-stone-200 dark:border-stone-700">
-                            <p class="ancient text-[9px] text-red-800 mb-2 uppercase">Interpretatio Litteraria</p>
-                            <p class="text-lg italic font-serif dark:text-stone-300">"${res.es.trans_lit}"</p>
-                        </div>
-                        <div class="bg-stone-50 dark:bg-stone-800 p-6 rounded-3xl border border-stone-200 dark:border-stone-700">
-                            <p class="ancient text-[9px] text-red-800 mb-2 uppercase">Interpretatio Linealis</p>
-                            <p class="text-lg font-serif dark:text-stone-300">"${res.es.trans_linealis}"</p>
-                        </div>
-                    </div>
                     <div class="space-y-16">` + 
                     ['es','en','fr'].map(l => {
                         if(!res[l]) return '';
