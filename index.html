@@ -365,23 +365,54 @@
         }
 
         // --- LECTURA ---
-        function toggleAudio() {
+       function toggleAudio() {
             if (isReading) { stopAudio(); return; }
-            utterance = new SpeechSynthesisUtterance(currentWork.content);
-            utterance.voice = getBestGreekVoice();
-            utterance.lang = 'el-GR';
+            
+            // 1. Limpiamos el texto de saltos de línea y espacios extra para que la IA no se pierda
+            const cleanText = currentWork.content.replace(/[\n\r]/g, ' ').replace(/\s+/g, ' ').trim();
+            utterance = new SpeechSynthesisUtterance(cleanText);
+            
+            // 2. Detectamos si es Griego o Latín por el idioma del documento
+            const isGreek = document.documentElement.lang === 'el';
+            utterance.voice = isGreek ? getBestGreekVoice() : getBestLatinVoice();
+            utterance.lang = isGreek ? 'el-GR' : 'it-IT';
             utterance.rate = readingRate;
+            
             let wordIdx = 0;
+            const tokens = document.querySelectorAll('.word-token');
+
+            // 3. El motor de "boundary" ahora solo dispara el brillo si hay una palabra real
             utterance.onboundary = (e) => {
                 if (e.name === 'word') {
-                    document.querySelectorAll('.word-token').forEach(el => el.classList.remove('reading-now'));
-                    const el = document.getElementById(`token-${wordIdx++}`);
-                    if (el) { el.classList.add('reading-now'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-                    document.getElementById('progress-fill').style.width = `${(wordIdx / totalWords) * 100}%`;
+                    // Quitamos el resaltado previo
+                    tokens.forEach(el => el.classList.remove('reading-now'));
+                    
+                    // Iluminamos la palabra actual basándonos en el índice de tokens generados
+                    const currentToken = tokens[wordIdx];
+                    if (currentToken) {
+                        currentToken.classList.add('reading-now');
+                        
+                        // Scroll suave para que la palabra siempre esté a la vista
+                        currentToken.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                        
+                        // Actualizamos la barra de oro de progreso
+                        const progress = ((wordIdx + 1) / tokens.length) * 100;
+                        document.getElementById('progress-fill').style.width = `${progress}%`;
+                        
+                        wordIdx++;
+                    }
                 }
             };
+
             utterance.onend = () => stopAudio(true);
-            synth.speak(utterance); isReading = true; updatePlayBtn(true);
+            utterance.onerror = () => stopAudio(true);
+
+            isReading = true;
+            updatePlayBtn(true);
+            synth.speak(utterance);
         }
 
         function stopAudio(reset = false) { synth.cancel(); isReading = false; updatePlayBtn(false); if (reset) document.getElementById('progress-fill').style.width = '0%'; }
