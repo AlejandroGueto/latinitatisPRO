@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
     <style>
         :root { --marble: #FDFCF8; --terracotta: #8B322C; --gold: #C5A059; --ink: #1A1A1A; }
-        body { font-family: 'Noto Serif Display', serif; background-color: var(--marble); color: var(--ink); background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); }
+        body { font-family: 'Noto Serif Display', serif; background-color: var(--marble); color: var(--ink); background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); scroll-behavior: smooth; }
         .ancient { font-family: 'Cinzel', serif; letter-spacing: 0.05em; }
         .greek-display { font-family: 'Playfair Display', serif; }
         
@@ -20,32 +20,157 @@
         .drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .trans-card { background: white; padding: 1.5rem; border-radius: 1rem; border-top: 4px solid var(--terracotta); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         
-        /* Barra de progreso estilo Audible */
         .progress-container { width: 100%; background: #e5e5e5; border-radius: 8px; height: 6px; overflow: hidden; margin-top: 10px; }
         .progress-bar { height: 100%; background: var(--gold); width: 0%; transition: width 0.2s linear; }
+        
+        .home-card { background: white; padding: 2rem; border-radius: 1.5rem; border: 1px solid #eaeaea; box-shadow: 0 10px 30px rgba(0,0,0,0.03); transition: transform 0.2s; }
+        .home-card:hover { transform: translateY(-5px); border-color: var(--gold); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col pb-20">
 
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 px-6 py-4 flex justify-between items-center shadow-sm">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="location.reload()">
-            <div class="w-10 h-10 bg-stone-900 text-gold rounded-lg flex items-center justify-center font-bold shadow-xl">ΑΩ</div>
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 px-4 md:px-6 py-4 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-4 cursor-pointer" onclick="showHome()">
+            <div class="w-10 h-10 bg-stone-900 text-gold rounded-lg flex items-center justify-center font-bold shadow-xl hover:bg-stone-800 transition-colors">ΑΩ</div>
             <h1 class="ancient text-lg font-black text-stone-800 uppercase hidden md:block tracking-tighter">Latinitatis <span class="text-red-800">PRO</span></h1>
         </div>
         <div class="flex gap-2">
-            <button onclick="openDictionary()" class="flex items-center gap-2 px-4 py-2 bg-stone-100 hover:bg-stone-200 rounded-full transition-all text-stone-700">
+            <button onclick="toggleCodex(true)" class="flex items-center gap-2 px-3 md:px-4 py-2 bg-stone-100 hover:bg-stone-200 rounded-full transition-all text-stone-700" title="Mi Códice (Favoritos)">
+                <i data-lucide="bookmark" class="w-4 h-4 text-terracotta"></i><span class="ancient text-[10px] font-bold uppercase hidden md:inline">Mi Códice</span>
+            </button>
+            <button onclick="openDictionary()" class="flex items-center gap-2 px-3 md:px-4 py-2 bg-stone-100 hover:bg-stone-200 rounded-full transition-all text-stone-700">
                 <i data-lucide="search" class="w-4 h-4"></i><span class="ancient text-[10px] font-bold uppercase hidden md:inline">Diccionario</span>
             </button>
-            <button onclick="toggleSidebar(true)" class="flex items-center gap-2 px-4 py-2 bg-stone-900 text-white hover:bg-stone-800 rounded-full transition-all">
-                <i data-lucide="book-open" class="w-4 h-4"></i><span class="ancient text-[10px] font-bold uppercase">Bibliotheca</span>
+            <button onclick="toggleSidebar(true)" class="flex items-center gap-2 px-4 py-2 bg-stone-900 text-white hover:bg-stone-800 rounded-full transition-all shadow-md">
+                <i data-lucide="library" class="w-4 h-4"></i><span class="ancient text-[10px] font-bold uppercase">Bibliotheca</span>
             </button>
         </div>
     </nav>
 
-    <main class="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full">
-        <header class="text-center mb-8">
-            <h2 id="view-title" class="greek-display text-4xl md:text-5xl font-black text-stone-900 italic mb-2">Cargando Bóveda...</h2>
-            <p id="view-meta" class="text-red-800 ancient text-[10px] uppercase tracking-[0.3em] font-bold"></p>
+    <main id="home-view" class="flex-1 p-4 md:p-8 max-w-5xl mx-auto w-full animate-in fade-in duration-500">
+        <header class="text-center mb-16 mt-8">
+            <h2 class="greek-display text-5xl md:text-7xl font-black text-stone-900 italic mb-4">Latinitatis PRO</h2>
+            <p class="text-terracotta ancient text-xs md:text-sm uppercase tracking-[0.3em] font-bold">El Entorno Personal de Aprendizaje Definitivo</p>
+        </header>
+
+        <section class="mb-20">
+            <h3 class="ancient text-2xl font-black mb-6 border-b pb-2 text-stone-800">¿Por qué Latinitatis PRO es única?</h3>
+            <p class="text-lg font-serif text-stone-600 leading-relaxed mb-8">
+                Porque esta plataforma de griego antiguo, gratuita y de código abierto, está inspirada y selecciona muchos de los mejores recursos existentes a nivel mundial en el estudio y la difusión de las lenguas clásicas, a través de la convergencia de todos ellos:
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="home-card relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-5"><i data-lucide="landmark" class="w-32 h-32"></i></div>
+                    <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="database" class="text-stone-400"></i> 1. El Gigante: Perseus Digital</h4>
+                    <p class="text-xs text-stone-400 ancient uppercase tracking-widest mb-4">Tufts University</p>
+                    <p class="text-sm font-serif mb-3">Es el estándar de oro. Una base de datos masiva con casi todos los textos clásicos.</p>
+                    <ul class="text-sm space-y-2">
+                        <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-600 shrink-0"></i> <span><strong>Lo que tiene:</strong> Análisis morfológico palabra por palabra (Morpheus).</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="x-circle" class="w-5 h-5 text-red-500 shrink-0"></i> <span class="text-stone-500"><strong>Lo que le falta:</strong> Interfaz antigua, incómoda en móviles, sin recitación integrada ni ejercicios. Es una consulta, no una experiencia de lectura.</span></li>
+                    </ul>
+                </div>
+
+                <div class="home-card relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-5"><i data-lucide="book" class="w-32 h-32"></i></div>
+                    <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="languages" class="text-stone-400"></i> 2. El Filólogo: Logeion</h4>
+                    <p class="text-xs text-stone-400 ancient uppercase tracking-widest mb-4">University of Chicago</p>
+                    <p class="text-sm font-serif mb-3">Probablemente el mejor diccionario digital multiplataforma que existe.</p>
+                    <ul class="text-sm space-y-2">
+                        <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-600 shrink-0"></i> <span><strong>Lo que tiene:</strong> Reúne los mejores diccionarios (como el Liddell-Scott-Jones) en una sola búsqueda.</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="x-circle" class="w-5 h-5 text-red-500 shrink-0"></i> <span class="text-stone-500"><strong>Lo que le falta:</strong> Centrado en palabras sueltas, no en la lectura fluida de textos con audiolibro.</span></li>
+                    </ul>
+                </div>
+
+                <div class="home-card relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-5"><i data-lucide="microscope" class="w-32 h-32"></i></div>
+                    <h4 class="font-bold text-xl mb-1 flex items-center gap-2"><i data-lucide="quote" class="text-stone-400"></i> 3. La referencia: Dicciogriego</h4>
+                    <p class="text-xs text-stone-400 ancient uppercase tracking-widest mb-4">Herramienta en Español</p>
+                    <p class="text-sm font-serif mb-3">Una herramienta excelente creada y mantenida desde España.</p>
+                    <ul class="text-sm space-y-2">
+                        <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-600 shrink-0"></i> <span><strong>Lo que tiene:</strong> Análisis morfológico detallado y etimologías muy bien explicadas en castellano.</span></li>
+                        <li class="flex items-start gap-2"><i data-lucide="x-circle" class="w-5 h-5 text-red-500 shrink-0"></i> <span class="text-stone-500"><strong>Lo que le falta:</strong> Conexión con un "Oráculo" IA para dudas sintácticas complejas o creación de exámenes al momento.</span></li>
+                    </ul>
+                </div>
+
+                <div class="home-card relative overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-xl mb-2 flex items-center gap-2"><i data-lucide="eye" class="text-stone-400"></i> 4. Scaife Viewer</h4>
+                        <p class="text-sm font-serif mb-3">La versión moderna de Perseus. Lectura limpia, pero sigue siendo un visor para investigadores sin "Scriptorium" personal.</p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t">
+                        <h4 class="font-bold text-xl mb-2 flex items-center gap-2"><i data-lucide="sparkles" class="text-stone-400"></i> 5. Legentibus</h4>
+                        <p class="text-sm font-serif">La revolución didáctica del S. XXI. Atractiva para principiantes, pero centrada solo en el latín y mayormente en inglés.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <h3 class="ancient text-2xl font-black mb-8 text-center border-b pb-4">La Síntesis: Funciones de esta Versión</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="p-6 bg-stone-900 text-white rounded-2xl shadow-lg">
+                    <i data-lucide="brain-circuit" class="w-8 h-8 text-gold mb-4"></i>
+                    <h4 class="font-bold mb-2">Cerebro Lingüístico & Oráculo</h4>
+                    <p class="text-sm text-stone-400">Análisis contextual profundo (sintaxis + morfología) de cualquier palabra mediante Inteligencia Artificial avanzada.</p>
+                </div>
+                <div class="p-6 bg-stone-900 text-white rounded-2xl shadow-lg">
+                    <i data-lucide="languages" class="w-8 h-8 text-gold mb-4"></i>
+                    <h4 class="font-bold mb-2">Multilingüismo Histórico</h4>
+                    <p class="text-sm text-stone-400">Comparativa real entre ediciones de Gredos, Oxford, Belles Lettres y traducciones literales al pulsar un solo botón.</p>
+                </div>
+                <div class="p-6 bg-stone-900 text-white rounded-2xl shadow-lg">
+                    <i data-lucide="gamepad-2" class="w-8 h-8 text-gold mb-4"></i>
+                    <h4 class="font-bold mb-2">Gamificación en Tiempo Real</h4>
+                    <p class="text-sm text-stone-400">Pulsa el botón "Reto Magistral" y el Oráculo leerá el texto en pantalla para inventarse un ejercicio interactivo sorpresa.</p>
+                </div>
+                <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow-sm">
+                    <i data-lucide="git-branch" class="w-8 h-8 text-terracotta mb-4"></i>
+                    <h4 class="font-bold mb-2 text-stone-800">Etimología en Español</h4>
+                    <p class="text-sm text-stone-600">Al consultar una palabra, el Oráculo te mostrará qué términos en español derivan de esa misma raíz griega.</p>
+                </div>
+                <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow-sm">
+                    <i data-lucide="headphones" class="w-8 h-8 text-terracotta mb-4"></i>
+                    <h4 class="font-bold mb-2 text-stone-800">Audiolibro Sincronizado</h4>
+                    <p class="text-sm text-stone-600">El texto se ilumina a medida que suena. Funciones propias de Audible o Kindle, con control de velocidad.</p>
+                </div>
+                <div class="p-6 bg-white border border-stone-200 rounded-2xl shadow-sm">
+                    <i data-lucide="shield-check" class="w-8 h-8 text-terracotta mb-4"></i>
+                    <h4 class="font-bold mb-2 text-stone-800">Memoria Local y Privacidad</h4>
+                    <p class="text-sm text-stone-600">Sin cuentas ni registros. Tu "Códice" (favoritos) se guarda en tu propio navegador mediante LocalStorage.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-red-50 border-t-4 border-terracotta p-8 md:p-12 rounded-3xl shadow-inner mt-12">
+            <h4 class="ancient text-lg font-black text-terracotta mb-4 flex items-center gap-2"><i data-lucide="info"></i> Notas de la Versión</h4>
+            <ul class="list-disc list-inside space-y-3 text-sm font-serif text-stone-700 mb-8">
+                <li>Para disfrutar del audiolibro, es necesario instalar en tu dispositivo el motor de Síntesis de Voz de Google (Google TTS) en griego moderno. (Aún no existe TTS con pronunciación erasmiana).</li>
+                <li>Dada la magnitud de los textos, las obras se irán añadiendo paulatinamente. Próximamente se lanzará una plataforma dedicada en exclusiva al latín.</li>
+            </ul>
+            <div class="bg-white p-6 rounded-2xl border border-red-100 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <p class="font-bold text-stone-900">Desarrollado por Alejandro Güeto</p>
+                    <p class="text-sm text-stone-500 mb-2">Profesor de Latín y Griego en Andalucía.</p>
+                    <a href="mailto:alejandroruizgueto@hotmail.es" class="text-xs text-terracotta hover:underline flex items-center gap-1"><i data-lucide="mail" class="w-3 h-3"></i> alejandroruizgueto@hotmail.es</a>
+                </div>
+                <div class="text-center md:text-right">
+                    <p class="text-xs text-stone-400 mb-2 max-w-xs">Este es un recurso gratuito y de código abierto. Si valoras el esfuerzo, puedes apoyar el proyecto:</p>
+                    <a href="https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-lg">
+                        <i data-lucide="credit-card"></i> Donar vía PayPal
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <main id="reader-view" class="hidden flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full">
+        <header class="text-center mb-8 relative">
+            <button onclick="saveToCodex()" class="absolute right-0 top-0 p-3 bg-white text-terracotta hover:bg-red-50 rounded-full shadow-md border border-red-100 transition-all" title="Guardar en mi Códice">
+                <i data-lucide="bookmark" id="bookmark-icon"></i>
+            </button>
+            <h2 id="view-title" class="greek-display text-4xl md:text-5xl font-black text-stone-900 italic mb-2">Título</h2>
+            <p id="view-meta" class="text-red-800 ancient text-[10px] uppercase tracking-[0.3em] font-bold">Autor</p>
         </header>
 
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -107,6 +232,14 @@
         <div id="author-list" class="space-y-6"></div>
     </div>
 
+    <div id="codex-drawer" class="fixed inset-y-0 left-0 w-full md:w-96 bg-stone-900 text-white shadow-2xl z-[100] -translate-x-full drawer p-8 overflow-y-auto">
+        <div class="flex justify-between items-center mb-8 border-b border-stone-700 pb-4">
+            <h2 class="ancient text-xl font-black text-gold flex items-center gap-2"><i data-lucide="bookmark"></i> Mi Códice</h2>
+            <button onclick="toggleCodex(false)" class="p-2 hover:bg-stone-800 rounded-full"><i data-lucide="x"></i></button>
+        </div>
+        <div id="codex-list" class="space-y-4"></div>
+    </div>
+
     <div id="oracle-drawer" class="fixed inset-y-0 right-0 w-full md:w-[450px] bg-white shadow-2xl z-[100] translate-x-full drawer p-10 overflow-y-auto border-l">
         <button onclick="closeOracle()" class="mb-8 text-stone-400 hover:text-red-800 flex items-center gap-2 ancient text-[10px] uppercase font-bold tracking-widest"><i data-lucide="arrow-left"></i> Cerrar</button>
         <div id="oracle-content"></div>
@@ -122,19 +255,27 @@
         let isPaused = false;
         let currentWork = null;
         let totalWords = 0;
-        let currentExercise = null; // Guarda el reto actual
+        let currentExercise = null;
+        let codexIndex = null;
 
         window.onload = () => { 
             lucide.createIcons(); 
-            // Verificamos si textos.js cargó correctamente el 'canon'
             if (typeof canon === 'undefined') {
-                document.getElementById('view-title').innerText = "Falta textos.js";
-                alert("¡Atención Magister! No se encuentra el archivo textos.js o tiene un error. Asegúrate de haberlo subido a GitHub en la misma carpeta.");
+                document.getElementById('view-title').innerText = "Error: Falta textos.js";
+                alert("¡Atención Magister! No se encuentra el archivo textos.js. Asegúrate de haberlo subido a GitHub en la misma carpeta.");
                 return;
             }
             renderLibrary(); 
-            loadWork(0, 0); 
+            loadCodex();
         };
+
+        // --- NAVEGACIÓN ---
+        function showHome() {
+            stopAudio(true);
+            document.getElementById('home-view').classList.remove('hidden');
+            document.getElementById('reader-view').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         function renderLibrary() {
             document.getElementById('author-list').innerHTML = canon.map((a, ai) => `
@@ -155,15 +296,19 @@
         function loadWork(ai, wi) {
             currentWork = canon[ai].works[wi]; 
             currentWork.author = canon[ai].author;
+            codexIndex = { ai, wi };
             
             document.getElementById('view-title').innerText = currentWork.title;
             document.getElementById('view-meta').innerText = `${currentWork.author} • ${currentWork.meta}`;
             document.getElementById('trans-grid').classList.add('hidden');
             document.getElementById('exercise-area').classList.add('hidden');
             
-            // Reemplazar saltos de línea con <br> y tokenizar
+            document.getElementById('home-view').classList.add('hidden');
+            document.getElementById('reader-view').classList.remove('hidden');
+            
+            // Procesamiento seguro de saltos de línea para poesía
             let rawText = currentWork.content.replace(/\n/g, ' <br> ');
-            const words = rawText.split(' ');
+            const words = rawText.split(' ').filter(w => w.trim() !== ''); // Eliminar espacios dobles
             totalWords = words.filter(w => w !== '<br>').length;
             
             const minutes = Math.ceil(totalWords / (120 * readingRate));
@@ -171,13 +316,52 @@
             
             let tokenIndex = 0;
             document.getElementById('greek-container').innerHTML = words.map((word) => {
-                if(word === '<br>') return '<br>';
+                if(word === '<br>') return '<br><br>'; // Doble br para separar estrofas/párrafos
                 let currentIdx = tokenIndex++;
                 return `<span class="word-token" id="token-${currentIdx}" onclick="analyze('${word.replace(/[.,·;:]/g,'')}')">${word}</span>`;
             }).join(' ');
             
+            checkIfSaved();
             toggleSidebar(false); 
             stopAudio(true);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- SISTEMA DE FAVORITOS (CÓDICE) ---
+        function toggleCodex(show) { document.getElementById('codex-drawer').classList.toggle('-translate-x-full', show === false); }
+        
+        function saveToCodex() {
+            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const exists = saved.findIndex(item => item.author === currentWork.author && item.title === currentWork.title);
+            
+            if (exists >= 0) { saved.splice(exists, 1); } 
+            else { saved.push({ author: currentWork.author, title: currentWork.title, ai: codexIndex.ai, wi: codexIndex.wi }); }
+            
+            localStorage.setItem('latinitatis_codex', JSON.stringify(saved));
+            checkIfSaved(); loadCodex();
+        }
+
+        function checkIfSaved() {
+            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const exists = saved.some(item => item.author === currentWork.author && item.title === currentWork.title);
+            const icon = document.getElementById('bookmark-icon');
+            if(exists) { icon.classList.add('fill-terracotta'); } else { icon.classList.remove('fill-terracotta'); }
+        }
+
+        function loadCodex() {
+            let saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]');
+            const list = document.getElementById('codex-list');
+            if(saved.length === 0) { list.innerHTML = "<p class='text-stone-500 text-sm italic'>Tu códice está vacío. Usa el marcapáginas al leer.</p>"; return; }
+            
+            list.innerHTML = saved.map(item => `
+                <div class="bg-stone-800 p-4 rounded-xl border border-stone-700">
+                    <p class="ancient text-[9px] text-gold uppercase tracking-widest">${item.author}</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <p class="font-serif text-sm">${item.title}</p>
+                        <button onclick="loadWork(${item.ai}, ${item.wi}); toggleCodex(false);" class="text-xs bg-stone-700 hover:bg-terracotta px-3 py-1 rounded-full transition-colors">Leer</button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         // --- CONTROLES AUDIBLE ---
@@ -189,7 +373,6 @@
 
         function startAudio() {
             synth.cancel(); isReading = true; isPaused = false; updateUI(true, false);
-            // Quitamos los <br> para leer
             let cleanText = currentWork.content.replace(/\n/g, ' ');
             utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.lang = 'el-GR'; utterance.rate = readingRate;
@@ -203,11 +386,9 @@
                         currentToken.classList.add('reading-now');
                         currentToken.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
-                    
                     let pct = Math.min(100, Math.round((wordCounter / totalWords) * 100));
                     document.getElementById('progress-fill').style.width = `${pct}%`;
                     document.getElementById('word-progress').innerText = `${pct}%`;
-                    
                     wordCounter++;
                 }
             };
@@ -216,18 +397,13 @@
         }
 
         function stopAudio(reset = false) {
-            synth.cancel(); isReading = false; isPaused = false;
-            updateUI(false, false);
+            synth.cancel(); isReading = false; isPaused = false; updateUI(false, false);
             document.querySelectorAll('.word-token').forEach(el => el.classList.remove('reading-now'));
-            if(reset) {
-                document.getElementById('progress-fill').style.width = '0%';
-                document.getElementById('word-progress').innerText = '0%';
-            }
+            if(reset) { document.getElementById('progress-fill').style.width = '0%'; document.getElementById('word-progress').innerText = '0%'; }
         }
 
         function updateUI(playing, paused) {
-            const icon = document.getElementById('play-icon');
-            const text = document.getElementById('btn-text');
+            const icon = document.getElementById('play-icon'); const text = document.getElementById('btn-text');
             if (playing) { icon.setAttribute('data-lucide', 'pause'); text.innerText = 'Pausar'; }
             else if (paused) { icon.setAttribute('data-lucide', 'play'); text.innerText = 'Reanudar'; }
             else { icon.setAttribute('data-lucide', 'play'); text.innerText = 'Leer'; }
@@ -242,11 +418,9 @@
 
         // --- SISTEMA DE TRADUCCIONES ---
         function toggleTranslations() {
-            const grid = document.getElementById('trans-grid');
-            grid.classList.toggle('hidden');
+            const grid = document.getElementById('trans-grid'); grid.classList.toggle('hidden');
             if (!currentWork.translations || currentWork.translations.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center p-8 text-stone-400 italic">No hay traducciones académicas para este pasaje. Usa el Diccionario para ayuda.</div>`;
-                return;
+                grid.innerHTML = `<div class="col-span-full text-center p-8 text-stone-400 italic">No hay traducciones académicas para este pasaje.</div>`; return;
             }
             grid.innerHTML = currentWork.translations.map(t => `
                 <div class="trans-card"><p class="text-[10px] ancient uppercase font-bold text-gold tracking-widest mb-3">${t.lang}</p><p class="text-lg italic text-stone-800 font-serif text-justify">"${t.text}"</p><p class="mt-4 text-[9px] text-stone-400 font-bold uppercase text-right">— ${t.author}</p></div>
@@ -254,172 +428,118 @@
             if(!grid.classList.contains('hidden')) grid.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // --- 🎓 RETOS DIDÁCTICOS PREMIUM ---
+        // --- RETOS DIDÁCTICOS PREMIUM ---
         async function generateExercise() {
-            const area = document.getElementById('exercise-area');
-            area.classList.remove('hidden');
-            area.innerHTML = `
-                <div class="text-center py-6 animate-pulse">
-                    <i data-lucide="brain-circuit" class="w-8 h-8 text-gold mx-auto mb-3"></i>
-                    <p class="ancient text-xs text-gold uppercase tracking-widest">El Catedrático prepara la prueba...</p>
-                </div>`;
-            lucide.createIcons();
-            area.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const area = document.getElementById('exercise-area'); area.classList.remove('hidden');
+            area.innerHTML = `<div class="text-center py-6 animate-pulse"><i data-lucide="brain-circuit" class="w-8 h-8 text-gold mx-auto mb-3"></i><p class="ancient text-xs text-gold uppercase tracking-widest">El Catedrático prepara la prueba...</p></div>`;
+            lucide.createIcons(); area.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             let apiKey = localStorage.getItem('gemini_key');
-            if (!apiKey) {
-                apiKey = prompt("🏛️ Pega tu Clave API de Google AI Studio:");
-                if (apiKey) localStorage.setItem('gemini_key', apiKey.trim()); else { area.classList.add('hidden'); return; }
-            }
+            if (!apiKey) { apiKey = prompt("🏛️ Pega tu Clave API de Google AI Studio:"); if (apiKey) localStorage.setItem('gemini_key', apiKey.trim()); else { area.classList.add('hidden'); return; } }
 
             try {
-                // Tomamos un fragmento (hasta 300 caracteres) para que la IA no se ahogue si es un libro entero
                 let textSample = currentWork.content.substring(0, 300) + "...";
-
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                const prompt = `Actúa como un catedrático de Filología Clásica. Crea un reto interactivo de opción múltiple, nivel universitario, sobre este texto de ${currentWork.author}: "${textSample}". 
-                El reto puede ser sobre una forma verbal compleja, sintaxis de casos, o una curiosidad de traducción.
-                Devuelve estrictamente un JSON: 
-                {"tipo": "Morfología / Sintaxis / Cultura", "pregunta": "Tu pregunta aquí", "opciones": ["Op1", "Op2", "Op3", "Op4"], "correcta": 0, "explicacion": "Breve lección explicando el porqué."}`;
+                const prompt = `Actúa como catedrático de Filología Clásica. Crea reto universitario opción múltiple de este texto de ${currentWork.author}: "${textSample}". JSON estricto: {"tipo":"Morfología/Sintaxis","pregunta":"","opciones":["","","",""],"correcta":0,"explicacion":""}`;
                 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } })
-                });
+                const response = await fetch(url, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }) });
                 
-                const data = await response.json();
+                const data = await response.json(); 
                 currentExercise = JSON.parse(data.candidates[0].content.parts[0].text);
 
                 area.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-stone-600 pb-3 mb-4">
-                        <span class="text-[10px] text-gold ancient font-bold uppercase tracking-widest">${currentExercise.tipo}</span>
-                        <button onclick="document.getElementById('exercise-area').classList.add('hidden')" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
-                    </div>
+                    <div class="flex justify-between items-center border-b border-stone-600 pb-3 mb-4"><span class="text-[10px] text-gold ancient font-bold uppercase tracking-widest">${currentExercise.tipo}</span><button onclick="document.getElementById('exercise-area').classList.add('hidden')" class="text-stone-400 hover:text-white"><i data-lucide="x"></i></button></div>
                     <p class="text-lg font-serif mb-6 leading-relaxed text-stone-100">${currentExercise.pregunta}</p>
-                    <div class="grid gap-3" id="options-container">
-                        ${currentExercise.opciones.map((opt, i) => `
-                            <button onclick="checkAnswer(${i})" id="btn-opt-${i}" class="text-left p-4 bg-stone-700 hover:bg-stone-600 rounded-xl font-serif text-sm transition-all border border-transparent">
-                                ${['A', 'B', 'C', 'D'][i]}. ${opt}
-                            </button>
-                        `).join('')}
-                    </div>
+                    <div class="grid gap-3">${currentExercise.opciones.map((opt, i) => `<button onclick="checkAnswer(${i})" id="btn-opt-${i}" class="text-left p-4 bg-stone-700 hover:bg-stone-600 rounded-xl font-serif text-sm transition-all border border-transparent">${['A', 'B', 'C', 'D'][i]}. ${opt}</button>`).join('')}</div>
                     <div id="feedback-area" class="hidden mt-6 p-5 rounded-xl border-l-4"></div>
-                `;
+                `; 
                 lucide.createIcons();
-            } catch (e) {
-                area.innerHTML = `<p class="text-red-400 text-sm p-4">Error al invocar al Catedrático. Intenta de nuevo.</p>`;
-            }
+            } catch (e) { area.innerHTML = `<p class="text-red-400 text-sm p-4">Error al invocar al Catedrático. Revisa tu clave API o conexión.</p>`; }
         }
 
         function checkAnswer(selectedIndex) {
-            const correctIndex = currentExercise.correcta;
-            const isCorrect = selectedIndex === correctIndex;
-            const feedbackArea = document.getElementById('feedback-area');
-            
-            // Bloquear botones
+            const correctIndex = currentExercise.correcta, isCorrect = selectedIndex === correctIndex, feedbackArea = document.getElementById('feedback-area');
             document.querySelectorAll('[id^="btn-opt-"]').forEach(btn => { btn.disabled = true; btn.classList.add('opacity-50'); });
+            const selectedBtn = document.getElementById(`btn-opt-${selectedIndex}`), correctBtn = document.getElementById(`btn-opt-${correctIndex}`);
+            selectedBtn.classList.remove('bg-stone-700', 'opacity-50'); correctBtn.classList.remove('bg-stone-700', 'opacity-50');
             
-            // Iluminar correcta e incorrecta
-            const selectedBtn = document.getElementById(`btn-opt-${selectedIndex}`);
-            const correctBtn = document.getElementById(`btn-opt-${correctIndex}`);
+            if (isCorrect) { selectedBtn.classList.add('bg-green-900', 'border-green-500'); } 
+            else { selectedBtn.classList.add('bg-red-900', 'border-red-500'); correctBtn.classList.add('bg-green-900', 'border-green-500'); }
             
-            selectedBtn.classList.remove('bg-stone-700', 'opacity-50');
-            correctBtn.classList.remove('bg-stone-700', 'opacity-50');
-            
-            if (isCorrect) {
-                selectedBtn.classList.add('bg-green-900', 'border-green-500');
-            } else {
-                selectedBtn.classList.add('bg-red-900', 'border-red-500');
-                correctBtn.classList.add('bg-green-900', 'border-green-500');
-            }
-
-            // Mostrar Lección Magistral
-            feedbackArea.classList.remove('hidden');
+            feedbackArea.classList.remove('hidden'); 
             feedbackArea.classList.add(isCorrect ? 'bg-green-900/30' : 'bg-red-900/30', isCorrect ? 'border-green-500' : 'border-red-500');
-            
             feedbackArea.innerHTML = `
-                <div class="flex items-center gap-2 mb-2">
-                    ${isCorrect ? '<i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i> <span class="text-green-400 font-bold ancient text-xs uppercase tracking-widest">¡Optime!</span>' 
-                              : '<i data-lucide="x-circle" class="w-5 h-5 text-red-400"></i> <span class="text-red-400 font-bold ancient text-xs uppercase tracking-widest">Erraste, Magister</span>'}
-                </div>
-                <p class="text-sm text-stone-300 font-serif leading-relaxed mt-3">
-                    <span class="text-gold font-bold">Lección del Oráculo:</span><br>
-                    ${currentExercise.explicacion}
-                </p>
+                <div class="flex items-center gap-2 mb-2">${isCorrect ? '<i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i> <span class="text-green-400 font-bold ancient text-xs uppercase tracking-widest">¡Optime!</span>' : '<i data-lucide="x-circle" class="w-5 h-5 text-red-400"></i> <span class="text-red-400 font-bold ancient text-xs uppercase tracking-widest">Erraste, Magister</span>'}</div>
+                <p class="text-sm text-stone-300 font-serif leading-relaxed mt-3"><span class="text-gold font-bold">Lección del Oráculo:</span><br>${currentExercise.explicacion}</p>
                 <button onclick="generateExercise()" class="mt-4 text-xs text-gold hover:text-white underline">Solicitar otro reto</button>
-            `;
+            `; 
             lucide.createIcons();
         }
 
-        // --- ORÁCULO Y DICCIONARIO ---
+        // --- DICCIONARIO Y ORÁCULO DE ETIMOLOGÍA ---
         function openDictionary() {
-            const drawer = document.getElementById('oracle-drawer');
-            const content = document.getElementById('oracle-content');
+            const drawer = document.getElementById('oracle-drawer'), content = document.getElementById('oracle-content'); 
             drawer.classList.remove('translate-x-full');
-            
             content.innerHTML = `
                 <div class="mb-6">
                     <h3 class="ancient text-xl font-black mb-2 flex items-center gap-2"><i data-lucide="book-open"></i> Lexicon Liddell-Scott</h3>
                     <div class="flex gap-2">
                         <input type="text" id="dic-input" placeholder="Ej: λόγος" class="flex-1 p-3 border rounded-lg greek-display text-xl focus:outline-none focus:border-gold">
-                        <button onclick="searchDictionary()" class="p-3 bg-stone-900 text-white rounded-lg hover:bg-gold transition-colors"><i data-lucide="search"></i></button>
+                        <button onclick="searchDictionary()" class="p-3 bg-stone-900 text-white rounded-lg hover:bg-gold"><i data-lucide="search"></i></button>
                     </div>
                 </div>
                 <div id="dic-results" class="space-y-4"></div>
             `;
-            lucide.createIcons();
-            document.getElementById('dic-input').focus();
+            lucide.createIcons(); document.getElementById('dic-input').focus();
         }
 
         async function searchDictionary(word = null) {
-            const searchTerm = word || document.getElementById('dic-input').value;
+            const searchTerm = word || document.getElementById('dic-input').value; 
             if(!searchTerm) return;
             
-            const resultsDiv = document.getElementById('dic-results');
-            resultsDiv.innerHTML = `<div class="py-10 text-center animate-pulse ancient text-stone-400">Consultando los volúmenes...</div>`;
-
-            let apiKey = localStorage.getItem('gemini_key');
-            if (!apiKey) {
-                apiKey = prompt("🏛️ Pega tu Clave API de Google AI Studio:");
-                if (apiKey) localStorage.setItem('gemini_key', apiKey.trim()); else return;
-            }
-
+            const resultsDiv = document.getElementById('dic-results'); 
+            resultsDiv.innerHTML = `<div class="py-10 text-center animate-pulse ancient text-stone-400">Consultando...</div>`;
+            
+            let apiKey = localStorage.getItem('gemini_key'); 
+            if (!apiKey) { apiKey = prompt("Pega tu Clave API:"); if (apiKey) localStorage.setItem('gemini_key', apiKey.trim()); else return; }
+            
             try {
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                const prompt = `Actúa como el Diccionario LSJ de Griego Antiguo. Define "${searchTerm}". JSON estricto: {"lema":"","transliteracion":"","significados":["1. x", "2. y"],"etimologia":"","ejemplo_uso":""}`;
+                // INSTRUCCIÓN BLINDADA PARA LA ETIMOLOGÍA EN ESPAÑOL
+                const prompt = `Actúa como el Diccionario LSJ de Griego Antiguo. Define "${searchTerm}". Devuelve estrictamente este JSON: {"lema":"palabra","transliteracion":"alfabeto latino","significados":["1. x"],"etimologia_espanol":"Palabras en español derivadas de esta raíz (Ej: de chronos -> cronómetro, crónico)","ejemplo_uso":"Una frase corta"}`;
                 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } })
+                const response = await fetch(url, { 
+                    method: 'POST', 
+                    headers: {'Content-Type': 'application/json'}, 
+                    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseMimeType: "application/json" } }) 
                 });
                 
-                const data = await response.json();
+                const data = await response.json(); 
                 const res = JSON.parse(data.candidates[0].content.parts[0].text);
-
+                
                 resultsDiv.innerHTML = `
                     <div class="border-t pt-6">
-                        <h3 class="greek-display text-4xl mb-1 text-stone-900">${res.lema}</h3>
+                        <h3 class="greek-display text-4xl mb-1">${res.lema}</h3>
                         <p class="text-stone-400 italic mb-6">[${res.transliteracion}]</p>
                         <div class="space-y-4">
                             <div class="bg-stone-50 p-5 rounded-xl border border-stone-200">
                                 <p class="ancient text-[9px] text-red-800 uppercase font-bold mb-3">Definiciones</p>
-                                <ul class="list-disc list-inside space-y-2 text-stone-800 font-serif">${res.significados.map(s => `<li>${s}</li>`).join('')}</ul>
+                                <ul class="list-disc list-inside space-y-2 font-serif text-stone-800">${res.significados.map(s => `<li>${s}</li>`).join('')}</ul>
                             </div>
                             <div>
-                                <p class="ancient text-[9px] text-stone-400 uppercase font-bold mb-1">Etimología</p>
-                                <p class="text-sm text-stone-600 font-serif">${res.etimologia}</p>
+                                <p class="ancient text-[9px] text-terracotta uppercase font-bold mb-1"><i data-lucide="git-branch" class="w-3 h-3 inline"></i> Huella en Español</p>
+                                <p class="text-sm font-serif text-stone-700 bg-red-50 p-4 rounded-lg border border-red-100 leading-relaxed">${res.etimologia_espanol}</p>
                             </div>
                             ${res.ejemplo_uso ? `
                             <div class="mt-4 p-4 border-l-2 border-gold bg-white">
-                                <p class="ancient text-[9px] text-stone-400 uppercase font-bold mb-1">Contexto</p>
-                                <p class="text-sm italic font-serif">"${res.ejemplo_uso}"</p>
+                                <p class="ancient text-[9px] text-stone-400 uppercase font-bold mb-1">Contexto de uso</p>
+                                <p class="text-sm italic font-serif text-stone-600">"${res.ejemplo_uso}"</p>
                             </div>` : ''}
                         </div>
                     </div>
-                `;
-            } catch (e) { resultsDiv.innerHTML = `<p class="text-red-500 text-sm">Error de conexión con el diccionario.</p>`; }
+                `; 
+                lucide.createIcons();
+            } catch (e) { resultsDiv.innerHTML = `<p class="text-red-500 text-sm p-4 bg-red-50 rounded-xl">Error de conexión o análisis del Oráculo.</p>`; }
         }
 
         function analyze(word) { openDictionary(); setTimeout(() => { document.getElementById('dic-input').value = word; searchDictionary(word); }, 100); }
