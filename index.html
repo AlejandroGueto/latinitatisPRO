@@ -3,261 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latinitatis PRO | Bibliotheca Graeca v6.7 OMNIA</title>
+    <title>Latinitatis PRO | Bibliotheca Graeca</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700&family=Playfair+Display:ital,wght@0,700;1,900&display=swap" rel="stylesheet">
     <style>
-        :root { --marble: #FDFCF8; --terracotta: #8B322C; --gold: #C5A059; --ink: #1A1A1A; --scriptorium: #121212; }
+        :root { --marble: #FDFCF8; --terracotta: #8B322C; --gold: #C5A059; --ink: #1A1A1A; --scriptorium: #0F0F0F; }
         body { font-family: 'Noto Serif Display', serif; background-color: var(--marble); color: var(--ink); scroll-behavior: smooth; transition: 0.5s; background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); }
         body.dark-mode { background-color: var(--scriptorium); color: #e5e5e5; background-image: none; }
         .ancient { font-family: 'Cinzel', serif; letter-spacing: 0.08em; }
         .greek-display { font-family: 'Playfair Display', serif; }
-        .word-token { display: inline-block; padding: 0 4px; cursor: pointer; transition: 0.2s; border-radius: 4px; border-bottom: 2px solid transparent; }
+        .word-token { display: inline-block; padding: 0 4px; cursor: pointer; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 4px; border-bottom: 2px solid transparent; }
         .word-token:hover { color: var(--terracotta); background: rgba(139, 50, 44, 0.05); border-bottom-color: var(--gold); transform: translateY(-1px); }
-        .reading-now { background: var(--gold) !important; color: white !important; box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4); transform: scale(1.15); z-index: 50; border-radius: 4px; }
-        .drawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 200; box-shadow: -10px 0 30px rgba(0,0,0,0.1); background: white; }
-        .dark-mode .drawer, .dark-mode nav, .dark-mode .home-card { background-color: #1a1a1a; border-color: #333; }
-        .progress-container { width: 100%; background: rgba(0,0,0,0.05); border-radius: 10px; height: 6px; overflow: hidden; }
-        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), #eec67c); width: 0%; transition: width 0.2s linear; }
-        .home-card { background: white; padding: 2.5rem; border-radius: 2rem; border: 1px solid #eaeaea; transition: 0.3s; height: 100%; }
-        .home-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 15px 40px rgba(0,0,0,0.06); }
-        .lang-tag { font-size: 9px; padding: 3px 8px; border-radius: 4px; font-weight: 800; text-transform: uppercase; display: inline-block; margin-right: 8px; }
+        .reading-now { background: var(--gold) !important; color: white !important; box-shadow: 0 6px 20px rgba(197, 160, 89, 0.5); transform: scale(1.18); z-index: 50; border-radius: 4px; }
+        .drawer { transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 200; box-shadow: -15px 0 40px rgba(0,0,0,0.15); background: white; }
+        .dark-mode .drawer, .dark-mode nav, .dark-mode .home-card { background-color: #161616; border-color: #2a2a2a; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), #f3d498); width: 0%; transition: width 0.2s linear; }
+        .home-card { background: white; padding: 3rem; border-radius: 2.5rem; border: 1px solid #eee; transition: 0.4s; height: 100%; box-shadow: 0 15px 35px rgba(0,0,0,0.02); }
+        .home-card:hover { transform: translateY(-12px); border-color: var(--gold); box-shadow: 0 25px 50px rgba(0,0,0,0.07); }
+        .lang-tag { font-size: 10px; padding: 4px 10px; border-radius: 6px; font-weight: 900; text-transform: uppercase; display: inline-block; margin-right: 10px; }
         .bg-es { background: #fee2e2; color: #991b1b; } .bg-en { background: #dcfce7; color: #166534; } .bg-fr { background: #dbeafe; color: #1e40af; }
-        .legal-sect { border-left: 4px solid var(--terracotta); padding-left: 1.5rem; margin-bottom: 2.5rem; }
-        .trans-card { background: white; padding: 1.8rem; border-radius: 1.2rem; border-top-width: 5px; box-shadow: 0 8px 25px rgba(0,0,0,0.04); }
-        .dark-mode .trans-card { background: #1e1e1e; border-top-color: var(--gold); }
+        .legal-sect { border-left: 5px solid var(--terracotta); padding-left: 2rem; margin-bottom: 3rem; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col pb-20">
 
-    <nav class="sticky top-0 z-[100] bg-white/90 backdrop-blur-md border-b border-stone-200 px-6 py-4 flex justify-between items-center no-print transition-all dark:bg-stone-900/90 dark:border-stone-800">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="showHome()">
-            <div class="w-11 h-11 bg-stone-900 text-white rounded-xl flex items-center justify-center font-bold shadow-xl">ΑΩ</div>
+    <nav class="sticky top-0 z-[100] bg-white/95 backdrop-blur-xl border-b border-stone-200 px-8 py-5 flex justify-between items-center no-print shadow-sm dark:bg-stone-950/90 dark:border-stone-800">
+        <div class="flex items-center gap-5 cursor-pointer" onclick="showHome()">
+            <div class="w-12 h-12 bg-stone-900 text-white rounded-2xl flex items-center justify-center font-bold shadow-2xl hover:bg-stone-800 transition-all">ΑΩ</div>
             <div>
-                <h1 class="ancient text-lg font-black dark:text-white">Latinitatis <span class="text-red-800">PRO</span></h1>
-                <p class="text-[7px] ancient uppercase tracking-[0.4em] text-stone-400">Bibliotheca Graeca</p>
+                <h1 class="ancient text-xl font-black dark:text-white tracking-tighter uppercase">Latinitatis <span class="text-red-800">PRO</span></h1>
+                <p class="text-[8px] ancient uppercase tracking-[0.5em] text-stone-400">Bibliotheca Graeca</p>
             </div>
         </div>
-        <div class="flex gap-2">
-            <button onclick="toggleDarkMode()" class="p-2.5 bg-stone-100 rounded-full dark:bg-stone-800 dark:text-white transition-all"><i data-lucide="moon" id="theme-icon"></i></button>
-            <button onclick="toggleCodex(true)" class="flex items-center gap-2 px-4 py-2.5 bg-stone-100 rounded-full text-stone-700 font-bold dark:bg-stone-800 dark:text-stone-300 transition-all"><i data-lucide="scroll"></i><span class="ancient text-[10px] hidden md:inline">Códice</span></button>
-            <button onclick="toggleSidebar(true)" class="flex items-center gap-2 px-5 py-2.5 bg-stone-900 text-white rounded-full shadow-lg hover:bg-red-900 transition-all"><i data-lucide="library"></i><span class="ancient text-[10px] uppercase">Explorar</span></button>
+        <div class="flex gap-3">
+            <button onclick="toggleDarkMode()" class="p-3 bg-stone-100 rounded-full dark:bg-stone-800 dark:text-white transition-all hover:bg-stone-200"><i data-lucide="moon" id="theme-icon"></i></button>
+            <button onclick="toggleCodex(true)" class="flex items-center gap-3 px-5 py-3 bg-stone-100 rounded-full text-stone-700 font-bold dark:bg-stone-800 dark:text-stone-300">
+                <i data-lucide="scroll" class="w-5 h-5 text-terracotta"></i><span class="ancient text-[11px] uppercase">Codex</span>
+            </button>
+            <button onclick="toggleSidebar(true)" class="flex items-center gap-3 px-6 py-3 bg-stone-900 text-white rounded-full shadow-2xl hover:bg-red-900 transition-all">
+                <i data-lucide="library" class="w-5 h-5 text-gold"></i><span class="ancient text-[11px] uppercase">Corpus</span>
+            </button>
         </div>
     </nav>
 
-    <main id="home-view" class="flex-1 p-6 md:p-12 max-w-6xl mx-auto w-full animate-in fade-in duration-500 no-print">
-        <header class="text-center mb-20">
-            <h2 class="greek-display text-6xl md:text-8xl font-black mb-4 dark:text-white italic">Bibliotheca Graeca</h2>
-            <p class="text-terracotta ancient text-xs md:text-sm uppercase tracking-[0.5em] font-bold">Entorno de Aprendizaje Crítico v6.7 OMNIA</p>
+    <main id="home-view" class="flex-1 p-8 md:p-16 max-w-7xl mx-auto w-full animate-in fade-in duration-700 no-print">
+        <header class="text-center mb-24">
+            <h2 class="greek-display text-7xl md:text-9xl font-black mb-6 dark:text-white italic tracking-tighter text-stone-900">Bibliotheca Graeca</h2>
+            <p class="text-terracotta ancient text-sm md:text-base uppercase tracking-[0.6em] font-bold opacity-80 text-red-900">Entorno de Aprendizaje Crítico</p>
         </header>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            <div class="p-10 bg-stone-900 text-white rounded-[2.5rem] border border-white/10 shadow-2xl relative overflow-hidden">
-                <h3 class="ancient text-gold text-xl font-bold mb-6 flex items-center gap-3"><i data-lucide="volume-2"></i> Soporte de Voz</h3>
-                <p class="text-sm text-stone-400 leading-relaxed mb-4 italic">Esta web utiliza el motor de voz de su sistema. Si el griego no suena o lee "punto", debe instalar el sintetizador:</p>
-                <p class="text-[11px] text-stone-500">• Windows: Configuración > Hora e idioma > Voz > Agregar voces (Griego).<br>• Android/iOS: Accesibilidad > Contenido leído > Voces.</p>
-            </div>
-            <div class="p-10 bg-white rounded-[2.5rem] border border-gold/20 shadow-inner dark:bg-stone-900 transition-all">
-                <h3 class="ancient text-xl font-bold mb-4 dark:text-white flex items-center gap-3"><i data-lucide="key-round"></i> El Oráculo de Sabiduría</h3>
-                <p class="text-sm text-stone-500 mb-6">Requiere una <b>API Key de Groq</b> gratuita para realizar análisis morfosintácticos y etimológicos profundos. Sus datos permanecen privados en su navegador.</p>
-                <button onclick="toggleApiTutorial()" class="px-6 py-2 bg-stone-100 dark:bg-stone-800 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-gold transition-all">Manual de Configuración</button>
-                <div id="api-tutorial" class="hidden mt-6 text-[11px] text-stone-400 space-y-3 border-t pt-4">
-                    <p>1. Inicie sesión en <a href="https://console.groq.com/keys" target="_blank" class="underline font-bold">Groq Console</a>.</p>
-                    <p>2. Pulse "Create API Key" y copie el código <b>gsk_...</b></p>
-                    <p>3. Péguelo cuando seleccione una palabra en el lector.</p>
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-32">
+            <div class="home-card">
+                <div class="flex items-center gap-4 mb-8 text-red-800">
+                    <i data-lucide="book-open-check" class="w-10 h-10"></i>
+                    <h4 class="font-bold text-3xl uppercase tracking-tighter">Philologia Digitalis</h4>
                 </div>
+                <p class="text-stone-500 text-lg leading-relaxed text-justify italic mb-8">Una estación de trabajo premium inspirada en <b>Logeion</b>, <b>Perseus Digital Library</b> y <b>Scaife Viewer</b>. Esta interfaz ofrece una experiencia inmersiva similar a <b>Legentibus</b>, permitiendo un estudio exhaustivo del griego antiguo mediante análisis computacional.</p>
+                <div class="grid grid-cols-2 gap-4 text-[12px] font-bold text-stone-400 uppercase tracking-widest">
+                    <div class="bg-stone-50 dark:bg-stone-900 p-4 rounded-2xl flex items-center gap-3"><i data-lucide="cpu" class="text-gold"></i> Oraculus IA</div>
+                    <div class="bg-stone-50 dark:bg-stone-900 p-4 rounded-2xl flex items-center gap-3"><i data-lucide="database" class="text-gold"></i> Scaife Sync</div>
+                </div>
+            </div>
+            <div class="home-card">
+                <div class="flex items-center gap-4 mb-8 text-red-800">
+                    <i data-lucide="sparkles" class="w-10 h-10"></i>
+                    <h4 class="font-bold text-3xl uppercase tracking-tighter">Oraculus</h4>
+                </div>
+                <p class="text-stone-500 text-lg leading-relaxed text-justify italic mb-6">El <b>Oraculus</b> despliega un análisis trilingüe inmediato. Al interactuar con el texto, la IA procesa la morfología, sintaxis y etimología indoeuropea en español, inglés y francés, ofreciendo soporte académico especializado.</p>
+                <button onclick="toggleApiTutorial()" class="px-8 py-4 bg-stone-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:bg-gold transition-all shadow-xl">Configurar Clave</button>
             </div>
         </section>
 
-        <section class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-24">
-            <div class="home-card">
-                <h4 class="font-bold text-2xl mb-4 text-red-800 uppercase tracking-tighter">Perseus Library</h4>
-                <p class="text-stone-500 text-sm leading-relaxed text-justify italic">Análisis morfológico de nivel académico basado en el mayor repositorio de filología del mundo. Cada término es analizado bajo estándares críticos internacionales.</p>
-            </div>
-            <div class="home-card">
-                <h4 class="font-bold text-2xl mb-4 text-red-800 uppercase tracking-tighter">Oráculo IA Llama 3</h4>
-                <p class="text-stone-500 text-sm leading-relaxed text-justify italic">Disección sintáctica y etimología trilingüe (Español, Inglés, Francés). Compara la raíz y evolución histórica de los términos griegos de forma instantánea.</p>
-            </div>
-        </section>
-
-        <footer class="bg-stone-100 border-t p-12 rounded-[3rem] dark:bg-stone-900 dark:border-stone-800 flex flex-col md:flex-row justify-between items-center gap-10">
-            <div class="text-center md:text-left">
-                <p class="font-bold uppercase ancient text-sm mb-4 dark:text-white">Alejandro Güeto • A.D. MMXXVI</p>
-                <div class="flex flex-col gap-2">
-                    <button onclick="toggleLegal(true)" class="text-[11px] ancient font-bold text-stone-400 hover:text-red-800 underline uppercase tracking-widest text-left">Aviso Legal</button>
-                    <button onclick="togglePrivacy(true)" class="text-[11px] ancient font-bold text-stone-400 hover:text-red-800 underline uppercase tracking-widest text-left">Privacidad y Cookies</button>
+        <footer class="bg-stone-100 border-t p-16 rounded-[4rem] dark:bg-stone-900 dark:border-stone-800 flex flex-col md:flex-row justify-between gap-12">
+            <div class="max-w-xl text-center md:text-left">
+                <p class="font-bold uppercase ancient text-lg mb-4 dark:text-white">Alejandro Güeto • A.D. MMXXVI</p>
+                <div class="flex flex-wrap gap-8 justify-center md:justify-start">
+                    <button onclick="toggleLegal(true)" class="text-[12px] ancient font-black text-stone-500 hover:text-red-800 transition-all uppercase tracking-widest">Aviso Legal</button>
+                    <button onclick="togglePrivacy(true)" class="text-[12px] ancient font-black text-stone-500 hover:text-red-800 transition-all uppercase tracking-widest">Privacidad</button>
                 </div>
             </div>
-            <button onclick="localStorage.removeItem('groq_key'); alert('API borrada y sesión cerrada.'); location.reload();" class="text-[10px] ancient font-bold text-red-800 border-2 border-red-100 p-4 rounded-2xl hover:bg-red-50 uppercase tracking-widest">Borrar API y Datos</button>
-       </footer>
+            <button onclick="localStorage.removeItem('groq_key'); location.reload();" class="px-10 py-5 bg-white text-red-800 border-2 border-red-200 rounded-3xl font-black ancient text-xs hover:bg-red-50 transition-all shadow-2xl uppercase">Reset API</button>
+        </footer>
     </main>
 
-    <main id="reader-view" class="hidden flex-1 p-4 md:p-12 max-w-[1500px] mx-auto w-full no-print">
-        <header class="text-center mb-16 relative animate-in slide-in-from-top-4">
-            <button onclick="saveToCodex()" class="absolute right-0 top-0 p-5 bg-white text-terracotta rounded-full shadow-2xl border dark:bg-stone-800 transition-all hover:scale-110 active:scale-90 z-50"><i data-lucide="bookmark" id="bookmark-icon"></i></button>
-            <h2 id="view-title" class="greek-display text-5xl md:text-8xl font-black italic dark:text-white tracking-tighter text-stone-900">Cargando</h2>
-            <p id="view-meta" class="text-red-800 ancient text-[11px] uppercase tracking-[0.4em] font-black mt-6 border-y border-stone-100 py-2 inline-block"></p>
+    <main id="reader-view" class="hidden flex-1 p-6 md:p-16 max-w-[1600px] mx-auto w-full no-print">
+        <header class="text-center mb-20 relative">
+            <button onclick="saveToCodex()" class="absolute right-0 top-0 p-6 bg-white text-terracotta rounded-full shadow-2xl border border-stone-100 dark:bg-stone-800 transition-all hover:scale-110 active:scale-90 z-50"><i data-lucide="bookmark" id="bookmark-icon" class="w-8 h-8"></i></button>
+            <h2 id="view-title" class="greek-display text-6xl md:text-9xl font-black italic dark:text-white tracking-tighter text-stone-900">Cargando</h2>
+            <p id="view-meta" class="text-red-800 ancient text-[12px] uppercase tracking-[0.5em] font-black mt-8 border-y border-stone-100 py-3 inline-block"></p>
         </header>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div class="lg:col-span-8">
-                <div class="bg-white rounded-[3.5rem] shadow-2xl border p-10 md:p-24 min-h-[700px] dark:bg-stone-900 dark:border-stone-800">
-                    <div id="greek-container" class="greek-display text-3xl md:text-5xl leading-[2.6] text-justify dark:text-stone-200"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <div class="lg:col-span-8"><div class="bg-white rounded-[4rem] shadow-2xl border border-stone-100 p-12 md:p-28 min-h-[800px] dark:bg-stone-900 dark:border-stone-800"><div id="greek-container" class="greek-display text-4xl md:text-6xl leading-[2.8] text-justify dark:text-stone-200"></div></div></div>
+            <div class="lg:col-span-4 space-y-10 sticky top-32 h-fit">
+                <div class="bg-stone-900 text-white p-12 rounded-[3.5rem] shadow-2xl">
+                    <h3 class="ancient text-gold text-[11px] uppercase font-bold mb-10 border-b border-white/10 pb-5 flex justify-between"><span>Lectio Sincronizata</span><span id="speed-label" class="text-stone-500">0.8x</span></h3>
+                    <div class="progress-container mb-10 bg-white/10 h-2.5 rounded-full overflow-hidden"><div id="progress-fill" class="progress-bar shadow-[0_0_15px_#C5A059]"></div></div>
+                    <button onclick="toggleAudio()" class="w-full py-7 bg-white text-stone-900 rounded-3xl ancient font-black text-sm hover:bg-gold transition-all flex items-center justify-center gap-4 mb-6 shadow-2xl"><i data-lucide="play" id="play-icon" class="w-6 h-6"></i> <span id="btn-text">AUDIRE</span></button>
+                    <button onclick="toggleTranslations()" class="w-full py-5 border border-stone-700 text-stone-400 rounded-2xl ancient text-[11px] uppercase tracking-widest hover:bg-stone-800 transition-all mb-3">Versio Trilinguis</button>
+                    <button onclick="generateExercise()" class="w-full py-5 bg-red-900 text-white rounded-2xl ancient text-[11px] shadow-2xl uppercase tracking-[0.2em] hover:bg-red-800 transition-all flex items-center justify-center gap-3"><i data-lucide="brain-circuit" class="w-4 h-4"></i> Reto Magistral</button>
                 </div>
-            </div>
-            <div class="lg:col-span-4 space-y-8 sticky top-28 h-fit">
-                <div class="bg-stone-900 text-white p-10 rounded-[3rem] shadow-2xl border border-white/5">
-                    <h3 class="ancient text-gold text-[10px] uppercase font-bold mb-10 border-b border-white/10 pb-4 flex justify-between"><span>Lector Sincro</span><span id="speed-label" class="text-stone-500 font-mono">0.8x</span></h3>
-                    <div class="progress-container mb-10 bg-white/10 h-2 rounded-full overflow-hidden"><div id="progress-fill" class="progress-bar"></div></div>
-                    <div class="flex gap-4 mb-8">
-                        <button onclick="toggleAudio()" class="flex-1 py-6 bg-white text-stone-900 rounded-3xl ancient font-black text-xs hover:bg-gold transition-all flex items-center justify-center gap-3 shadow-xl"><i data-lucide="play" id="play-icon"></i> <span id="btn-text">AUDIRE</span></button>
-                        <button onclick="stopAudio(true)" class="p-6 bg-white/5 rounded-3xl hover:bg-red-800 transition-all border border-white/10"><i data-lucide="square" class="w-5 h-5"></i></button>
-                    </div>
-                    <div class="flex items-center justify-between bg-white/5 p-4 rounded-2xl mb-10 border border-white/5">
-                        <button onclick="changeSpeed(-0.1)" class="w-12 h-12 hover:bg-white/10 rounded-full font-bold text-2xl transition-all">-</button>
-                        <span class="text-[9px] ancient text-stone-500 uppercase">Velocitas</span>
-                        <button onclick="changeSpeed(0.1)" class="w-12 h-12 hover:bg-white/10 rounded-full font-bold text-2xl transition-all">+</button>
-                    </div>
-                    <div class="space-y-3">
-                        <button onclick="toggleTranslations()" class="w-full py-5 border border-stone-700 text-stone-300 rounded-2xl ancient text-[10px] uppercase tracking-widest hover:bg-stone-800 transition-all mb-2"><i data-lucide="languages" class="w-4 h-4 inline mr-2"></i> Traducciones</button>
-                        <button onclick="generateExercise()" class="w-full py-5 bg-red-900 text-white rounded-2xl ancient text-[10px] shadow-xl uppercase tracking-widest hover:bg-red-800"><i data-lucide="brain-circuit" class="w-4 h-4 inline mr-2"></i> Reto Magistral</button>
-                    </div>
-                </div>
-                <div id="exercise-area" class="hidden bg-white p-10 rounded-[3rem] border border-stone-100 shadow-2xl dark:bg-stone-800 dark:border-stone-700 animate-in zoom-in-95"></div>
+                <div id="exercise-area" class="hidden bg-white p-10 rounded-[3.5rem] border shadow-2xl dark:bg-stone-800 dark:text-white animate-in zoom-in-95"></div>
             </div>
         </div>
-        <div id="trans-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-20 animate-in slide-in-from-bottom-12"></div>
+        <div id="trans-grid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-24 animate-in slide-in-from-bottom-12"></div>
     </main>
 
-    <div id="sidebar" class="fixed inset-y-0 left-0 w-full md:w-[500px] bg-white shadow-2xl -translate-x-full drawer p-12 overflow-y-auto no-print dark:bg-stone-900 border-r dark:border-stone-800">
-        <div class="flex justify-between items-center mb-12 border-b pb-8">
-            <div><h2 class="ancient text-3xl font-black text-stone-800 dark:text-white">Bibliotheca <span class="text-red-800">Graeca</span></h2><p class="text-[9px] text-stone-400 ancient uppercase mt-2">Canon Classicus</p></div>
-            <button onclick="toggleSidebar(false)" class="p-3 hover:bg-stone-100 rounded-full dark:hover:bg-stone-800"><i data-lucide="x"></i></button>
-        </div>
-        <div id="author-list" class="space-y-12"></div>
+    <div id="sidebar" class="fixed inset-y-0 left-0 w-full md:w-[550px] bg-white shadow-2xl -translate-x-full drawer p-16 overflow-y-auto no-print dark:bg-stone-900 border-r dark:border-stone-800">
+        <h2 class="ancient text-4xl font-black dark:text-white uppercase border-b pb-10 mb-16 tracking-tighter">Corpus</h2>
+        <div id="author-list" class="space-y-16"></div>
     </div>
 
-    <div id="oracle-drawer" class="fixed inset-y-0 right-0 w-full md:w-[680px] bg-white shadow-2xl translate-x-full drawer p-12 overflow-y-auto border-l dark:bg-stone-900 dark:border-stone-800 no-print">
-        <button onclick="closeOracle()" class="mb-12 text-stone-400 hover:text-red-800 flex items-center gap-4 ancient text-[10px] uppercase font-bold tracking-widest transition-all"><i data-lucide="arrow-left" class="w-4 h-4"></i> Regresar al Pasaje</button>
+    <div id="oracle-drawer" class="fixed inset-y-0 right-0 w-full md:w-[700px] bg-white shadow-2xl translate-x-full drawer p-16 overflow-y-auto border-l dark:bg-stone-900 dark:border-stone-800 no-print">
+        <button onclick="closeOracle()" class="mb-16 text-stone-400 hover:text-red-800 flex items-center gap-5 ancient text-[11px] uppercase transition-all tracking-[0.3em] font-black"><i data-lucide="arrow-left" class="w-6 h-6"></i> REGRESARE</button>
         <div id="oracle-content"></div>
     </div>
 
-    <div id="codex-drawer" class="fixed inset-y-0 left-0 w-full md:w-[500px] bg-stone-900 text-white shadow-2xl -translate-x-full drawer p-12 overflow-y-auto no-print">
-        <div class="flex justify-between items-center mb-10 border-b border-stone-700 pb-8"><h2 class="ancient text-3xl font-black text-gold flex items-center gap-4 tracking-tighter"><i data-lucide="scroll"></i> Mi Códice</h2><button onclick="toggleCodex(false)" class="p-2 hover:bg-stone-800 rounded-full"><i data-lucide="x"></i></button></div>
-        <button onclick="printCodex()" class="w-full mb-12 py-6 bg-white text-stone-900 rounded-3xl ancient font-black text-xs flex items-center justify-center gap-4 hover:bg-gold transition-all shadow-2xl uppercase tracking-widest"><i data-lucide="printer"></i> Exportar a PDF / Imprimir</button>
-        <div id="codex-list" class="space-y-6"></div>
-    </div>
-
-    <div id="legal-drawer" class="fixed inset-y-0 right-0 w-full md:w-[750px] bg-white shadow-2xl translate-x-full drawer p-16 overflow-y-auto border-l">
-        <button onclick="toggleLegal(false)" class="mb-12 text-stone-400 uppercase ancient text-[10px] tracking-widest hover:text-red-800"><i data-lucide="x"></i> Cerrar Aviso Legal</button>
-        <h2 class="ancient text-4xl font-black mb-10 border-b pb-6 uppercase italic text-red-800">Aviso Legal</h2>
-        <div class="space-y-8 font-serif">
-            <div class="legal-sect"><span class="lang-tag bg-es mb-4">Español</span><p class="text-sm text-stone-600 leading-relaxed"><b>Propiedad Intelectual:</b> Los textos griegos pertenecen al dominio público. Traducciones críticas bajo "Fair Use" educativo. <b>Responsabilidad IA:</b> El Oráculo es experimental y puede errar.</p></div>
-            <div class="legal-sect opacity-80"><span class="lang-tag bg-en mb-4">English</span><p class="text-sm text-stone-600 leading-relaxed"><b>Intellectual Property:</b> Original texts are public domain. AI analysis is experimental.</p></div>
-            <div class="legal-sect opacity-80"><span class="lang-tag bg-fr mb-4">Français</span><p class="text-sm text-stone-600 leading-relaxed"><b>Propriété:</b> Textes originaux du domaine public. L'IA est expérimentale.</p></div>
+    <div id="legal-drawer" class="fixed inset-y-0 right-0 w-full md:w-[800px] bg-white shadow-2xl translate-x-full drawer p-16 overflow-y-auto border-l">
+        <h2 class="ancient text-4xl font-black mb-16 border-b pb-8 uppercase italic text-red-800 tracking-tighter">Aviso Legal</h2>
+        <div class="space-y-12 font-serif text-stone-700">
+            <div class="legal-sect"><span class="lang-tag bg-es mb-6">Español</span><p>Textos de dominio público. Traducciones para uso académico.</p></div>
+            <div class="legal-sect"><span class="lang-tag bg-en mb-6">English</span><p>Educational use only. AI analysis is experimental.</p></div>
+            <div class="legal-sect"><span class="lang-tag bg-fr mb-6">Français</span><p>Usage éducatif. L'IA peut comporter des erreurs.</p></div>
         </div>
+        <button onclick="toggleLegal(false)" class="mt-12 text-stone-400 underline uppercase ancient text-xs">Cerrar</button>
     </div>
 
-    <div id="privacy-drawer" class="fixed inset-y-0 right-0 w-full md:w-[750px] bg-white shadow-2xl translate-x-full drawer p-16 overflow-y-auto border-l">
-        <button onclick="togglePrivacy(false)" class="mb-12 text-stone-400 uppercase ancient text-[10px] tracking-widest hover:text-red-800"><i data-lucide="x"></i> Cerrar Privacidad</button>
-        <h2 class="ancient text-4xl font-black mb-10 border-b pb-6 uppercase italic text-red-800">Privacidad y Cookies</h2>
-        <div class="space-y-8 font-serif">
-            <div class="legal-sect"><span class="lang-tag bg-es mb-4">Español</span><p class="text-sm text-stone-600 leading-relaxed"><b>No Cookies:</b> No usamos cookies de rastreo. <b>LocalStorage:</b> Su API y Códice residen solo en su navegador local.</p></div>
-            <div class="legal-sect opacity-80"><span class="lang-tag bg-en mb-4">English</span><p class="text-sm text-stone-600 leading-relaxed"><b>Privacy:</b> No tracking cookies used. Local storage only.</p></div>
-            <div class="legal-sect opacity-80"><span class="lang-tag bg-fr mb-4">Français</span><p class="text-sm text-stone-600 leading-relaxed"><b>Confidentialité:</b> Aucun cookie. Stockage local uniquement.</p></div>
+    <div id="privacy-drawer" class="fixed inset-y-0 right-0 w-full md:w-[800px] bg-white shadow-2xl translate-x-full drawer p-16 overflow-y-auto border-l">
+        <h2 class="ancient text-4xl font-black mb-16 border-b pb-8 uppercase italic text-red-800 tracking-tighter">Privacidad</h2>
+        <div class="space-y-12 font-serif text-stone-700">
+            <div class="legal-sect"><span class="lang-tag bg-es mb-4">Español</span><p>Sin cookies comerciales. LocalStorage local.</p></div>
+            <div class="legal-sect"><span class="lang-tag bg-en mb-4">English</span><p>No tracking. Local storage only.</p></div>
+            <div class="legal-sect"><span class="lang-tag bg-fr mb-4">Français</span><p>Pas de cookies. Stockage local uniquement.</p></div>
         </div>
+        <button onclick="togglePrivacy(false)" class="mt-12 text-stone-400 underline uppercase ancient text-xs">Cerrar</button>
     </div>
 
-    <div id="print-area" class="hidden print-only p-20 font-serif"></div>
+    <div id="print-area" class="hidden print-only p-24 font-serif"></div>
 
     <script src="textos.js"></script>
     <script>
-        let synth = window.speechSynthesis, utterance = null, readingRate = 0.8, isReading = false, currentWork = null, totalWords = 0, currentExercise = null, codexIndex = {ai:0, wi:0}, isDarkMode = false;
-
+        let synth = window.speechSynthesis, utterance = null, readingRate = 0.8, isReading = false, currentWork = null, isDarkMode = false;
         function toggleDarkMode() { isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode', isDarkMode); document.getElementById('theme-icon').setAttribute('data-lucide', isDarkMode ? 'sun' : 'moon'); lucide.createIcons(); }
-        function getBestGreekVoice() { const voices = synth.getVoices(); return voices.find(v => v.lang.includes('el-GR') && v.name.includes('Google')) || voices.find(v => v.lang.includes('el-GR')) || voices[0]; }
+        function getBestGreekVoice() { const v = synth.getVoices(); return v.find(x => x.lang.includes('el-GR') && x.name.includes('Google')) || v.find(x => x.lang.includes('el-GR')) || v[0]; }
         window.onload = () => { lucide.createIcons(); if (typeof canon !== 'undefined') renderLibrary(); loadCodex(); synth.getVoices(); };
 
         async function callAI(p) {
-            let k = localStorage.getItem('groq_key'); if (!k) { k = prompt("🏛️ Groq API Key:"); if (k) localStorage.setItem('groq_key', k.trim()); else throw new Error("Key requerida."); }
-            const r = await fetch('https://api.groq.com/openai/v1/chat/completions', { method: 'POST', headers: { 'Authorization': `Bearer ${k}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "system", content: "Expert Philologist. JSON ONLY. Include lemma, morph, def, and etym (mandatory) for ES, EN, FR." }, { role: "user", content: p }], temperature: 0.1, response_format: { type: "json_object" } }) });
-            const d = await r.json(); if(!r.ok) throw new Error(d.error?.message); return d.choices[0].message.content;
+            let k = localStorage.getItem('groq_key'); if (!k) { k = prompt("🏛️ Oraculus clavis (API Key):"); if (k) localStorage.setItem('groq_key', k.trim()); else throw new Error("Key requerida."); }
+            const r = await fetch('https://api.groq.com/openai/v1/chat/completions', { method: 'POST', headers: { 'Authorization': `Bearer ${k}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ model: "llama-3.3-70b-versatile", messages: [{ role: "system", content: "Eres un Catedrático de Filología Clásica experto en Homero. Si es la Ilíada, sé extremadamente preciso con los dialectos épicos. Devuelve JSON." }, { role: "user", content: p }], temperature: 0.1, response_format: { type: "json_object" } }) });
+            const d = await r.json(); return d.choices[0].message.content;
         }
 
         async function analyze(word) {
-            openOracle(); const content = document.getElementById('oracle-content');
-            content.innerHTML = "<div class='py-48 text-center animate-pulse ancient text-stone-300 uppercase tracking-[0.5em]'>Consultatio Polyglotta...</div>";
+            openOracle(); const c = document.getElementById('oracle-content'); c.innerHTML = "<div class='py-48 text-center animate-pulse ancient text-stone-300 uppercase'>Consultatio...</div>";
             try {
-                const raw = await callAI(`Analyze: "${word}" in ${currentWork.author}. JSON: {"lema":"","es":{"morph":"","def":"","etym":""},"en":{"morph":"","def":"","etym":""},"fr":{"morph":"","def":"","etym":""}}`);
-                const res = JSON.parse(raw);
-                content.innerHTML = `<h3 class="greek-display text-8xl my-10 font-black border-b pb-8 text-center dark:text-white">${word}</h3><p class="text-4xl font-black text-gold text-center italic mb-20 font-serif">${res.lema}</p><div class="space-y-20">` + 
-                    ['es','en','fr'].map(l => `<div class="border-l-8 border-stone-800 dark:border-gold pl-10"><span class="lang-tag bg-${l} mb-6 uppercase font-bold">${l==='es'?'Español':l==='en'?'English':'Français'}</span><p class="text-base font-bold uppercase mb-4 dark:text-stone-300 tracking-wide">${res[l].morph}</p><p class="text-3xl italic font-serif mb-6 dark:text-white leading-tight">"${res[l].def}"</p><div class="bg-stone-50 dark:bg-stone-800 p-8 rounded-3xl text-sm italic border shadow-inner leading-relaxed"><b>Étymologie / Etimología:</b><br>${res[l].etym}</div></div>`).join('') + `</div>`;
-            } catch (e) { content.innerHTML = "<div class='p-10 bg-red-50 text-red-800 rounded-3xl'>Error de conexión: " + e.message + "</div>"; }
+                const res = JSON.parse(await callAI(`Analyze: "${word}" in ${currentWork.author}. JSON: {"lema":"","es":{"morph":"","def":"","etym":""},"en":{"morph":"","def":"","etym":""},"fr":{"morph":"","def":"","etym":""}}`));
+                c.innerHTML = `<h3 class="greek-display text-8xl my-10 font-black border-b pb-12 text-center dark:text-white tracking-tighter text-stone-900">${word}</h3><p class="text-4xl font-black text-gold text-center italic mb-20 font-serif">${res.lema}</p><div class="space-y-24">` + 
+                    ['es','en','fr'].map(l => `<div class="border-l-[10px] border-stone-800 dark:border-gold pl-12"><span class="lang-tag bg-${l} mb-8 uppercase font-black">${l==='es'?'Español':l==='en'?'English':'Français'}</span><p class="text-lg font-bold uppercase dark:text-stone-300 tracking-wide mb-6">${res[l].morph}</p><p class="text-4xl italic font-serif dark:text-white mb-10 leading-tight">"${res[l].def}"</p><div class="bg-stone-50 dark:bg-stone-800 p-10 rounded-[2.5rem] text-sm italic border shadow-inner leading-relaxed text-stone-500"><b>Etymologia:</b><br>${res[l].etym}</div></div>`).join('') + `</div>`;
+            } catch (e) { c.innerHTML = "<div class='p-16 bg-red-50 text-red-800 rounded-3xl uppercase font-black'>Error Oraculus. Verifique API.</div>"; }
         }
 
         function toggleAudio() {
-            if (isReading) { stopAudio(); return; }
-            const text = currentWork.content.replace(/[\n\r]/g, ' ').replace(/[.,·;:!?]/g, ' ').replace(/\s+/g, ' ').trim();
-            utterance = new SpeechSynthesisUtterance(text); utterance.voice = getBestGreekVoice(); utterance.lang = 'el-GR'; utterance.rate = readingRate;
+            if (isReading) { synth.cancel(); isReading = false; updatePlayBtn(false); return; }
+            const t = currentWork.content.replace(/[\n\r]/g, ' ').replace(/[.,·;:!?]/g, ' ').replace(/\s+/g, ' ').trim();
+            utterance = new SpeechSynthesisUtterance(t); utterance.voice = getBestGreekVoice(); utterance.lang = 'el-GR'; utterance.rate = readingRate;
             let idx = 0; const tokens = document.querySelectorAll('.word-token');
-            utterance.onboundary = (e) => { if (e.name === 'word') { tokens.forEach(t => t.classList.remove('reading-now')); const el = document.getElementById(`token-${idx}`); if (el) { el.classList.add('reading-now'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); document.getElementById('progress-fill').style.width = `${((idx+1)/tokens.length)*100}%`; idx++; } } };
-            utterance.onend = () => stopAudio(true); utterance.onerror = () => { alert("Error de sintetizador."); stopAudio(true); };
+            utterance.onboundary = (e) => { if (e.name === 'word') { tokens.forEach(x => x.classList.remove('reading-now')); const el = document.getElementById(`token-${idx}`); if (el) { el.classList.add('reading-now'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); document.getElementById('progress-fill').style.width = `${((idx+1)/tokens.length)*100}%`; idx++; } } };
+            utterance.onend = () => { isReading = false; updatePlayBtn(false); };
             isReading = true; updatePlayBtn(true); synth.speak(utterance);
         }
-
-        function stopAudio(r=false) { synth.cancel(); isReading = false; updatePlayBtn(false); if(r) { document.getElementById('progress-fill').style.width = '0%'; document.querySelectorAll('.word-token').forEach(t => t.classList.remove('reading-now')); } }
-        function changeSpeed(d) { readingRate = Math.min(1.5, Math.max(0.4, readingRate + d)); document.getElementById('speed-label').innerText = readingRate.toFixed(1) + 'x'; if(isReading) { stopAudio(); toggleAudio(); } }
         function updatePlayBtn(a) { document.getElementById('btn-text').innerText = a ? "PAUSAM" : "AUDIRE"; document.getElementById('play-icon').setAttribute('data-lucide', a ? 'pause' : 'play'); lucide.createIcons(); }
+        function changeSpeed(d) { readingRate = Math.min(1.5, Math.max(0.4, readingRate + d)); document.getElementById('speed-label').innerText = readingRate.toFixed(1) + 'x'; }
 
         function renderLibrary() {
             document.getElementById('author-list').innerHTML = canon.map((a, ai) => {
+                // Mapeo filológico de nombres
+                let dispAuthor = a.author;
+                if (a.author.includes("Safo")) dispAuthor = "Σαπφώ (Safo)";
+                if (a.author.includes("Marco Aurelio")) dispAuthor = "Marcus Aurelius";
+                if (a.author.includes("Homero")) dispAuthor = "Ὅμηρος (Homero)";
+                if (a.author.includes("Platón")) dispAuthor = "Πλάτων (Platón)";
+                
                 let uniqueTitles = [...new Set(a.works.map(w => w.title))];
-                return `<div><h3 class="ancient text-red-800 text-[10px] uppercase border-b pb-4 mb-6 font-black tracking-widest">${a.author}</h3><div class="space-y-4">` + 
+                return `<div class="mb-12"><h3 class="ancient text-red-800 text-[11px] uppercase border-b pb-6 mb-8 font-black tracking-[0.3em]">${dispAuthor}</h3><div class="space-y-6">` + 
                     uniqueTitles.map(title => {
                         let variants = a.works.filter(w => w.title === title);
                         if (variants.length > 1) {
-                            return `<div class="pl-4 border-l border-stone-100"><p class="font-serif text-lg mb-2 text-stone-400">${title}</p><div class="grid gap-2">` + 
-                                variants.map((w, wi) => {
-                                    let globalIndex = a.works.indexOf(w);
-                                    return `<button onclick="loadWork(${ai}, ${globalIndex})" class="w-full text-left py-3 px-6 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-800 font-serif group flex justify-between items-center transition-all"><span>Fragmento ${String.fromCharCode(73 + variants.indexOf(w))}</span><i data-lucide="chevron-right" class="opacity-0 group-hover:opacity-100"></i></button>`;
-                                }).join('') + `</div></div>`;
+                            return `<div class="pl-8 border-l-2 border-stone-100"><p class="font-serif text-2xl mb-4 text-stone-400 italic">${title}</p><div class="grid gap-3">` + 
+                                variants.map((w, wi) => `<button onclick="loadWork(${ai}, ${a.works.indexOf(w)})" class="w-full text-left py-4 px-8 rounded-2xl hover:bg-stone-50 dark:hover:bg-stone-800 font-serif text-xl group flex justify-between items-center transition-all"><span>Fragmentum ${String.fromCharCode(73 + variants.indexOf(w))}</span><i data-lucide="chevron-right" class="opacity-0 group-hover:opacity-100"></i></button>`).join('') + `</div></div>`;
                         } else {
-                            return `<button onclick="loadWork(${ai}, ${a.works.indexOf(variants[0])})" class="w-full text-left py-4 px-6 rounded-2xl hover:bg-stone-50 dark:hover:bg-stone-800 font-serif text-lg group flex justify-between items-center transition-all"><span>${title}</span><i data-lucide="chevron-right" class="opacity-0 group-hover:opacity-100"></i></button>`;
+                            return `<button onclick="loadWork(${ai}, ${a.works.indexOf(variants[0])})" class="w-full text-left py-5 px-8 rounded-[2rem] hover:bg-stone-50 dark:hover:bg-stone-800 font-serif text-2xl group flex justify-between items-center transition-all"><span>${title}</span><i data-lucide="chevron-right" class="opacity-0 group-hover:opacity-100"></i></button>`;
                         }
                     }).join('') + `</div></div>`;
             }).join('');
             lucide.createIcons();
         }
 
-        function loadWork(ai, wi) {
-            currentWork = canon[ai].works[wi]; currentWork.author = canon[ai].author; codexIndex = {ai, wi};
-            document.getElementById('view-title').innerText = currentWork.title; document.getElementById('view-meta').innerText = `${currentWork.author} • ${currentWork.meta}`;
-            document.getElementById('home-view').classList.add('hidden'); document.getElementById('reader-view').classList.remove('hidden'); document.getElementById('trans-grid').classList.add('hidden'); document.getElementById('exercise-area').classList.add('hidden');
-            const w = currentWork.content.trim().split(/\s+/); document.getElementById('greek-container').innerHTML = w.map((x, i) => `<span class="word-token" id="token-${i}" onclick="analyze('${x.replace(/[.,·;:!?]/g,'')}')">${x}</span>`).join(' ');
-            checkIfSavedIcon(); toggleSidebar(false); stopAudio(true); window.scrollTo(0,0);
-        }
-
-        function showHome() { stopAudio(true); document.getElementById('home-view').classList.remove('hidden'); document.getElementById('reader-view').classList.add('hidden'); }
-        function toggleSidebar(s) { document.getElementById('sidebar').classList.toggle('-translate-x-full', !s); }
-        function toggleCodex(s) { document.getElementById('codex-drawer').classList.toggle('-translate-x-full', !s); if(s) loadCodex(); }
-        function toggleLegal(s) { document.getElementById('legal-drawer').classList.toggle('translate-x-full', !s); }
-        function togglePrivacy(s) { document.getElementById('privacy-drawer').classList.toggle('translate-x-full', !s); }
-        function toggleApiTutorial() { document.getElementById('api-tutorial').classList.toggle('hidden'); }
-        function openOracle() { document.getElementById('oracle-drawer').classList.remove('translate-x-full'); }
-        function closeOracle() { document.getElementById('oracle-drawer').classList.add('translate-x-full'); }
-        function saveToCodex() { let s = JSON.parse(localStorage.getItem('latinitatis_codex')||'[]'); let idx = s.findIndex(i => i.title===currentWork.title); if(idx>=0) s.splice(idx,1); else s.push({author:currentWork.author, title:currentWork.title, ai:codexIndex.ai, wi:codexIndex.wi}); localStorage.setItem('latinitatis_codex', JSON.stringify(s)); checkIfSavedIcon(); }
-        function loadCodex() { const s = JSON.parse(localStorage.getItem('latinitatis_codex')||'[]'); document.getElementById('codex-list').innerHTML = s.map(i => `<div class="bg-stone-800 p-8 rounded-3xl flex justify-between items-center border border-stone-700/50 hover:border-gold/50 transition-all"><div class="flex flex-col"><p class="ancient text-[8px] text-gold mb-2 uppercase">${i.author}</p><p class="font-serif text-xl text-stone-200">${i.title}</p></div><button onclick="loadWork(${i.ai}, ${i.wi}); toggleCodex(false);" class="p-5 bg-stone-700 text-white rounded-2xl hover:bg-gold"><i data-lucide="book-open"></i></button></div>`).join(''); lucide.createIcons(); }
-        function checkIfSavedIcon() { const s = JSON.parse(localStorage.getItem('latinitatis_codex')||'[]'); document.getElementById('bookmark-icon').classList.toggle('fill-terracotta', s.some(i => i.title === currentWork.title)); }
-        async function generateExercise() { const area = document.getElementById('exercise-area'); area.classList.remove('hidden'); area.innerHTML = "<p class='animate-pulse text-gold uppercase ancient py-10'>Generando Reto...</p>"; try { const raw = await callAI(`Test sobre: "${currentWork.content.substring(0,100)}". JSON: {"pregunta":"","opciones":["","",""],"correcta":0,"explicacion":""}`); currentExercise = JSON.parse(raw); area.innerHTML = `<h4 class="ancient text-[10px] text-stone-400 mb-6 uppercase border-b pb-4">Reto Filológico</h4><p class="mb-10 font-serif text-2xl dark:text-white leading-snug">${currentExercise.pregunta}</p><div class="space-y-4">${currentExercise.opciones.map((o, i) => `<button onclick="checkAnswer(${i})" class="block w-full text-left p-5 bg-white dark:bg-stone-900 rounded-2xl border border-stone-100 transition-all hover:bg-stone-50">${o}</button>`).join('')}</div><div id="fb" class="mt-8 text-sm italic font-serif text-stone-500"></div>`; } catch (e) { area.innerHTML = "Error."; } }
-        function checkAnswer(i) { document.getElementById('fb').innerHTML = i === currentExercise.correcta ? `✅ <span class="text-green-600 font-bold">Sapiens!</span> ${currentExercise.explicacion}` : `❌ Error.`; }
-        function toggleTranslations() {
-            const grid = document.getElementById('trans-grid'); grid.classList.toggle('hidden'); if (!grid.classList.contains('hidden')) {
-                if (!currentWork.translations || currentWork.translations.length === 0) { grid.innerHTML = "<p class='col-span-full text-center ancient opacity-50 p-20'>Sin datos.</p>"; return; }
-                grid.innerHTML = currentWork.translations.map(t => { let c = t.lang.includes("ES")?"border-red-800":t.lang.includes("EN")?"border-green-800":"border-blue-800"; return `<div class="trans-card border-t-4 ${c} shadow-xl"><p class="ancient text-[10px] uppercase text-stone-400 mb-6">${t.lang}</p><p class="text-2xl italic text-stone-800 font-serif dark:text-stone-300 leading-relaxed">"${t.text}"</p><p class="mt-10 text-[10px] font-bold text-stone-400 text-right pt-6 border-t">— ${t.author}</p></div>`; }).join(''); lucide.createIcons(); grid.scrollIntoView({ behavior: 'smooth' });
+        async function generateExercise() {
+            const area = document.getElementById('exercise-area');
+            area.classList.remove('hidden');
+            area.innerHTML = "<p class='animate-pulse text-gold uppercase ancient py-16 tracking-[0.4em] text-center'>Examen Philologicum...</p>";
+            
+            try {
+                // Prompt reforzado para evitar errores en textos épicos (Ilíada)
+                const prompt = `Actúa como un Catedrático de Filología. Analiza este fragmento: "${currentWork.content.substring(0,200)}". 
+                Si es de Homero, fíjate en el griego homérico (genitivos en -οιο, etc.). 
+                Genera un test técnico. CRÍTICO: La opción marcada como "correcta" (0, 1 o 2) debe ser gramaticalmente indiscutible.
+                Responde solo JSON: {"pregunta":"","opciones":["","",""],"correcta":0,"explicacion":""}`;
+                
+                const raw = await callAI(prompt);
+                const ex = JSON.parse(raw);
+                
+                area.innerHTML = `
+                    <h4 class="ancient text-[11px] text-stone-400 mb-8 uppercase border-b pb-5 tracking-widest">Examen Magistral</h4>
+                    <p class="mb-12 font-serif text-3xl dark:text-white leading-snug text-stone-900">${ex.pregunta}</p>
+                    <div class="space-y-5">
+                        ${ex.opciones.map((o, i) => `
+                            <button onclick="checkAns(${i}, ${ex.correcta}, '${ex.explicacion.replace(/'/g, "\\'")}')" 
+                            class="block w-full text-left p-7 bg-white dark:bg-stone-900 rounded-3xl border-2 border-stone-100 hover:border-gold transition-all text-lg font-serif text-stone-800 dark:text-stone-300 shadow-sm">${o}</button>
+                        `).join('')}
+                    </div>
+                    <div id="fb" class="mt-12 text-base font-serif italic text-stone-500 leading-relaxed shadow-inner p-8 bg-stone-50 dark:bg-stone-900 rounded-[2.5rem]"></div>`;
+            } catch (e) {
+                area.innerHTML = "<p class='p-10 ancient text-red-800'>Error al conectar con la inteligencia filológica.</p>";
             }
         }
-        function printCodex() { const saved = JSON.parse(localStorage.getItem('latinitatis_codex') || '[]'); if(saved.length === 0) return alert("Codex Vacuum."); const area = document.getElementById('print-area'); area.innerHTML = `<h1 style="font-family:Cinzel; text-align:center;">MI CÓDICE GRIEGO</h1>` + saved.map(i => `<div style="margin:40pt 0;"><p style="color:#8B322C; font-family:Cinzel;">${i.author}</p><h2>${i.title}</h2><p style="font-size:18pt; line-height:1.8;">${canon[i.ai].works[i.wi].content}</p></div>`).join(''); window.print(); }
+        function checkAns(i, c, e) { const fb = document.getElementById('fb'); fb.innerHTML = i === c ? `✅ <span class="text-green-600 font-black">SAPIENS!</span><br><br>${e}` : `❌ <span class="text-red-600 font-black">ERRATUM.</span><br><br>${e}`; }
+        function toggleTranslations() { const grid = document.getElementById('trans-grid'); grid.classList.toggle('hidden'); if (!grid.classList.contains('hidden')) { if (!currentWork.translations || currentWork.translations.length === 0) { grid.innerHTML = "<p class='col-span-full text-center ancient opacity-50 p-20'>Fragmenta Vacua.</p>"; return; } grid.innerHTML = currentWork.translations.map(t => `<div class="trans-card border-t-[8px] shadow-2xl animate-in slide-in-from-bottom-8"><p class="ancient text-[11px] uppercase text-stone-400 mb-8 tracking-widest font-black">${t.lang}</p><p class="text-3xl italic font-serif dark:text-stone-300 leading-relaxed">"${t.text}"</p><p class="mt-12 text-[11px] font-black text-stone-400 text-right pt-8 border-t border-stone-50">— ${t.author}</p></div>`).join(''); lucide.createIcons(); grid.scrollIntoView({ behavior: 'smooth' }); } }
+        function printCodex() { const saved = JSON.parse(localStorage.getItem('latinitatis_codex')||'[]'); if(saved.length===0) return; const a = document.getElementById('print-area'); a.innerHTML = `<h1 class="ancient" style="text-align:center; font-size:35pt; border-bottom:4pt solid black; padding-bottom:20pt;">BIBLIOTHECA GRAECA PERSONALIS</h1>` + saved.map(i => `<div style="margin:60pt 0; page-break-inside:avoid;"><p class="ancient" style="color:#8B322C; font-size:12pt;">${i.author.toUpperCase()}</p><h2 style="font-size:30pt; margin:10pt 0;">${i.title}</h2><p style="font-size:22pt; line-height:1.9; text-align:justify;">${canon[i.ai].works[i.wi].content}</p></div>`).join(''); window.print(); }
     </script>
 </body>
 </html>
