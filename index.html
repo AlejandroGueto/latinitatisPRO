@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Latinitatis PRO | Bibliotheca Magna v5.0</title>
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <script src="[https://unpkg.com/lucide@latest](https://unpkg.com/lucide@latest)"></script>
-    <link href="[https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,900&display=swap](https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,900&display=swap)" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Noto+Serif+Display:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
     <style>
         :root { --marble: #FDFCF8; --terracotta: #8B322C; --gold: #C5A059; --ink: #1A1A1A; }
-        body { font-family: 'Noto Serif Display', serif; background-color: var(--marble); color: var(--ink); background-image: url('[https://www.transparenttextures.com/patterns/natural-paper.png](https://www.transparenttextures.com/patterns/natural-paper.png)'); scroll-behavior: smooth; }
+        body { font-family: 'Noto Serif Display', serif; background-color: var(--marble); color: var(--ink); background-image: url('https://www.transparenttextures.com/patterns/natural-paper.png'); scroll-behavior: smooth; }
         .ancient { font-family: 'Cinzel', serif; letter-spacing: 0.05em; }
         .greek-display { font-family: 'Playfair Display', serif; }
         
@@ -156,7 +156,7 @@
                 </div>
                 <div class="text-center md:text-right">
                     <p class="text-xs text-stone-400 mb-2 max-w-xs">Este es un recurso gratuito y de código abierto. Si valoras el esfuerzo, puedes apoyar el proyecto:</p>
-                    <a href="[https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC](https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC)" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-lg">
+                    <a href="https://www.paypal.com/donate/?hosted_button_id=P4MY7SUZC9GQC" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-colors shadow-lg">
                         <i data-lucide="credit-card"></i> Donar vía PayPal
                     </a>
                 </div>
@@ -507,15 +507,16 @@
             if(!searchTerm) return;
             
             const resultsDiv = document.getElementById('dic-results'); 
-            resultsDiv.innerHTML = `<div class="py-10 text-center animate-pulse ancient text-stone-400">Consultando...</div>`;
+            resultsDiv.innerHTML = `<div class="py-10 text-center animate-pulse ancient text-stone-400">Consultando al Oráculo Políglota...</div>`;
             
             let apiKey = localStorage.getItem('gemini_key'); 
             if (!apiKey) { apiKey = prompt("Pega tu Clave API:"); if (apiKey) localStorage.setItem('gemini_key', apiKey.trim()); else return; }
             
             try {
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-                // INSTRUCCIÓN BLINDADA PARA LA ETIMOLOGÍA EN ESPAÑOL
-                const prompt = `Actúa como el Diccionario LSJ de Griego Antiguo. Define "${searchTerm}". Devuelve estrictamente este JSON: {"lema":"palabra","transliteracion":"alfabeto latino","significados":["1. x"],"etimologia_espanol":"Palabras en español derivadas de esta raíz (Ej: de chronos -> cronómetro, crónico)","ejemplo_uso":"Una frase corta"}`;
+                
+                // INSTRUCCIÓN BLINDADA PARA EL DICCIONARIO TRILINGÜE
+                const prompt = `Actúa como el Diccionario LSJ de Griego Antiguo. Define "${searchTerm}". Devuelve estrictamente este JSON: {"lema":"palabra","transliteracion":"alfabeto latino","significados_es":["1. x"],"significados_fr":["1. y"],"significados_en":["1. z"],"etimologia_espanol":"Palabras en español derivadas de esta raíz (Ej: de chronos -> cronómetro)","ejemplo_uso":"Una frase corta en griego con su traducción"}`;
                 
                 const response = await fetch(url, { 
                     method: 'POST', 
@@ -527,7 +528,7 @@
                 
                 const data = await response.json(); 
                 
-                // PARCHE: Limpiamos los bloques de código Markdown que a veces rompen el JSON
+                // Limpiamos los bloques de código Markdown
                 let rawText = data.candidates[0].content.parts[0].text;
                 rawText = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
                 
@@ -539,8 +540,22 @@
                         <p class="text-stone-400 italic mb-6">[${res.transliteracion}]</p>
                         <div class="space-y-4">
                             <div class="bg-stone-50 p-5 rounded-xl border border-stone-200">
-                                <p class="ancient text-[9px] text-red-800 uppercase font-bold mb-3">Definiciones</p>
-                                <ul class="list-disc list-inside space-y-2 font-serif text-stone-800">${res.significados.map(s => `<li>${s}</li>`).join('')}</ul>
+                                <p class="ancient text-[9px] text-red-800 uppercase font-bold mb-4"><i data-lucide="languages" class="w-3 h-3 inline"></i> Definiciones</p>
+                                
+                                <div class="mb-3">
+                                    <p class="text-[10px] font-bold text-stone-500 uppercase mb-1">Español</p>
+                                    <ul class="list-disc list-inside space-y-1 font-serif text-stone-800 text-sm">${res.significados_es.map(s => `<li>${s}</li>`).join('')}</ul>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <p class="text-[10px] font-bold text-stone-500 uppercase mb-1">Français</p>
+                                    <ul class="list-disc list-inside space-y-1 font-serif text-stone-800 text-sm">${res.significados_fr.map(s => `<li>${s}</li>`).join('')}</ul>
+                                </div>
+                                
+                                <div>
+                                    <p class="text-[10px] font-bold text-stone-500 uppercase mb-1">English</p>
+                                    <ul class="list-disc list-inside space-y-1 font-serif text-stone-800 text-sm">${res.significados_en.map(s => `<li>${s}</li>`).join('')}</ul>
+                                </div>
                             </div>
                             <div>
                                 <p class="ancient text-[9px] text-terracotta uppercase font-bold mb-1"><i data-lucide="git-branch" class="w-3 h-3 inline"></i> Huella en Español</p>
