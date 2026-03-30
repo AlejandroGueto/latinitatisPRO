@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Web con Lector de Griego Antiguo</title>
+    
+    <style>
+        /* Estilos básicos para que la web se vea limpia */
+        body { 
+            font-family: 'Georgia', serif; 
+            line-height: 1.6; 
+            padding: 40px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            color: #333;
+        }
+        
+        h1, h2 { 
+            font-family: 'Arial', sans-serif; 
+            color: #2c3e50; 
+        }
+
+        blockquote {
+            background: #f9f9f9;
+            border-left: 10px solid #ccc;
+            margin: 1.5em 10px;
+            padding: 0.5em 10px;
+            font-style: italic;
+        }
+
+        /* --- LA MAGIA VISUAL DEL LECTOR --- */
+        /* Esta clase se añadirá sola cuando el audio esté sonando */
+        .leyendo-griego {
+            background-color: #ffd54f; /* Amarillo suave para resaltar */
+            color: #000;
+            border-radius: 4px;
+            padding: 2px 4px;
+            transition: background-color 0.3s ease; /* Efecto de encendido/apagado suave */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Textos Clásicos</h1>
+    <p>Bienvenidos a mi página. Aquí podrás leer y escuchar fragmentos en griego antiguo con pronunciación erasmiana. Solo tienes que pulsar el botón del altavoz que aparece al lado de los textos.</p>
+
+    <h2>Ejemplos de Pronunciación</h2>
+    
+    <p>La primera palabra de la Ilíada es <span class="griego">μῆνιν</span>, que significa "cólera".</p>
+    
+    <p>El famoso mandato del oráculo de Delfos, con espíritu áspero y gamma nasal, era: <span class="griego">γνῶθι σεαυτόν</span>.</p>
+
+    <p>Un ejemplo clásico con el diptongo "ou":</p>
+    <blockquote>
+        <p class="griego">Ἄνδρα μοι ἔννεπε, Μοῦσα, πολύτροπον</p>
+    </blockquote>
+
+    <p>Y aquí un texto con espíritu áspero inicial y diptongos:</p>
+    <blockquote>
+        <p class="griego">ἱστορία καὶ ἁρμονία</p>
+    </blockquote>
+    <script>
+        // Variable global para recordar qué texto se está leyendo y poder quitarle el color
+        let elementoActivo = null;
+
+        function reproducirGriego(elemento) {
+            // 1. Detener audio anterior y limpiar resaltados previos si el usuario hace clics rápidos
+            window.speechSynthesis.cancel();
+            if (elementoActivo) {
+                elementoActivo.classList.remove('leyendo-griego');
+            }
+
+            const textoOriginal = elemento.textContent;
+
+            // Mapeo adaptado para que el motor es-ES suene como griego erasmiano
+            const mapaFonetico = {
+                'α': 'a', 'β': 'b', 'γ': 'g', 'δ': 'd', 'ε': 'e', 'ζ': 'ds',
+                'η': 'e', 'θ': 'z',  
+                'ι': 'i', 'κ': 'k', 'λ': 'l', 'μ': 'm', 'ν': 'n', 'ξ': 'ks',
+                'ο': 'o', 'π': 'p', 'ρ': 'r', 'σ': 's', 'ς': 's', 'τ': 't', 
+                'υ': 'u', 'φ': 'f', 'χ': 'j',  
+                'ψ': 'ps', 'ω': 'o'
+            };
+
+            // 2. Normalización y Reglas Fonéticas
+            let textoNormalizado = textoOriginal.normalize("NFD").toLowerCase();
+            
+            // Regla del Espíritu Áspero (Aspiración inicial como 'j')
+            textoNormalizado = textoNormalizado.replace(/([αεηιουωρ][ιυ]?)\u0314/g, "j$1"); 
+            
+            // Regla de la Gamma Nasal (γγ, γκ, γχ, γξ suenan como n)
+            textoNormalizado = textoNormalizado.replace(/γ([γκχξ])/g, "ν$1"); 
+            
+            // Limpiar acentos y espíritus suaves restantes
+            textoNormalizado = textoNormalizado.replace(/[\u0300-\u036f]/g, ""); 
+            
+            // Regla del Diptongo 'ου' (suena como 'u' larga)
+            textoNormalizado = textoNormalizado.replace(/ου/g, "u"); 
+
+            // 3. Transliteración Letra por Letra
+            let textoFonetico = "";
+            for (let char of textoNormalizado) {
+                textoFonetico += mapaFonetico[char] || char;
+            }
+
+            // 4. Configuración del motor de voz (Web Speech API)
+            const utterance = new SpeechSynthesisUtterance(textoFonetico);
+            const voces = window.speechSynthesis.getVoices();
+            
+            // Forzar el acento de España para que la 'Z' y la 'J' hagan su magia
+            const vozEspanola = voces.find(voice => voice.lang === 'es-ES');
+            if (vozEspanola) {
+                utterance.voice = vozEspanola;
+            } else {
+                utterance.lang = 'es-ES';
+            }
+
+            // Ajustar velocidad y tono para un efecto más solemne
+            utterance.rate = 0.85; 
+            utterance.pitch = 0.9;
+
+            // 5. Eventos Visuales (El resaltado amarillo)
+            utterance.onstart = function() {
+                elemento.classList.add('leyendo-griego');
+                elementoActivo = elemento; // Guardamos este elemento como el activo
+            };
+
+            utterance.onend = function() {
+                elemento.classList.remove('leyendo-griego');
+                elementoActivo = null;
+            };
+
+            utterance.onerror = function() {
+                elemento.classList.remove('leyendo-griego');
+                elementoActivo = null;
+            };
+
+            // 6. ¡Hablar!
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- INYECCIÓN AUTOMÁTICA DE BOTONES ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Busca todo lo que tenga class="griego"
+            const textosGriegos = document.querySelectorAll('.griego');
+
+            textosGriegos.forEach(elemento => {
+                // Crear el botón
+                const btnAudio = document.createElement('button');
+                btnAudio.innerHTML = '🔊';
+                btnAudio.title = 'Escuchar pronunciación erasmiana';
+                
+                // Estilos del botón
+                btnAudio.style.marginLeft = '8px';
+                btnAudio.style.cursor = 'pointer';
+                btnAudio.style.border = 'none';
+                btnAudio.style.background = 'transparent';
+                btnAudio.style.fontSize = '1.1em';
+                btnAudio.style.verticalAlign = 'middle'; // Para que quede alineado con el texto
+
+                // Al hacer clic, le pasamos el elemento entero a la función
+                btnAudio.onclick = () => reproducirGriego(elemento);
+
+                // Insertarlo justo después de la palabra/frase
+                elemento.parentNode.insertBefore(btnAudio, elemento.nextSibling);
+            });
+        });
+
+        // Asegurar que las voces carguen bien en todos los navegadores
+        window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.getVoices();
+        };
+    </script>
+
+    </body>
+</html>
